@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>    Conky
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+            <link rel="stylesheet" href="./theme/css/normalize.css">
+        <link href='//fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="./theme/css/font-awesome.min.css">
+        <link rel="stylesheet" href="./theme/css/main.css">
+
+    <link rel="stylesheet" href="./theme/css/blog.css">
+    <link rel="stylesheet" href="./theme/css/github.css">
+        <script src="./theme/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="wrapper">
+<header id="sidebar" class="side-shadow">
+    <hgroup id="site-header">
+        <a id="site-title" href="."><h1>Visibilityspots.com <i class="icon-dashboard"></i></h1></a>
+        <p id="site-desc"> Linux & Open-Source enthousiast | Scouting | Longboarding </p>
+    </hgroup>
+    <nav>
+        <ul id="nav-links">
+                <li><a href="./pages/contact.html">Contact</a></li>
+                <li><a href="./pages/links.html">Links</a></li>
+                <li><a href="./pages/profile.html">Profile</a></li>
+                <li><a href="./pages/projects.html">Projects</a></li>
+        </ul>
+    </nav>
+    Categories:
+      <ul>
+          <li><a href="http://www.visibilityspots.com/category/android.html">android</a></li>
+          <li><a href="http://www.visibilityspots.com/category/apple.html">apple</a></li>
+          <li><a href="http://www.visibilityspots.com/category/linux.html">linux</a></li>
+          <li><a href="http://www.visibilityspots.com/category/networking.html">networking</a></li>
+          <li><a href="http://www.visibilityspots.com/category/php.html">php</a></li>
+          <li><a href="http://www.visibilityspots.com/category/puppet.html">puppet</a></li>
+          <li><a href="http://www.visibilityspots.com/category/security.html">security</a></li>
+      </ul>
+<script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'profile',
+  rpp: 3,
+  interval: 30000,
+  width: 'auto',
+  height: 300,
+  theme: {
+	shell: {
+	  background: '#eeeeee',
+	  color: '#000000'
+	},
+	tweets: {
+	  background: '#eeeeee',
+	  color: '#000000',
+	  links: '#1a50a1'
+	}
+  },
+  features: {
+	scrollbar: false,
+	loop: false,
+	live: false,
+	behavior: 'all'
+  }
+}).render().setUser('visibilityspots').start();
+</script>
+<footer id="site-info">
+    <a href="http://creativecommons.org/licenses/by-nc/2.0/be/deed.nl">License</a> | 2009 - 2013 <a href="http://www.visibilityspots.com">Visibilityspots.com</a> | Powered by <a href="http://getpelican.com/" target="pelican">Pelican</a> | <a href="http://visibilityspots.com/feeds/all.atom.xml" rel="alternate">Atom</a> feed
+</footer></header>
+    <div id="post-container">
+        <ol id="post-list">
+            <li>
+                <article class="post-entry">
+                    <header class="entry-header">
+                        <time class="post-time" datetime="2009-12-30T14:18:00" pubdate>
+                            Wed 30 December 2009
+                        </time>
+                        <a href="./conky.html" rel="bookmark"><h1>Conky</h1></a>
+                    </header>
+
+                    <section class="post-content">
+			<p>To monitor the different resources of my local system I use conky. After you installed the conky software you can start with the configuration of it.</p>
+<pre class="literal-block">
+$ apt-get install conky conky-colors
+</pre>
+<p>After I adapted the configuration my desktop became like this:</p>
+<a class="reference external image-reference" href="static/images/conky/desktop.png"><img alt="Desktop image" src="static/images/conky/desktop.png" /></a>
+<p>At the left side there is a pane which only monitors my system resources. The config file for it, <a class="reference external" href="http://www.visibilityspots.com/static/documents/conky/conkyrc">conkyrc</a> should be placed in your home directory as a hidden file (naming it .conkyrc).</p>
+<p>When you now type in conky in your terminal, you should see appearing the pane on your desktop:</p>
+<a class="reference external image-reference" href="static/images/conky/conky.png"><img alt="Left panel" src="static/images/conky/conky.png" /></a>
+<p>On the right bottom I created an rss feeds pane. In the file <a class="reference external" href="http://www.visibilityspots.com/static/documents/conky/conkyrc2">conkyrc2</a> some parameters needs your attention. After you found your rss feeds, you can displays them by this instruction (10 stands for the refresh interval in minutes, 5 for the last 5 items of your feed):</p>
+<pre class="literal-block">
+${rss http://jouwfeed 10 item_titles 5}
+</pre>
+<p>Once you adopted the file and placed in as a hidden file in your home directory you can start the monitor by:</p>
+<pre class="literal-block">
+conky -c ~/.conkyrc2
+</pre>
+<p>Using the parameter -d you can force the service to start up as a background daemon process:</p>
+<pre class="literal-block">
+conky -c ~/.conkyrc2 -d
+</pre>
+<a class="reference external image-reference" href="static/images/conky/conkyrc2.png"><img alt="Right bottom panel" src="static/images/conky/conkyrc2.png" /></a>
+<p>The last pane, on the right top, I configured with for monitoring my social networks and communication. In the <a class="reference external" href="http://www.visibilityspots.com/static/documents/conky/conkyrc3">conkyrc3</a> file you need to adopt the twitter and linkedin feed.</p>
+<p>For the twitter rss feed you need 3 params: username, password, and a token. To find your token, surf to and click on the right bottom to get your rss feed. In your browser url address bar you can find the token at the end of the url XXXXXXXX.rss.</p>
+<pre class="literal-block">
+${rss http://twitternaam:twitterwachtwoord&#64;twitter.com/statuses/friends_timeline/twittercode.rss 20 item_titles 2}
+</pre>
+<p>For the linkedin rss feed, you need to log in on linkedin.com and search for your own rss feed on the homepage. To display pidgin statuses I used the <a class="reference external" href="http://ubuntuforums.org/showthread.php?t=969933">conkyPidgin</a> module.</p>
+<p>After you adopted the last configuration file once again, place it in your homedir, hide it and start it in your terminal:</p>
+<pre class="literal-block">
+conky -c ~/.conkyrc2
+</pre>
+<a class="reference external image-reference" href="static/images/conky/conkyrc3.png"><img alt="Right top panel" src="static/images/conky/conkyrc3.png" /></a>
+<p>To automatically start up the conky daemons, you could call a .startConky.sh script with this code:</p>
+<pre class="literal-block">
+#!/bin/bash
+sleep 30 &amp;&amp; conky -d;
+sleep 40 &amp;&amp; conky -c ~/.conkyrc2 -d;
+sleep 50 &amp;&amp; conky -c ~/.conkyrc3 -d;
+
+chmod +x .startConky.sh
+</pre>
+<p>Then add this command to menu System - Preferences - Startup Applications:</p>
+<pre class="literal-block">
+~/.start_conky.sh
+</pre>
+<p>This way you also could monitor your system in a fancy way :)</p>
+
+                    </section>
+                    <hr/>
+                    <aside class="post-meta">
+                        <p>Category: <a href="./category/linux.html">linux</a></p>
+                        <p>Tags: <a href="./tag/conky.html">conky</a>, <a href="./tag/conky-colors.html">conky-colors</a>, <a href="./tag/monitor.html">monitor</a>, <a href="./tag/ubuntu.html">ubuntu</a>, <a href="./tag/karmic.html">karmic</a>, <a href="./tag/linux.html">linux</a>, </p>
+                    </aside>
+                    <hr/>
+<div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'visibilityspots';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+                </article>
+            </li>
+        </ol>
+    </div>
+        </div>
+
+        <script src="./theme/js/main.js"></script>
+    </body>
+</html>

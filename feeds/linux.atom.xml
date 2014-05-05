@@ -1,0 +1,1943 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Visibilityspots</title><link href="https://visibilityspots.com/" rel="alternate"></link><link href="https://visibilityspots.com/feeds/linux.atom.xml" rel="self"></link><id>https://visibilityspots.com/</id><updated>2014-05-02T19:00:00+02:00</updated><entry><title>Octoprint</title><link href="https://visibilityspots.com/octoprint.html" rel="alternate"></link><updated>2014-05-02T19:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2014-05-02:octoprint.html</id><summary type="html">&lt;p&gt;At our &lt;a href="https://inuits.eu"&gt;office&lt;/a&gt; we have an &lt;a href="https://www.ultimaker.com/pages/our-printers/ultimaker-2"&gt;ultimaker&lt;/a&gt; installed, we have it now for some weeks and already printed out a bunch of stuff. It's cool to see, amazed by the technology.&lt;/p&gt;
+&lt;p&gt;Expect the manner to start a print job, you have to save your generated &lt;a href="http://reprap.org/wiki/G-code"&gt;gcode&lt;/a&gt; files onto an SD card, stick it into the ultimaker and use the rather simple menu from the tiny display to start the print job.&lt;/p&gt;
+&lt;p&gt;The time of a print job is rather long depending on the object you want to print, so many times you got up and went seeing if everything went alright, so quickly distracted..&lt;/p&gt;
+&lt;p&gt;This sounds really crazy for such a piece of high tech technology and therefore I did a bit research on the web for a nice remote web interface.&lt;/p&gt;
+&lt;p&gt;It didn't cost me a lot of time/energy to find out about &lt;a href="http://octoprint.org"&gt;octoprint&lt;/a&gt;&lt;/p&gt;
+&lt;h1&gt;Raspberry&lt;/h1&gt;
+&lt;p&gt;I first started by installing the octoprint manually on a raspbian distribution. But it took really long, I mean REALLY long so I downloaded the preconfigured &lt;a href="https://github.com/guysoft/OctoPi"&gt;image&lt;/a&gt;, maintained by &lt;a href="http://osrc.dfm.io/guysoft"&gt;Guy Sheffer&lt;/a&gt;, and installed it on a 4GB SD card.&lt;/p&gt;
+&lt;p&gt;I did some tweaks on the raspbian distribution, configured a for the pi user, disabled root login for the ssh service, updated the whole distribution and configured the wlan0 interface to connect wireless.&lt;/p&gt;
+&lt;p&gt;I struggled a bit with the configuration of the wireless part. Merely the pairwise parameter. I forgot to configure it to CCMP for the WPA2 settings of the wireless network. Resulting in the iwconfig output:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="n"&gt;unassociated&lt;/span&gt; &lt;span class="n"&gt;Nickname&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;lt;WIFI@REALTEK&amp;gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Once I've setted up the configuration as you can see, network traffic came up on the wlan0 interface:
+File: /etc/network/interfaces&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="n"&gt;allow&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;hotplug&lt;/span&gt; &lt;span class="n"&gt;wlan0&lt;/span&gt;
+    &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;wlan0&lt;/span&gt;
+    &lt;span class="n"&gt;iface&lt;/span&gt; &lt;span class="n"&gt;wlan0&lt;/span&gt; &lt;span class="n"&gt;inet&lt;/span&gt; &lt;span class="n"&gt;dhcp&lt;/span&gt;
+            &lt;span class="n"&gt;wpa&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;wpa_supplicant&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;wpa_supplicant&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;File: /etc/wpa_supplicant/wpa_supplicant.conf&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="n"&gt;ssid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;scan_ssid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;
+    &lt;span class="n"&gt;psk&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;proto&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;RSN&lt;/span&gt;
+    &lt;span class="n"&gt;key_mgmt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;WPA&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;PSK&lt;/span&gt;
+    &lt;span class="n"&gt;pairwise&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;CCMP&lt;/span&gt;
+    &lt;span class="n"&gt;auth_alg&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;OPEN&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;Raspberry cam&lt;/h1&gt;
+&lt;p&gt;We also bought a camera &lt;a href="http://www.raspberrypi.org/help/camera-module-setup/"&gt;module&lt;/a&gt; which is discovered automatically by octoprint.&lt;/p&gt;
+&lt;p&gt;Once you've connected the hardware as described in the &lt;a href="https://www.youtube.com/watch?v=GImeVqHQzsE"&gt;movie&lt;/a&gt; and booted the raspberry the camera is immediately picked up by the octoprint service. So therefore you can't connect to the hardware when testing out &lt;a href="http://www.raspberrypi.org/documentation/usage/camera/raspicam/raspistill.md"&gt;raspistill&lt;/a&gt; and others to test the cam.&lt;/p&gt;
+&lt;p&gt;It took me some time to figure that out ;)&lt;/p&gt;
+&lt;p&gt;You should be able to catch the output of the mjpeg-streamer on port &lt;a href="http://localhost:8080"&gt;8080&lt;/a&gt; of the raspberry.&lt;/p&gt;
+&lt;h1&gt;Octoprint&lt;/h1&gt;
+&lt;p&gt;The octoprint interface is served on port &lt;a href="http://localhost"&gt;80&lt;/a&gt;. The account details are:&lt;/p&gt;
+&lt;p&gt;Where you can see the operational state of the printer if everything went well. The connection settings are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Serial Port: /dev/ttyACM0&lt;/li&gt;
+&lt;li&gt;Baudrate:    250000&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Normally the raspberry should connect using those settings automatically at startup to the ultimaker as you could configure in the settings page of octoprint.&lt;/p&gt;
+&lt;h1&gt;Usage&lt;/h1&gt;
+&lt;p&gt;You can look on for example &lt;a href="http://software.ultimaker.com/"&gt;thingiverse&lt;/a&gt; for source files of objects you want to print. (the .stl files). Which you have to slice using &lt;a href="http://software.ultimaker.com/"&gt;cura&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Be aware you set the machine settings of the cura to reprap (File -&amp;gt; Machine Settings -&amp;gt; GCodeFlavor -&amp;gt; RepRap (Marlin/Sprinter) ) so the octoprint engine can process your saved gcode files.&lt;/p&gt;
+&lt;p&gt;Once you've saved your gcode file you need to upload it using the octoprint webpage. After the upload is complete you can search your project in the Files section and click on the little printer icon on the right of the name.&lt;/p&gt;
+&lt;p&gt;You should see the temperature of the head is increasing to 220 degrees followed by the bed temperature of 70 degrees. Once the ultimaker is warmed up your print will start.&lt;/p&gt;
+&lt;p&gt;And you should see the progress of it in the octoprint interface.&lt;/p&gt;
+&lt;p&gt;Happy printing!&lt;/p&gt;</summary><category term="raspberry"></category><category term="pi"></category><category term="octoprint"></category><category term="ultimaker"></category><category term="3d"></category><category term="printing"></category></entry><entry><title>Pakiti setup</title><link href="https://visibilityspots.com/pakiti.html" rel="alternate"></link><updated>2014-04-25T19:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2014-04-25:pakiti.html</id><summary type="html">&lt;p&gt;Nowadays it becomes more and more relevant knowing which version of a package is installed and having an overview of the packages infected by some bugs or security holes. That way you could see which servers are possibly vulnerable for those on the dark side.&lt;/p&gt;
+&lt;p&gt;That's where &lt;a href="http://pakiti.sourceforge.net"&gt;pakiti&lt;/a&gt; comes in a clean web based overview of your servers listing all packages vulnerable against the CVE in particular.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="pakiti2" src="../../images/pakiti/pakiti2.png" /&gt;&lt;/p&gt;
+&lt;p&gt;It's a client server setup where the client reports the version of the packages to the pakiti server. The server on his turn checks those versions against CVE to see if there are issues.&lt;/p&gt;
+&lt;p&gt;It is only a reporting tool, so pakiti will never install any package update, that still is and should be a controlled step which prevents unforeseen calls in the middle on the night when auto updates are breaking stuff.&lt;/p&gt;
+&lt;h2&gt;Pakiti server&lt;/h2&gt;
+&lt;p&gt;On the pakiti website they provide packages you could download and install out of the box. The pakiti-server needs a mysql database to store his data.&lt;/p&gt;
+&lt;p&gt;The whole installation process is pretty well documented in the documentation section of their homepage&lt;/p&gt;
+&lt;p&gt;You also need a webserver to deliver the pakiti web service.&lt;/p&gt;
+&lt;p&gt;A final step is the configuration from where pakiti would fetch the information about which packages are or are not a possible security risk for the server.&lt;/p&gt;
+&lt;h2&gt;Pakiti client&lt;/h2&gt;
+&lt;p&gt;On the servers you want to monitor the pakiti client package should be installed. Once a day this client will send a list with all packages installed on the system to the pakiti server through HTTP.&lt;/p&gt;
+&lt;p&gt;The configuration file could be found in /etc/pakiti2/pakiti-client.conf&lt;/p&gt;
+&lt;h2&gt;Puppet module&lt;/h2&gt;
+&lt;p&gt;Since I believe in automation I also wrote a &lt;a href="https://github.com/visibilityspots/puppet-pakiti"&gt;puppet-pakiti&lt;/a&gt; module which can be implemented in an existing puppet tree so you don't have to install and configure all your servers with the pakiti client.&lt;/p&gt;
+&lt;p&gt;Enjoy the overview, and happy updating ;)&lt;/p&gt;</summary><category term="pakiti"></category><category term="monitoring"></category><category term="security"></category><category term="linux"></category><category term="patching"></category><category term="cve"></category></entry><entry><title>Mkdocs documentation</title><link href="https://visibilityspots.com/mkdocs.html" rel="alternate"></link><updated>2014-04-20T17:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2014-04-20:mkdocs.html</id><summary type="html">&lt;p&gt;To make our and other lives less painful writing documentation is a good start to decrease the level of frustration when working on a shared project.&lt;/p&gt;
+&lt;p&gt;It's a common feeling writing documentation isn't something we are all waiting for to do. In an effort to make it easier for all of us an automatically way of deployment can be managed by our good friend jenkins.&lt;/p&gt;
+&lt;p&gt;The details about this flow is been described on this page. After reading through this documentation section you should be aware of the general deployement idea so you can implement it yourself and start writing documentation without any hassle.&lt;/p&gt;
+&lt;h2&gt;Mark down&lt;/h2&gt;
+&lt;p&gt;The goal is that you write documentation using mark down in a git repository, that way you can easily write together with others on the same documentation in a structured and versionned manner.&lt;/p&gt;
+&lt;p&gt;By using mark down we can easily convert those md documents to whatever you want and gives us an easy &lt;a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"&gt;syntax&lt;/a&gt; to write documentation.&lt;/p&gt;
+&lt;h2&gt;Mkdocs&lt;/h2&gt;
+&lt;p&gt;Using &lt;a href="http://mkdocs.org"&gt;mkdocs&lt;/a&gt; a nice and easy manner has been found to generate a clean static html site based on the md files without much effort.&lt;/p&gt;
+&lt;p&gt;The installation is quite straight forward using python-pip:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo pip install mkdocs
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Once the installation process ended successfully you should be able to run the mkdocs engine:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;mkdocs &lt;span class="nb"&gt;help&lt;/span&gt;
+&lt;span class="nb"&gt;  &lt;/span&gt;mkdocs &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;help&lt;/span&gt;|new|build|serve&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;options&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Usage&lt;/h3&gt;
+&lt;p&gt;Starting a new project is easy as hell:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;mkdocs new PROJECT-NAME
+Creating project directory: PROJECT-NAME
+Writing config file: PROJECT-NAME/mkdocs.yml
+Writing initial docs: PROJECT-NAME/docs/index.md
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;the mkdocs structure is automatically generated as you can see in a brand new PROJECT-NAME directory:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ls PROJECT-NAME
+docs  mkdocs.yml
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;As you could see the repository exists of a docs directory containing the md files with the actual content and a mkdocs.yml file which is used to generate the sites index and menus&lt;/p&gt;
+&lt;h4&gt;local preview&lt;/h4&gt;
+&lt;p&gt;The first thing you could do is to build a local preview of the html structure so you have a real time preview of your modifications:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd &lt;/span&gt;PROJECT-NAME
+&lt;span class="nv"&gt;$ &lt;/span&gt;mkdocs serve
+Running at: http://127.0.0.1:8000/
+Live reload enabled.
+Hold ctrl+c to quit.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;When the mkdocs engine started successfully you could surf through your browser to &lt;a href="http://localhost:8000"&gt;localhost:8000&lt;/a&gt; and start watching the preview of your documentation on your local machine.&lt;/p&gt;
+&lt;p&gt;You should see a site/ directory has been generated containing the static html structure based on the docs/ md files.&lt;/p&gt;
+&lt;p&gt;After editing the md files and saving your modifications they should appear immediately on your local preview when the mkdocs server command is running.&lt;/p&gt;
+&lt;h4&gt;mkdocs.yaml&lt;/h4&gt;
+&lt;p&gt;As mentioned a mkdocs.yml file manages the index and menus of the site:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="l-Scalar-Plain"&gt;site_name&lt;/span&gt;&lt;span class="p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l-Scalar-Plain"&gt;My Docs&lt;/span&gt;
+&lt;span class="l-Scalar-Plain"&gt;pages&lt;/span&gt;&lt;span class="p-Indicator"&gt;:&lt;/span&gt;
+        &lt;span class="p-Indicator"&gt;-&lt;/span&gt; &lt;span class="p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;index.md&lt;/span&gt;&lt;span class="p-Indicator"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;Home&lt;/span&gt;&lt;span class="p-Indicator"&gt;]&lt;/span&gt;
+&lt;span class="c1"&gt;#theme: readthedocs&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;images&lt;/h4&gt;
+&lt;p&gt;Using images is quite easy, add your jpg, png or whatever files into the docs/img/ directory and reference to them in your md file as follow:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;!&lt;span class="o"&gt;[&lt;/span&gt;reference name&lt;span class="o"&gt;](&lt;/span&gt;img/imagefile.png&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Migrate existing documentation&lt;/h3&gt;
+&lt;p&gt;Using &lt;a href="http://johnmacfarlane.net/pandoc/"&gt;pandoc&lt;/a&gt; we could convert the majority of source files to markdown:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;pandoc source.txt -f textile -t markdown -o output.md
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Be aware you should review the generated output cause the human intellect still cannot be fully replaced by bits and bytes..&lt;/p&gt;
+&lt;h2&gt;Automation&lt;/h2&gt;
+&lt;p&gt;Once you've written the documentation in markdown, checked locally the layout and ran through a spell checker you could push them to git repository.&lt;/p&gt;
+&lt;p&gt;A jenkins build flow could be triggered using a &lt;a href="http://git-scm.com/book/en/Customizing-Git-Git-Hooks"&gt;post-receive&lt;/a&gt; hooks.&lt;/p&gt;
+&lt;p&gt;This flow on his turn will orchestrates some jobs:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;build ( "package-doc" )&lt;/li&gt;
+&lt;li&gt;build ( "repository" )&lt;/li&gt;
+&lt;li&gt;build ( "deploy-package",  packagename: "infra-doc", node: "webserver.domain.org")&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Package-doc&lt;/h3&gt;
+&lt;p&gt;This job will use the git repository as a source to generate the html site/ directory by the mkdocs build command.&lt;/p&gt;
+&lt;p&gt;(tip: create a .gitignore file in the root of your git repo with &lt;em&gt;.~ &lt;/em&gt;.swp and site/ so you don't upload swap files or you local generated site/ directory)&lt;/p&gt;
+&lt;p&gt;The nifty tool &lt;a href="https://github.com/jordansissel/fpm"&gt;fpm&lt;/a&gt; is used to generate an rpm package of that freshly created site/ directory to be deployed on hosting.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -f *.rpm &lt;span class="o"&gt;]&lt;/span&gt;
+ &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;     &lt;/span&gt;rm *.rpm
+ &lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="k"&gt; if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -d &lt;span class="s2"&gt;&amp;quot;site/&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;
+ &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;     &lt;/span&gt;rm site/ -rf
+ &lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="k"&gt; &lt;/span&gt;mkdocs build
+ &lt;span class="nb"&gt;cd &lt;/span&gt;site/
+
+ &lt;span class="nv"&gt;RELEASE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;git rev-list --all | wc -l&lt;span class="sb"&gt;`&lt;/span&gt;
+
+ fpm -s dir -t rpm &lt;span class="se"&gt;\&lt;/span&gt;
+   --name &lt;span class="s2"&gt;&amp;quot;doc&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+   --version &lt;span class="s2"&gt;&amp;quot;1.0&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+   --iteration &lt;span class="s2"&gt;&amp;quot;${RELEASE}&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+   --architecture noarch &lt;span class="se"&gt;\&lt;/span&gt;
+   --prefix /var/www/ &lt;span class="se"&gt;\&lt;/span&gt;
+   --rpm-user apache &lt;span class="se"&gt;\&lt;/span&gt;
+   --rpm-group apache &lt;span class="se"&gt;\&lt;/span&gt;
+   --description &lt;span class="s1"&gt;&amp;#39;The html files for documentation&amp;#39;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+   --maintainer &lt;span class="s1"&gt;&amp;#39;Jenkins&amp;#39;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+   --epoch &lt;span class="s1"&gt;&amp;#39;1&amp;#39;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+   .
+
+ mv *.rpm ../
+ &lt;span class="nb"&gt;cd&lt;/span&gt; ..
+
+ rpm -qlp *.rpm
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;A brand new shiny rpm package artifact then could be archived so the next step in the flow could use it.&lt;/p&gt;
+&lt;h3&gt;Repository&lt;/h3&gt;
+&lt;p&gt;The rpm artifact of the package-doc job could then be used to deploy on your favorite repository service, from &lt;a href="http://createrepo.baseurl.org/"&gt;createrepo&lt;/a&gt;, &lt;a href="http://pulpproject.org"&gt;pulp&lt;/a&gt;, &lt;a href="https://github.com/immobilienscout24/yum-repo-server"&gt;yum-repo-server&lt;/a&gt;, &lt;a href="https://github.com/dnbert/prm"&gt;prm&lt;/a&gt; to &lt;a href="http://packagecloud.io"&gt;packagecloud&lt;/a&gt; so the next job can be triggered to install/update the package on your webserver&lt;/p&gt;
+&lt;h3&gt;Deploy-package&lt;/h3&gt;
+&lt;p&gt;Next you could configure a jenkins job which for examples logs in through ssh and installs the package you've pushed to your repository.&lt;/p&gt;
+&lt;h3&gt;Configuration management&lt;/h3&gt;
+&lt;p&gt;Instead of the deployment-package job you could also use a configuration management tool which does the installation/upgrade for you ;)&lt;/p&gt;
+&lt;h2&gt;Useful links&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"&gt;Adam-p&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://help.github.com/articles/markdown-basics"&gt;Basics&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://mkdocs.org"&gt;mkdocs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://johnmacfarlane.net/pandoc/"&gt;pandoc&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.gnu.org/software/ispell/ispell.html"&gt;ispell&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="documentation"></category><category term="mkdoc"></category><category term="automation"></category><category term="pandoc"></category><category term="markdown"></category><category term="html"></category><category term="linux"></category></entry><entry><title>CloudCollab Amsterdam #CCCEU13</title><link href="https://visibilityspots.com/cloudcollab-amsterdam.html" rel="alternate"></link><updated>2013-11-23T19:00:00+01:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2013-11-23:cloudcollab-amsterdam.html</id><summary type="html">&lt;p&gt;Cloudstack, an item I had on my todo list with some lower priority against daily maintenance of our server park. But since attending &lt;a class="reference external" href="https://twitter.com/ke4qqq"&gt;David Nalley's&lt;/a&gt; talk on LinuxCon I shifted it up some places. Although I expected a real hands on session the talk he gave about a cloudstack environment for development was really intriguing and matched completely with what I had in mind.&lt;/p&gt;
+&lt;p&gt;Being fully convinced it fits in my idea of a fully automated development environment which meets to all the needs of developers to start writing code real quickly on machines similar to the production environment.&lt;/p&gt;
+&lt;p&gt;At that same conference LinuxCon I also attended a talk from &lt;a class="reference external" href="https://twitter.com/jejb_"&gt;James Bottomley&lt;/a&gt; about a container based cloud. I already did some stuff with lxc containers on my local machine hoping I could get it working one day so I could get rid of virtualbox and using containers for my puppet development instead. But I never thought about integrating containers in a cloud instead of the traditional hypervisors.&lt;/p&gt;
+&lt;p&gt;James gave a really inspiring talk about containers and passed his enthusiasm about it! Nevertheless it's a huge step to migrate from a traditional virtual based setup to a cloud based on containers. A huge challenge, but a challenge I can't wait to start on.&lt;/p&gt;
+&lt;p&gt;Some weeks after LinuxCon, CloudCollab took place, a chance I took with both hands when being asked to keep those days free. And so I drove to Amsterdam the evening before the event. I learned to read through the whole registration process and not let emotions and enthusiasm take it over so you forget or over read some major things. Thanks at those who fixed that the day before the event.&lt;/p&gt;
+&lt;div class="section" id="hackathon-workshop-day"&gt;
+&lt;h2&gt;Hackathon Workshop day&lt;/h2&gt;
+&lt;p&gt;I registered early at the &lt;a class="reference external" href="http://www.beursvanberlage.nl/"&gt;Beurs van Berlage&lt;/a&gt; where the conference is held cause I hate waiting queues. The opening talk was quite clear, we cloud/system admins must prevent the end users application developers and such to have frustrating moments where they banging their heads to the table.&lt;/p&gt;
+&lt;p&gt;With that said the workshops begun, I registered for the one-day cloudstack bootcamp by &lt;a class="reference external" href="http://shapeblue.com/"&gt;shape blue&lt;/a&gt;. After dealing with the exfat file system a friendly neighbor and changing some setting in the provisioned ova file for the xenserver I managed to go through the whole cycle of setting up domains, groups, accounts, networks, offering templates to finally getting up some vm's running and being able to access through ssh.&lt;/p&gt;
+&lt;p&gt;To do this we used the GUI, I'm looking forward to use the api they showed at the end of the day which looked far more my kinda usage then the GUI.&lt;/p&gt;
+&lt;p&gt;After the bootcamp my head was still dizzy but I took the opportunity to attend the &lt;a class="reference external" href="http://www.meetup.com/ElasticSearch-NL/"&gt;elastic-search user group&lt;/a&gt; meeting being held at booking.com. &lt;a class="reference external" href="https://twitter.com/ralphm"&gt;Ralph Meijer&lt;/a&gt; &lt;a class="reference external" href="http://www.elasticsearch.org/blog/using-elasticsearch-and-logstash-to-serve-billions-of-searchable-events-for-customers/"&gt;spoke&lt;/a&gt; about Logstach, Kibana and elasticsearch. Where &lt;a class="reference external" href="https://github.com/mailgun/vulcan"&gt;vulcan&lt;/a&gt; popped out for me as being interesting in combination with such a setup.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conference-day-one"&gt;
+&lt;h2&gt;Conference day one&lt;/h2&gt;
+&lt;p&gt;After being waked up 5 min early, I started the second day at CloudCollab by attending the Keynote of &lt;a class="reference external" href="https://twitter.com/botchagalupe"&gt;John Willis&lt;/a&gt; talking about the next frontier for devops. An entertaining talk but also very interesting topic. It seems like the history will repeat but now in networking area.&lt;/p&gt;
+&lt;p&gt;After the break I attended a talk about Devops, Killing of the Dinosaurs. Where all kind of culture troubles and people are compared to dinosaurs and how they achieved to kill them to get on.&lt;/p&gt;
+&lt;p&gt;I figured out I forgot my notebook at the keynote, luckily it was still where I left it, but I missed therefore the talks during that time. So I continued writing this post.&lt;/p&gt;
+&lt;p&gt;Next where the ignite talks, short talks where the slides are automatically flipped each 15 seconds. Unless you cheat and create duplicate slides off course. John Willis can talk like a machine, really really fast but still understandable.&lt;/p&gt;
+&lt;p&gt;Lunch being served stopped by some boots I started the afternoon by attending a talk about &lt;a class="reference external" href="https://github.com/klarna/vagrant-cloudstack"&gt;vagrant-cloudstack&lt;/a&gt;, which is really cool, finally I could perhaps using vagrant boxes exactly the same as a normal production server for development of puppet-modules without having to kickstart manually some boxes. This cloudstack virus is really getting me.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.slideshare.net/KrisBuytaert/the-future-of-sysadmin"&gt;The future of sysadmins&lt;/a&gt;, finally I could attend a talk of our colleague &lt;a class="reference external" href="https://twitter.com/krisbuytaert"&gt;Kris Buytaert&lt;/a&gt;. Beside that fact I really was astonished that the way we are working at &lt;a class="reference external" href="http://www.inuits.eu"&gt;Inuits&lt;/a&gt; using automated pipelines, vagrant development, jenkins even pulp isn't yet commonly used. I couldn't believe I was like the only knowing some of the answers on Kris's questions. Obviously he would have nailed me when I didn't, but the only one? It's a mixed feeling being proud that we doing all those cool stuff, a bit disappointed not the majority of organizations are taking advantage of it.&lt;/p&gt;
+&lt;p&gt;After Kris's talk I went to a talk about monitoring a cloudstack environment. It felt like a sales talk for ca technologies own proprietary tool. Bit disappointing that it wasn't what I expected to be after reading the summary on lanyrd about the talk.&lt;/p&gt;
+&lt;p&gt;So I went for a coffee and bumped into some guys of the University Library of Cambridge at the Pinball machine in the dev room. Cool to see the story of their environment is quite the same as ours at the University Library of Ghent.&lt;/p&gt;
+&lt;p&gt;Being at the end of the day I followed a user panel about 4 organizations who implemented cloudstack for their business all with a different approach and goals. The one that popped out for me was &lt;a class="reference external" href="http://www.greenqloud.com"&gt;Greenqloud&lt;/a&gt; an Icelandic cloud provider running on 100% renewable energy (as everyone in Iceland), but which also does effort in other areas, like their hardware itself and the buildings their datacenters are deployed in.&lt;/p&gt;
+&lt;p&gt;After dinner we had a great time with the folks of &lt;a class="reference external" href="http://shapeblue.com/"&gt;shape blue&lt;/a&gt; and &lt;a class="reference external" href="http://www.schubergphilis.com/"&gt;schuberg philis&lt;/a&gt; at the pub. It's really fascinating to see such a dynamic atmosphere.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conference-day-two"&gt;
+&lt;h2&gt;Conference day two&lt;/h2&gt;
+&lt;p&gt;The last day of the conference started by checking out the hotel and attending the delayed keynote of &lt;a class="reference external" href="https://twitter.com/markburgess_osl"&gt;Mark Burgess&lt;/a&gt; about Uncertain Cloud Infrastructures. His book &lt;a class="reference external" href="http://www.amazon.com/In-Search-Certainty-Information-Infrastructure-ebook/dp/B00ENEEWYO"&gt;In search of certainity&lt;/a&gt; is added to my wish list for the upcoming holiday gifts.&lt;/p&gt;
+&lt;p&gt;Next talk I joined was about the &lt;a class="reference external" href="https://github.com/apache/cloudstack/tree/master/plugins/file-systems/netapp"&gt;Netapp cloudstack plugin&lt;/a&gt; which was really interesting, I hope I can get my hands on the beta version of the &lt;a class="reference external" href="http://www.netapp.com/us/products/management-software/"&gt;VSC for cloudstack&lt;/a&gt; software soon so I can start playing around with it on our test lab.&lt;/p&gt;
+&lt;p&gt;After being disappointed by a vendor talking about a topic which ended up in a sales talk I didn't had big expectations for the talk of &lt;a class="reference external" href="http://www.linkedin.com/pub/mike-tutkowski/6/28/588"&gt;Mike Tutkowski&lt;/a&gt; from Solid-fire about Guaranteed storage performance. But man how I was wrong. What a great talk. The guy really knew what he was talking about, explained how the storage area of cloudstack works and how they integrated it with their products. All vendor based sales talks should attend this talk and learn from it. That way more people could be becoming interested in your product only because of the clear and transparent explanation.&lt;/p&gt;
+&lt;p&gt;Because I'm looking for some scalable storage solution I attended the talk of &lt;a class="reference external" href="https://twitter.com/widodh"&gt;Wido den Hollander&lt;/a&gt; about &lt;a class="reference external" href="http://www.ceph.com"&gt;ceph&lt;/a&gt;. Wido is a passionate ceph lover who gave a crash course of ceph in 30 minutes. In that little time he really gave a clear overview of how ceph could be used together with cloudstack. Using little pizza box servers with one cpu and four disks you could easily manage your own ceph storage cluster.&lt;/p&gt;
+&lt;p&gt;After those 2 storage talks I came to this conclusion for myself that &lt;a class="reference external" href="http://www.ceph.com"&gt;ceph&lt;/a&gt; would be a great challenge if you want to keep control over your own storage soft- and hardware based besides the fact you also have to keep in mind about the physical space.&lt;/p&gt;
+&lt;p&gt;Another solution could be a solid-fire solution where you move the responsibility to a vendor. A great advantage of solid-file is that you can start with a small amount of data and grow your storage on a flexible and scalable manner to your own needs by just adding an extra node like the ceph solution and not like other vendors where you need to review the whole license contract.&lt;/p&gt;
+&lt;p&gt;I decided to attend the storage panel after those 2 talks being convinced that not only the cloud solution is important and changing the traditional ways of Virtualization but also storage is moving over to some more advanced flexible solutions.&lt;/p&gt;
+&lt;p&gt;Nevertheless I couldn't really hold my focus to the discussions being overwhelmed of the idea of the flexibility of those storage clusters being scalable, reliable and flexible volumes along on or more racks in multiple datacenters. I can only remember the statement of Wido: 'We still have storage problems. They are called NFS and iSCSI' because of my daydreams about storage clusters.&lt;/p&gt;
+&lt;p&gt;Being already 16hrs and a bit mental overwhelmed I was hesitating to leave already to home or attending the latest slots of talks. I decided to stay being interested about &lt;a class="reference external" href="https://twitter.com/XenServerArmy"&gt;Tim Mackey&lt;/a&gt;'s talk on the different hypervisors and how to choose between them to drive your cloud solution. He made a clear comparison between the different options. I hope I can catch his slides soon to share with you.&lt;/p&gt;
+&lt;p&gt;The closing note ended with a nice video about the conference was a great closing for a conference where I learned so many new technologies, options between the different solutions and inspiring people.&lt;/p&gt;
+&lt;p&gt;I want to thank hereby the people of &lt;a class="reference external" href="http://www.schubergphilis.com/"&gt;Schuberg philis&lt;/a&gt; for the organization!&lt;/p&gt;
+&lt;/div&gt;
+</summary><category term="cloudstack"></category><category term="conference"></category><category term="cloudcollab"></category><category term="Amsterdam"></category><category term="cloud"></category><category term="apache"></category><category term="2013"></category><category term="#CCCEU13"></category></entry><entry><title>Git server</title><link href="https://visibilityspots.com/git-server.html" rel="alternate"></link><updated>2013-11-01T14:00:00+01:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2013-11-01:git-server.html</id><summary type="html">&lt;p&gt;For some of my development projects I'm using git repositories because of the flexibility of it. But the initial beta phase I don't want to keep private until I created something working. Normally I use github.com repositories for them, a good service except you have to pay for private repositories.&lt;/p&gt;
+&lt;p&gt;So I searched the internet for private alternatives and installed &lt;a class="reference external" href="http://www.gitlab.org"&gt;gitlab&lt;/a&gt; on my CentOS 6 machine. It worked fine, but it was a bit of an overkill to manage about 10 repositories for only one user, myself. So I decided to migrate it back to the essence.&lt;/p&gt;
+&lt;p&gt;The essence as: the command line git server with a nice web interface on top of it to have a quick overview of the changes made in which repositories.&lt;/p&gt;
+&lt;p&gt;I based my git server setup on the git-scm tutorial after reading the chapter about the &lt;a class="reference external" href="http://git-scm.com/book/en/Git-on-the-Server"&gt;git-server&lt;/a&gt;. It a clear and detailed explanation of the different steps to configure your own private git server.&lt;/p&gt;
+&lt;p&gt;Once the server was running and I could create new repositories, clone them and push to them from the outside I looked for a nice web frontend. My first choice was the &lt;a class="reference external" href="https://git.wiki.kernel.org/index.php/Gitweb"&gt;git-web&lt;/a&gt; interface with &lt;a class="reference external" href="http://www.lighttpd.net/"&gt;lighttpd&lt;/a&gt; as the backend web service. The installation of the &lt;a class="reference external" href="http://git-scm.com/book/en/Git-on-the-Server-GitWeb"&gt;gitweb service&lt;/a&gt; could also been found on git-scm.&lt;/p&gt;
+&lt;p&gt;For the lighttpd configuration I created a virtualhost pointing to the gitweb directory in /var/www/gitweb/.&lt;/p&gt;
+&lt;p&gt;/etc/lighttpd/vhosts.d/gitweb.conf:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$HTTP[&amp;quot;url&amp;quot;] =~ &amp;quot;^/gitweb/&amp;quot; {
+        setenv.add-environment = ( &amp;quot;GITWEB_CONFIG&amp;quot; =&amp;gt; &amp;quot;/etc/gitweb.conf&amp;quot; )
+        url.redirect += ( &amp;quot;^/gitweb$&amp;quot; =&amp;gt; &amp;quot;/gitweb/&amp;quot; )
+        alias.url += ( &amp;quot;/gitweb/&amp;quot; =&amp;gt; &amp;quot;/var/www/gitweb/&amp;quot; )
+        cgi.assign = ( &amp;quot;.cgi&amp;quot; =&amp;gt; &amp;quot;&amp;quot; )
+        server.indexfiles = ( &amp;quot;gitweb.cgi&amp;quot; )
+        debug.log-request-header          = &amp;quot;enable&amp;quot;
+}
+&lt;/pre&gt;
+&lt;p&gt;I used this interface for quite some time, but recently I found out about &lt;a class="reference external" href="http://www.gitalist.com"&gt;gitalist&lt;/a&gt;, a more modern approach to give and overview of your git repositories.&lt;/p&gt;
+&lt;p&gt;Gitalist is available as a perl-cpan module and could also been installed as such on a CentOS 6 server:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# cpan -i Gitalist
+&lt;/pre&gt;
+&lt;p&gt;Until today I didn't got enough time to get it fully up and running, mainly because I already have something working so it's not that high on my priority list :)&lt;/p&gt;
+&lt;p&gt;Resources:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://git-scm.com/"&gt;git-scm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://git.wiki.kernel.org/index.php/Interfaces,_frontends,_and_tools#Web_Interfaces"&gt;git web-interfaces&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</summary><category term="git"></category><category term="server"></category><category term="repo"></category><category term="gitweb"></category><category term="gitalist"></category><category term="centos"></category></entry><entry><title>Dashing</title><link href="https://visibilityspots.com/dashing.html" rel="alternate"></link><updated>2013-10-31T21:30:00+01:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2013-10-31:dashing.html</id><summary type="html">&lt;p&gt;Using multiple nice interface dashboards to get an overview of your services is a great thing. But navigating to them all separately could sometimes be rather pain full.&lt;/p&gt;
+&lt;p&gt;Therefore I looked for some central place to give a broad overview of all of them. During last year many passed through during my search on the internet. The 2 most interesting ones where &lt;a class="reference external" href="http://fdietz.github.io/team_dashboard/"&gt;team dashboard&lt;/a&gt; and &lt;a class="reference external" href="http://shopify.github.io/dashing/"&gt;dashing&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Team dashboard is a promising one which could gather extremely specific data and give those back in some nice graphics. That way you could create your own very specific dashboard with all graphics and measurements in the same theme/layout on one central page.&lt;/p&gt;
+&lt;p&gt;But I was looking for something more simpler and that's what I found with &lt;a class="reference external" href="http://shopify.github.io/dashing/"&gt;dashing&lt;/a&gt;. By using some custom jobs and views I gathered data from &lt;a class="reference external" href="http://icinga.org/"&gt;icinga&lt;/a&gt;, &lt;a class="reference external" href="http://jenkins-ci.org/"&gt;jenkins&lt;/a&gt;, &lt;a class="reference external" href="http://theforeman.org"&gt;foreman&lt;/a&gt; &amp;amp; &lt;a class="reference external" href="http://bacula.org/"&gt;bacula&lt;/a&gt;.&lt;/p&gt;
+&lt;a class="reference external image-reference" href="static/images/dashing/rowOne.png"&gt;&lt;img alt="Dashing first row" src="static/images/dashing/rowOne.png" /&gt;&lt;/a&gt;
+&lt;a class="reference external image-reference" href="static/images/dashing/rowTwo.png"&gt;&lt;img alt="Dashing second row" src="static/images/dashing/rowTwo.png" /&gt;&lt;/a&gt;
+&lt;p&gt;As you can see the square's are showing the total amount of checks from the different dashboard services, if there is one check failing the square of the service will change to a red blinking background. If everything is alright (as it should be) the square is green.&lt;/p&gt;
+&lt;p&gt;To achieve this I have implemented some checks I found on the internet and wrote some myself:&lt;/p&gt;
+&lt;p&gt;First row&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/roidelapluie/dashing-scripts/blob/master/jobs/icinga.rb"&gt;icinga-checks&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/roidelapluie/dashing-scripts/blob/master/jobs/foreman.rb"&gt;foreman-overview&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/roidelapluie/dashing-scripts/blob/master/jobs/jenkins.rb"&gt;jenkins-jobs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/visibilityspots/dashing-scripts#bacula-weberb"&gt;bacula-state&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The first three are using the simplemon widget available in the dashing-scripts repo from &lt;a class="reference external" href="https://github.com/roidelapluie/dashing-scripts/"&gt;roidelaplui&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Second row&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://gist.github.com/willjohnson/6313986"&gt;web-services&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://gist.github.com/mavimo/6334816"&gt;jenkins-build-progress&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/visibilityspots/dashing-scripts/blob/master/foursquare.rb"&gt;foursquare-checkins&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://gist.github.com/sighmin/5628306"&gt;tomtom&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For the tomtom check the &lt;a class="reference external" href="http://developer.tomtom.com/io-docs"&gt;api explorer&lt;/a&gt; and &lt;a class="reference external" href="http://www.satsig.net/maps/lat-long-finder.htm"&gt;lat-lon coordinates&lt;/a&gt; which can be a real help to configure this check.&lt;/p&gt;
+&lt;p&gt;It's also real easy to configure a raspberry pi which you can connect to a screen using hdmi. Therefore I suggest &lt;a class="reference external" href="http://www.screenlyapp.com/ose.html"&gt;screenly&lt;/a&gt; which can iterate through a list of assets like web pages (your custom dashing screen ;), images and videos.&lt;/p&gt;
+&lt;p&gt;That way you could afford a cheap and brilliant monitor screen!&lt;/p&gt;
+&lt;p&gt;Keep an eye on it ;)&lt;/p&gt;
+</summary><category term="dashing"></category><category term="monitoring"></category><category term="dashboard"></category><category term="overview"></category><category term="screenly"></category><category term="raspberry pi"></category></entry><entry><title>LinuxCon Edinburgh</title><link href="https://visibilityspots.com/linuxcon-edinburgh.html" rel="alternate"></link><updated>2013-10-24T19:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2013-10-24:linuxcon-edinburgh.html</id><summary type="html">&lt;p&gt;I got a great opportunity by attending LinuxCon in Edinburgh.&lt;/p&gt;
+&lt;p&gt;Will try to share my experiences there in this blogpost by listing the topics and people I found interesting so perhaps others could take also advantage of it.&lt;/p&gt;
+&lt;div class="section" id="topics"&gt;
+&lt;h2&gt;Topics&lt;/h2&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://mesos.apache.org/"&gt;Apache mesos&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;a cluster manager that provides efficient resource isolation and sharing across distributed applications or frameworks.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://status.openstack.org/zuul/"&gt;Zuul&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;a pipeline oriented project gating and automation system.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://lttng.org/"&gt;LTTng&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The LTTng project aims at providing highly efficient tracing tools for Linux. Its tracers help tracking down performance issues and debugging problems involving multiple concurrent processes and threads. Tracing across multiple systems is also possible.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.opensaf.org/"&gt;SAF&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;OpenSAF is an open source project focused on Service Availability (SA) that goes beyond High Availability (HA) requirements. The goal of the OpenSAF project is to develop middle ware based on open and industry standard interfaces for applications requiring uninterrupted 24x7 service.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://itrevolution.com/books/phoenix-project-devops-book/"&gt;The phoenix project&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;A novel about IT, Devops and helping your business win.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://trac.buildbot.net/"&gt;Buildbot&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Buildbot is a continuous integration system designed to automate the build/test cycle&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.opendaylight.org/"&gt;Opendaylight&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;OpenDaylight's mission is to facilitate a community-led, industry-supported open source platform, including code and architecture, to accelerate adoption of Software-Defined Networking and Network Functions Virtualization.
+hydrogen: &lt;a class="reference external" href="http://www.opendaylight.org/news/2013/09/converge-network-digest-opendaylight-hydrogen-open-source-sdn"&gt;http://www.opendaylight.org/news/2013/09/converge-network-digest-opendaylight-hydrogen-open-source-sdn&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.blackducksoftware.com/"&gt;Blackduck&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Offers some services about open-source licensing&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="interesting-people"&gt;
+&lt;h2&gt;Interesting people:&lt;/h2&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://twitter.com/bytebot"&gt;Colin Charles&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Gave an entertaining talk about databases solutions in the cloud, with neat comparisons using relevant pro's and contra's between the different cloud based database providers without being boring just listening facts and numbers.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://twitter.com/jejb_"&gt;James Bottomley&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;A true container based cloud believer who inspired almost everyone in the room to use containers for their virtual appliances instead of the traditional virtual machines.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://twitter.com/ke4qqq"&gt;David Nalley&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Gave an interesting  presentation walk through how you could use cloudstack for a development environment.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://twitter.com/mikko"&gt;Mikko Hypponen&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;In times as today where the whole NSA topic is as hot as hell this guy talked about surveillance and got a great response from the audience talking as a keynote.&lt;/p&gt;
+&lt;/div&gt;
+</summary><category term="linuxcon"></category><category term="Edinburgh"></category><category term="linux"></category><category term="foundation"></category><category term="inuits"></category></entry><entry><title>CPAN rpm packages</title><link href="https://visibilityspots.com/cpan-rpm-packages.html" rel="alternate"></link><updated>2013-10-05T14:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2013-10-05:cpan-rpm-packages.html</id><summary type="html">&lt;p&gt;I went crazy from perl and the installation of their modules. For some icinga checks we need to install a few base perl packages using &lt;a class="reference external" href="http://search.cpan.org/~miyagawa/App-cpanminus-1.7001/lib/App/cpanminus.pm"&gt;cpanminus&lt;/a&gt;. It's taking a long time before the installation succeeds depending on the internet connection or server specifications.&lt;/p&gt;
+&lt;p&gt;Using a puppet exec to automate this installation is frustrating because the timeout is unpredictable and could take hours from time to time!&lt;/p&gt;
+&lt;p&gt;So I started to look for a way to package it into an rpm which I can distribute over our own yum repository.&lt;/p&gt;
+&lt;p&gt;The first software I got reviewed is &lt;a class="reference external" href="http://perl.arix.com/cpan2rpm/"&gt;cpan2rpm&lt;/a&gt;, it looked promising. You could give a text file containing the names of the modules to package.&lt;/p&gt;
+&lt;p&gt;That way I could use a git repo containing this file which triggers an automated &lt;a class="reference external" href="http://jenkins-ci.org/"&gt;jenkins&lt;/a&gt; job which creates the packages and uploads them to the repo.&lt;/p&gt;
+&lt;p&gt;Unfortunately it doesn't package the cpanminus module. So I had to look further.&lt;/p&gt;
+&lt;p&gt;Last week I got the solution by &lt;a class="reference external" href="https://github.com/silug/cpanspec"&gt;cpanspec&lt;/a&gt;, a piece of software I read about on &lt;a class="reference external" href="http://nailingjelly.wordpress.com/2009/06/03/cpan-rpm-packaging/"&gt;nailingjelly&lt;/a&gt; 's blogpost. And yes, I achieved to package it.&lt;/p&gt;
+&lt;p&gt;Installation &amp;amp; configuration of the required tools:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo yum install rpmdevtools perl perl-devel perl-Test-Base
+$ sudo curl -L http://cpanmin.us | perl - --sudo App::cpanminus
+$ sudo /usr/local/bin/cpanm CPAN::DistnameInfo
+$ sudo yum install cpanspec
+
+$ cd ~
+$ rpmdev-setuptree
+&lt;/pre&gt;
+&lt;p&gt;Create spec file and source rpm from a cpan module:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cpanspec --follow --srpm CPAN::Module --packager YOURNAME
+&lt;/pre&gt;
+&lt;p&gt;Install the source rpm to create a package from it using the new generated spec file:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ rpm -i name-of-module.src.rpm
+&lt;/pre&gt;
+&lt;p&gt;You should see there is a SPEC file generated in the rpmbuild tree:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd ~/rpmbuild/SPECS
+$ vim cpan-module-name.spec
+&lt;/pre&gt;
+&lt;p&gt;Finally give it a shot and build a fresh rpm package:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ rpmbuild -ba cpan-module-name.spec
+&lt;/pre&gt;
+&lt;p&gt;The first time trying to build App::cpanminus I had to add some missing file declarations to the spec file. Spawning the error:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+RPM build errors:
+    Installed (but unpackaged) file(s) found:
+    /usr/bin/cpanm
+    /usr/share/man/man1/cpanm.1.gz
+&lt;/pre&gt;
+&lt;p&gt;So I added the 2 unpacked files to the %files section:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+%files
+%defattr(-,root,root,-)
+%doc Changes cpanfile LICENSE META.json README
+%{perl_vendorlib}/*
+%{_mandir}/man3/*
+/usr/bin/cpanm
+/usr/share/man/man1/cpanm.1.gz
+&lt;/pre&gt;
+&lt;p&gt;Running the rpmbuild now resulted in a fresh rpm:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ ls ../RPMS/noarch/
+perl-App-cpanminus-1.7001-1.el6.noarch.rpm
+&lt;/pre&gt;
+&lt;p&gt;I installed the rpm on a development system and successfully installed a perl module with the cpanm command afterwards:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ yum localinstall name-of-the-module.rpm
+&lt;/pre&gt;
+&lt;p&gt;So from now on our servers are hooked up with those create packages distributed by our own yum repository.&lt;/p&gt;
+&lt;p&gt;And the whole initialization process of a fresh server gained in time and therefore in efficiency in our environment this way!&lt;/p&gt;
+&lt;p&gt;Resources:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://nailingjelly.wordpress.com/2009/06/03/cpan-rpm-packaging/"&gt;nailingjelly&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://cpanspec.sourceforge.net/cpanspec.1.html"&gt;man&lt;/a&gt; cpanspec&lt;/li&gt;
+&lt;li&gt;Centos.org &lt;a class="reference external" href="http://wiki.centos.org/HowTos/RebuildSRPM"&gt;wiki&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</summary><category term="cpan"></category><category term="spec"></category><category term="rpm"></category><category term="package"></category><category term="packaging"></category><category term="centos"></category><category term="yum"></category><category term="repository"></category><category term="cpanspec"></category><category term="rpmbuild"></category></entry><entry><title>Taskwarrior</title><link href="https://visibilityspots.com/taskwarrior.html" rel="alternate"></link><updated>2013-09-30T21:45:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2013-09-30:taskwarrior.html</id><summary type="html">&lt;p&gt;I've used a lot's of tools to get a grip on my todo lists for work, for the scouting movement, for technical projects, household, etc. Started by using pen and paper, switched to a little notebook (which I still use for short-term tasks) to start using software to organize them.&lt;/p&gt;
+&lt;p&gt;I've used evernote, gtasks, tracks, github issues, gitlab issues, redmine tickets, in short plenty passed by only &lt;a class="reference external" href="http://www.visibilityspots.com/tracks.html"&gt;tracks&lt;/a&gt; survived. I still use it for my work related projects, everyday at 8:30AM I get my list of tasks for that day. That way I have some sort of control on my projects.&lt;/p&gt;
+&lt;p&gt;Nevertheless there was still some sort of missing feature, an integration with the other issue trackers I use like github and redmine for example. I dreamed of one central overview of all my tasks/issues/projects. And some weeks ago I just stumbled into the solution of that dream, &lt;a class="reference external" href="http://taskwarrior.org"&gt;taskwarrior&lt;/a&gt; will organize my life from now on.&lt;/p&gt;
+&lt;p&gt;It's a nifty command line based piece of software with all the features I needed, due dates, projects, tags, customized reports, etc. I completely get enthusiastic when finding out the &lt;a class="reference external" href="https://github.com/ralphbean/bugwarrior"&gt;bugwarrior&lt;/a&gt; module from Ralph Bean which let you to import tasks from many different services like github, redmine &amp;amp; trac.&lt;/p&gt;
+&lt;p&gt;So I started on this new project by adding a new task to my tracks instance: &amp;quot;Migrate to taskwarrior&amp;quot;.&lt;/p&gt;
+&lt;p&gt;Installation of the &lt;a class="reference external" href="http://taskwarrior.org/projects/taskwarrior/wiki/Download"&gt;task service&lt;/a&gt;&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="c"&gt;# yum install task&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;By following the &lt;a class="reference external" href="http://taskwarrior.org/projects/taskwarrior/wiki/30-second_Tutorial"&gt;30 sec tutorial&lt;/a&gt; you get an idea of the basics, but for a full experience and howto I recommend reading the full &lt;a class="reference external" href="http://taskwarrior.org/projects/taskwarrior/wiki/Tutorial"&gt;tutorial&lt;/a&gt;. I created a dedicated user for managing my todo list on my CentOS 6.4 machine.&lt;/p&gt;
+&lt;p&gt;Configuration of the task service is done in the ~/.taskrc file where you can change the data &amp;amp; log files locations, setting a theme a other configuration parameters.&lt;/p&gt;
+&lt;p&gt;Installation of &lt;a class="reference external" href="http://theunraveler.github.io/taskwarrior-web/"&gt;task-web&lt;/a&gt;, a nice and clear frontend (make sure to use ruby 1.9.3, I had performance issues when using ruby 2.0.0):&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="c"&gt;# gem install taskwarrior-web thin
+&lt;/span&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;task-web -s thin -L &amp;amp;
+&lt;/pre&gt;
+&lt;p&gt;I added the task-web.user &amp;amp; task-web.passwd parameters to my ~/.taskrc file for basic http authentication, and opted for the thin webserver rather than the default webrick when using the task-web frontend. Once you've stared the service your instance should be accessible on &lt;a class="reference external" href="http://your.ip.of.the.server:5678"&gt;http://your.ip.of.the.server:5678&lt;/a&gt; in your web browser. (make sure to open the port in your servers firewall)&lt;/p&gt;
+&lt;p&gt;You can choose your own port by adding the option -p XXX in your command (task-web -s thin -p XXX -L &amp;amp;). All the options are listed in the help menu (task-web --help).&lt;/p&gt;
+&lt;p&gt;Installation of &lt;a class="reference external" href="https://github.com/ralphbean/bugwarrior"&gt;bugwarrior&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;As mentioned before the biggest advantage of using taskwarrior to me is the import feature of some several third party services. It's easy to install by using the &lt;a class="reference external" href="http://www.pip-installer.org/en/latest/"&gt;pip installer&lt;/a&gt;:&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;pip install bugwarrior
+&lt;/pre&gt;
+&lt;p&gt;After that you can configure the ~/.bugwarriorrc file to your needs. After some struggling I got it working with the great help of the developer Ralph Bean.&lt;/p&gt;
+&lt;p&gt;Example of my ~/.bugwarriorrc file:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[general]
+targets = github, redmine
+log.level = INFO
+log.file = /var/log/tasks/bugwarrior.log
+bitly.api_user = USERNAME
+bitly.api_key = API-KEY
+multiprocessing = True
+
+[notifications]
+notifications = False
+
+[github]
+service = github
+username = USERNAME
+default_priority = M
+login = USERNAME
+passw = PASSWORD
+
+[redmine]
+service = redmine
+url = https://redmine.url
+key = REDMINE-API-KEY
+user_id = NUMERIC-USER-ID
+project_name = NAME-OF-THE-PROJECT-TASK-WILL-GET-ON-IMPORT
+&lt;/pre&gt;
+&lt;p&gt;Once configured you can run the server and check the log's:&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;bugwarrior-pull
+&lt;span class="nv"&gt;$ &lt;/span&gt;cat /var/log/tasks/bugwarrior.log
+&lt;span class="nv"&gt;$ &lt;/span&gt;task list
+&lt;/pre&gt;
+&lt;p&gt;Once you initialized the import you can create a cronjob for it:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ crontab -e
+# Bugwarrior import
+30 5 * * * /usr/bin/bugwarrior-pull
+&lt;/pre&gt;
+&lt;p&gt;That way every day at 5:30AM the tasks from 3Th party services will be imported.&lt;/p&gt;
+&lt;p&gt;The only feature I'm still missing is a 2 way synchronization. So I can edit the tasks in taskwarrior too, but that's something for utopia :)&lt;/p&gt;
+&lt;p&gt;Conky monitoring:&lt;/p&gt;
+&lt;p&gt;Is a already wrote about before I'm using &lt;a class="reference external" href="http://www.visibilityspots.com/conky-colors.html"&gt;conky&lt;/a&gt; as a dashboard together with my ratpoison setup. I already wrote a script to fetch my &lt;a class="reference external" href="https://github.com/visibilityspots/scripts#conky-trackssh"&gt;tracks issues&lt;/a&gt;. But now I need to fetch my task list from taskwarrior. So I created a custom task report configured in my ~/.taskrc file:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# Custom reports
+report.conky.description=Conky report
+report.conky.columns=project,description.truncated,depends.indicator,priority
+report.conky.labels=Project,Desc,D,P
+report.conky.sort=due+,project+,priority+
+report.conky.filter=status:pending limit:page
+&lt;/pre&gt;
+&lt;p&gt;Using a ssh connection you can then fetch the output from the command 'task conky' and parse it into a file using a bash script.&lt;/p&gt;
+&lt;p&gt;Because all my project definitions containing a hyphen I can parse them so I can grep titles and create new lines so I can parse them using the conky syntax.&lt;/p&gt;
+&lt;!-- code ::bash
+
+#!/bin/bash
+ssh username@taskwarrior.server "task conky | head -7 | tail -4 | sed 's/^*[A-Z]*-[A-Z]*/&amp;\n-/g' | sed -e 's/^- [ \t]*/ - /g' | sed 's/^/ /g' | head -4" --&gt;
+&lt;p&gt;I do still have 2 things I need to investigate time into:&lt;/p&gt;
+&lt;p&gt;Mail weekly tasks&lt;/p&gt;
+&lt;p&gt;Using &lt;a class="reference external" href="http://pypi.python.org/pypi/taskreport/"&gt;taskreport&lt;/a&gt; but I got some errors after installing using 'pip install taskreport':&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ taskreport
+File &amp;quot;/usr/bin/taskreport&amp;quot;, line 51
+      for key in ['userName', 'server', 'port']}
+        ^
+SyntaxError: invalid syntax
+&lt;/pre&gt;
+&lt;p&gt;Installation of &lt;a class="reference external" href="http://mirakel.azapps.de/taskwarrior.html"&gt;taskd&lt;/a&gt; server (for synchronization with mirakel):&lt;/p&gt;
+&lt;p&gt;Until today the &lt;a class="reference external" href="http://mirakel.azapps.de"&gt;mirakel&lt;/a&gt; app always crashes when trying to sync after initialized with the created key.&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="c"&gt;# git clone git://tasktools.org/taskd.git
+# wget http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
+# rpm -Uvh rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
+# yum install cmake28
+# yum install gnutls-devel
+# yum install libuuid-devel
+# cmake28 .
+# make
+# make install
+&lt;/span&gt;
+&lt;span class="c"&gt;# yum install gnutls-utils
+# find and replace gnutls-certtool with certtool
+# cd pki
+# ./generate
+&lt;/span&gt;
+&lt;span class="c"&gt;# add_user.sh script&lt;/span&gt;
+&lt;/pre&gt;
+</summary><category term="inuits"></category><category term="tasks"></category><category term="task"></category><category term="taskwarrior"></category><category term="centos"></category><category term="command"></category><category term="line"></category><category term="task-web"></category><category term="mirakel"></category><category term="todo"></category></entry><entry><title>Command line printing &amp; scanning</title><link href="https://visibilityspots.com/printing-scanning.html" rel="alternate"></link><updated>2013-08-02T21:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2013-08-02:printing-scanning.html</id><summary type="html">&lt;p&gt;Since I discovered the joy of using the ratpoison window manager I'm trying to do all tasks I need to perform on my system using the command line.&lt;/p&gt;
+&lt;p&gt;One of those frequently used tasks is printing out documents or scanning in files. Until today I used the software viewer of my documents to print and simple-scan to scan my files.&lt;/p&gt;
+&lt;p&gt;Nowadays I use the command line to perform those tasks. To print out documents I use the &lt;a class="reference external" href="http://www.tldp.org/HOWTO/Printing-Usage-HOWTO-1.html"&gt;lp&lt;/a&gt; command:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+&amp;quot;Get the status off all printers on your system&amp;quot;
+$ lpc status all
+
+&amp;quot;Print the desired file to a specific printer&amp;quot;
+$ lpr -P PRINTERNAME FILE/TO/PRINT.XX
+
+&amp;quot;Show the printing queue&amp;quot;
+$ lpq -P PRINTERNAME
+
+&amp;quot;Cancel a specific print job using the queue id&amp;quot;
+$ lprm ID
+
+&amp;quot;Cancel all printing jobs&amp;quot;
+$ lprm -
+&lt;/pre&gt;
+&lt;p&gt;Those are the commands I regularly use to print my documents.&lt;/p&gt;
+&lt;p&gt;For scanning I use &lt;a class="reference external" href="http://www.sane-project.org/man/scanimage.1.html"&gt;scanimage&lt;/a&gt; from sane. There are too many options to explain so I just give hereby the one I use to scan A4 formatted files to pdf:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+&amp;quot;List your scan devices&amp;quot;
+$ scanimage -L
+
+&amp;quot;Scan the image to a pdf file&amp;quot;
+$ scanimage -p &amp;gt; fileName.pdf
+&lt;/pre&gt;
+&lt;p&gt;Off course there are many ways to perform those tasks using the command line. Those are only the ones I use on my fedora machine. I'm always open for suggestions!&lt;/p&gt;
+</summary><category term="print"></category><category term="scan"></category><category term="command"></category><category term="line"></category><category term="linux"></category><category term="lpr"></category><category term="scanimage"></category></entry><entry><title>CentOS 6.4 software raid &amp; LVM</title><link href="https://visibilityspots.com/raid.html" rel="alternate"></link><updated>2013-07-24T23:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2013-07-24:raid.html</id><summary type="html">&lt;p&gt;Been asked to setup a software raid of 12TB on a minimal CentOS 6.4 installation with 5 disks of 3TB each. Never played with raid nor lvm before so the challenge was great!&lt;/p&gt;
+&lt;p&gt;I started by doing research about &lt;a class="reference external" href="http://www.cyberciti.biz/tips/raid5-vs-raid-10-safety-performance.html"&gt;RAID&lt;/a&gt;. Came to the conclusion that RAID 5 was the best option for our purpose. So kept looking for a way to implement a software raid and stumbled into &lt;a class="reference external" href="http://linux.die.net/man/8/mdadm"&gt;mdadm&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Using the information of &lt;a class="reference external" href="http://richard.blog.kraya.co.uk/2012/04/27/3tb-hdd-raid5-centos-6-2/"&gt;Richard&lt;/a&gt;'s and &lt;a class="reference external" href="http://zackreed.me/articles/48-adding-an-extra-disk-to-an-mdadm-array"&gt;Zack Reed&lt;/a&gt;'s blogs I easily setted up the raid array and created some lvm volumes on top of that.&lt;/p&gt;
+&lt;p&gt;Creating of 3TB partitions on the physical disks&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# parted /dev/sdX
+# (parted) mklabel gpt
+# (parted) unit TB
+# (parted) mkpart primary 0.00TB 3.00TB
+# (parted) print
+&lt;/pre&gt;
+&lt;p&gt;Creating the raid5 array with all the prepared disks&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# mdadm --create /dev/md0 --level=raid5 --raid-devices=5 /dev/sdX# /dev/sdX# /dev/sdX# /dev/sdX# /dev/sd#
+&lt;/pre&gt;
+&lt;p&gt;Viewing the state of creation of the new array&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# watch cat /proc/mdstat
+&lt;/pre&gt;
+&lt;p&gt;Once the array is successfully created you have to store it into the config file&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# echo &amp;quot;DEVICE partitions&amp;quot; &amp;gt; /etc/mdadm.conf
+# echo &amp;quot;MAILADDR root&amp;#64;localhost&amp;quot; &amp;gt;&amp;gt; /etc/mdadm.conf
+# mdadm --detail --scan &amp;gt;&amp;gt; /etc/mdadm.conf
+&lt;/pre&gt;
+&lt;p&gt;so we can start creating lvm volumes on top of them&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# pvcreate /dev/md0
+# vgcreate vg_NAME /dev/md0
+# lvcreate --name lv_NAME -l 100%FREE vg_NAME
+&lt;/pre&gt;
+&lt;p&gt;We now created a physical volume, a volume group and a logical volume which can easily be resized and moved on top of the raid5 setup&lt;/p&gt;
+&lt;p&gt;To start using the volume we finally have to create a file system on it and check if everything went alright&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# mkfs.ext4 /dev/vg_NAME/lv_NAME
+# fsck.ext4 -f /dev/vg_NAME/lv_NAME
+&lt;/pre&gt;
+&lt;p&gt;After the succesfull file system chack I came to a working raid setup. Nevertheless I figured out that by rebooting the machine the raid array wasn't initializing as I expected. Instead of the md0 as configured the raid array was coming up as a read-only one named md127. I did some research and found a usefull topic on it on the redhat &lt;a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=606481"&gt;bugzilla&lt;/a&gt; forum.&lt;/p&gt;
+&lt;p&gt;There I found out that this can be reactivated manually by stopping the read-only instance and reassambling the array based on the /etc/mdadm.conf file:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# mdadm --stop /dev/md172
+# mdadm --assemble --scan
+&lt;/pre&gt;
+&lt;p&gt;Although that's not really the best solution because you have to do this by every reboot of your system. So I looked a bit further and found out you can regenerate your initramfs image using your mdadm.conf file using dracut:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r).img.old
+# dracut --mdadmconf --force /boot/initramfs-$(uname -r).img $(uname -r)
+&lt;/pre&gt;
+&lt;p&gt;Once that images is build I successfully rebooted the system and the md0 came up without any problem.&lt;/p&gt;
+&lt;p&gt;The final step is to get the new logical volume  mounted automatically at boot, therefore you have to add something in your /etc/fstab file:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# /dev/mapper/vg_NAME-lv_NAME /var/NAME ext4 defaults 1 1
+&lt;/pre&gt;
+&lt;p&gt;Some useful commands&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+## Stop raid array
+# mdadm --stop /dev/md0
+
+## Start raid array
+# mdadm --assemble --scan
+&lt;/pre&gt;
+&lt;p&gt;Resources:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;tcpdump: &lt;a class="reference external" href="http://www.tcpdump.com/kb/os/linux/removing-raid-devices.html"&gt;removing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tcpdump: &lt;a class="reference external" href="http://www.tcpdump.com/kb/os/linux/starting-and-stopping-raid-arrays.html"&gt;restarting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.ducea.com/2009/03/08/mdadm-cheat-sheet/"&gt;cheat&lt;/a&gt; sheet&lt;/li&gt;
+&lt;li&gt;raid &lt;a class="reference external" href="https://wiki.xkyle.com/Mdadm#Pause_a_Verify_or_Rebuild"&gt;states&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.howtoforge.com/how-to-create-a-raid1-setup-on-an-existing-centos-redhat-6.0-system"&gt;howtoforge&lt;/a&gt; initramfs&lt;/li&gt;
+&lt;/ul&gt;
+</summary><category term="software"></category><category term="raid"></category><category term="softwareraid"></category><category term="lvm"></category><category term="mdadm"></category><category term="centos"></category></entry><entry><title>Hubot, the github chat automated bot</title><link href="https://visibilityspots.com/hubot.html" rel="alternate"></link><updated>2013-06-03T19:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2013-06-03:hubot.html</id><summary type="html">&lt;p&gt;Some weeks ago I was asked by a customer to implement a bot on an IRC channel. Did some research about this topic and stumbled on the github &lt;a class="reference external" href="http://github.hubot.com"&gt;hubot&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The installation on a dedicated server running CentOS 6, using the irc adapter isn't hard. By following those steps you can easily start your own bot on a specified IRC channel.&lt;/p&gt;
+&lt;p&gt;You need some pre installed packages:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# yum install openssl openssl-devel openssl-static crypto-utils expat expat-devel gcc-c++ git
+&lt;/pre&gt;
+&lt;p&gt;After installed those pre requirements nodejs is the next service we need. You can install the newest version using rpm packages you can find on the internet. For example on my &lt;a class="reference external" href="http://repository.visibilityspots.com/repoview"&gt;repo&lt;/a&gt; or building it from source:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ wget http://nodejs.org/dist/v0.8.17/node-v0.8.17.tar.gz
+$ tar xf node-v0.8.17.tar.gz -C /usr/local/src &amp;amp;&amp;amp; cd /usr/local/src/node-v0.8.17
+$ ./configure &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
+&lt;/pre&gt;
+&lt;p&gt;As you can see in the output, npm is installed into the '/usr/local/bin/' directory. To get this working in bash you could add this directory into your $PATH environment&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ PATH=$PATH:/usr/local/bin/
+&lt;/pre&gt;
+&lt;p&gt;So now we can use npm to install hubot and coffee-script:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ npm install -g hubot coffee-script
+&lt;/pre&gt;
+&lt;p&gt;You could now create your very own dedicated hubot by declaring the necessary files into your preferred path:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ hubot -c /opt/hubot/
+&lt;/pre&gt;
+&lt;p&gt;That way the core hubot you can use is installed in its own directory. We now have to install and configure the &lt;a class="reference external" href="'https://github.com/github/hubot/wiki/Adapter:-IRC"&gt;irc-adapter&lt;/a&gt;. Therefore you need to adapt the package.json file in your newly created hubot folder (/opt/hubot/) by inserting the hubot-irc dependency:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+&amp;quot;dependencies&amp;quot;: {
+  &amp;quot;hubot-irc&amp;quot;: &amp;quot;&amp;gt;= 0.0.1&amp;quot;,
+  &amp;quot;hubot&amp;quot;: &amp;quot;&amp;gt;= 2.0.0&amp;quot;,
+  ...
+}
+&lt;/pre&gt;
+&lt;p&gt;Once that's done you can install the dependencies by using npm:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ npm install
+&lt;/pre&gt;
+&lt;p&gt;Last thing you have to do is configure the needed irc parameters. This can be done by exporting the environment parameters. I decided to use a file to accomplish this. In the /opt/hubot/ directory I created a hubot.env file containing the necessary parameters:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# IRC adapter parameters
+export HUBOT_IRC_NICK=&amp;quot;NAMEOFYOURBOT&amp;quot;
+export HUBOT_IRC_ROOMS=&amp;quot;#CHANNELONIRC&amp;quot;
+export HUBOT_IRC_SERVER=&amp;quot;irc.freenode.net&amp;quot;
+export HUBOT_IRC_DEBUG=&amp;quot;false&amp;quot;
+export HUBOT_IRC_UNFLOOD=&amp;quot;false&amp;quot;
+export HUBOT_IRC_SERVER_FAKE_SSL&amp;quot;false&amp;quot;
+export HUBOT_IRC_USESSL&amp;quot;false&amp;quot;
+&lt;/pre&gt;
+&lt;p&gt;Most of those params are quite obvious, the unflood param configured to false prevented the hubot to crash when someone asked hubot: help ;)&lt;/p&gt;
+&lt;p&gt;After I tested this standard setup out I started to write a &lt;a class="reference external" href="https://github.com/visibilityspots/puppet-hubot"&gt;puppet-hubot&lt;/a&gt; module to automate those steps and configuration on a CentOS machine. Using a the &lt;a class="reference external" href="https://github.com/visibilityspots/puppet-nodejs"&gt;puppet-nodejs&lt;/a&gt; module which installs the &lt;a class="reference external" href="http://nodejs.org"&gt;nodejs&lt;/a&gt; rpm I packaged on my visibilityspots &lt;a class="reference external" href="http://repository.visibilityspots.com/repoview"&gt;repo&lt;/a&gt; the installation become easy peasy.&lt;/p&gt;
+&lt;p&gt;By using this puppet setup a hubot &lt;a class="reference external" href="https://github.com/visibilityspots/scripts/blob/master/hubot"&gt;init&lt;/a&gt; script is automatically deployed so a hubot init service can be used for starting, stopping, restarting and getting the status of the hubot service on your dedicated machine.&lt;/p&gt;
+&lt;p&gt;As you can see in the init script I use a hubot user to run the hubot. That way it's a bit more secure to run the hubot service on your server.&lt;/p&gt;
+&lt;p&gt;A 2nd script which is deployed using the puppet-hubot module is the &lt;a class="reference external" href="https://github.com/visibilityspots/scripts/blob/master/hubot-plugin.sh"&gt;hubot-plugin.sh&lt;/a&gt; script. By using this script you can automatically install a script from the hubot scripts &lt;a class="reference external" href="http://hubot-script-catalog.herokuapp.com/"&gt;catalog&lt;/a&gt;. If the author of the script uses the standard documentation rules the scripts will declare it self in your hubot-scripts.json file, declaring it's dependencies in the package.json file, if there are adding it's needed configuration parameters in plugins.env and restarting the hubot service.&lt;/p&gt;
+&lt;p&gt;If you notice a script which hasn't been documented the standard way, you can easily use pull requests, the author of the github hubot-scripts repository really takes it serious and merge those requests on a regular base.&lt;/p&gt;
+&lt;p&gt;Last but not least I also created a hubot instance using the &lt;a class="reference external" href="https://github.com/markstory/hubot-xmpp"&gt;xmpp-adapter&lt;/a&gt;. After some desperate debugging and failing I figured out that for the irc adapter it doesn't matter which nodejs version you installed. For the xmpp adapter on the other hand it only worked by installing nodejs v0.8.17 build from the sources and by never ever use npm update but npm install instead to install the npm dependencies.&lt;/p&gt;
+&lt;p&gt;It saves you a lot of time if you take that tip in memory :)&lt;/p&gt;
+&lt;p&gt;Enjoy using your hubot&lt;/p&gt;
+</summary><category term="hubot"></category><category term="irc"></category><category term="xmpp"></category><category term="chat"></category><category term="bot"></category><category term="github"></category><category term="scripts"></category></entry><entry><title>Using EID certificate on chromium</title><link href="https://visibilityspots.com/chrome-eid.html" rel="alternate"></link><updated>2013-05-29T19:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2013-05-29:chrome-eid.html</id><summary type="html">&lt;p&gt;During this time of the year in Belgium most people needs to fill in their taxes forms. Since a few years the Belgium government provided an electronic way to accomplish this task. Using a digital passport you can authenticate yourself.&lt;/p&gt;
+&lt;p&gt;Since I wanted to use this nice tool I had to configure my local setup to have it all glued together on my linux machine.&lt;/p&gt;
+&lt;p&gt;The necessary steps I described in this post so other interested people can use their linux setups also to fill in the tax forms.&lt;/p&gt;
+&lt;p&gt;The mayor package to install on a fedora machine is the &lt;a class="reference external" href="https://code.google.com/p/eid-mw/"&gt;eid-mw&lt;/a&gt; package:&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;wget https://eid-mw.googlecode.com/files/eid-mw-4.0.0-0.925.fc16.x86_64.rpm
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo rpm -Uvh eid-mw-4.0.0-0.925.fc16.x86_64.rpm
+&lt;/pre&gt;
+&lt;p&gt;If you are using archlinux on a dell latitude e6530 you can use the internal card reader by installing the drivers of the &lt;a class="reference external" href="https://wiki.archlinux.org/index.php/Common_Access_Card"&gt;Common Access Card&lt;/a&gt;&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo pacman -S pcsclite
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo vim /etc/opensc.conf
+&lt;/pre&gt;
+&lt;p&gt;In the opensc.conf file you need to uncomment the setting '''enable_pinpad = false'''' on two places before you enable the process at boot and run it:&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo systemctl &lt;span class="nb"&gt;enable &lt;/span&gt;pcscd
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo systemctl start pcscd
+&lt;/pre&gt;
+&lt;p&gt;So you could install the &lt;a class="reference external" href="https://aur.archlinux.org/packages/eid-mw"&gt;eid-mw package&lt;/a&gt; from the AUR repository&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;yaourt eid-mw
+&lt;/pre&gt;
+&lt;p&gt;Once you've installed the &lt;a class="reference external" href="https://code.google.com/p/eid-mw/"&gt;eid-mw&lt;/a&gt; package on fedora and configured the pcscd service on archlinux you could install the firefox eid &lt;a class="reference external" href="https://addons.mozilla.org/en-US/firefox/addon/belgium-eid/"&gt;addon&lt;/a&gt; if you are using the firefox browser. Once that's accomplished you could test if it all works using the &lt;a class="reference external" href="http://test.eid.belgium.be/"&gt;test&lt;/a&gt; page provided by the Belgium government.&lt;/p&gt;
+&lt;p&gt;You can also use the &lt;a class="reference external" href="https://code.google.com/p/eid-viewer/"&gt;eid-viewer&lt;/a&gt; package, which provides you with a graphical piece of software so you can read out your passport, printing it out. Testing your pin code (if you forgot you're pincode you still have to go to your town services.&lt;/p&gt;
+&lt;p&gt;For fedora&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;wget https://eid-viewer.googlecode.com/files/eid-viewer-4.0.0-0.52.fc16.x86_64.rpm
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo rpm -Uvh eid-viewer-4.0.0-0.52.fc16.x86_64.rpm
+&lt;/pre&gt;
+&lt;p&gt;For archlinux install the &lt;a class="reference external" href="https://aur.archlinux.org/packages/eid-viewer/"&gt;eid-viewer package&lt;/a&gt;&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;yaourt eid-viewer
+&lt;/pre&gt;
+&lt;p&gt;Once the installation finished successfully you can run the software to view the information of your passport&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;eid-viewer
+&lt;/pre&gt;
+&lt;p&gt;Still I'm not using firefox but the &lt;a class="reference external" href="http://www.chromium.org"&gt;chromium-browser&lt;/a&gt; to accomplish than I had to add the eid interface into the chromium security settings. I found an &lt;a class="reference external" href="https://code.google.com/p/eid-mw/wiki/ChromeLinux"&gt;explanation&lt;/a&gt; on google code and copied those steps into this post to be completed.&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="c"&gt;# only for fedora install nss-tools
+&lt;/span&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo yum install nss-tools
+
+&lt;span class="nv"&gt;$ &lt;/span&gt;killall chromium-browser
+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;modutil -dbdir sql:.pki/nssdb/ -add &lt;span class="s2"&gt;&amp;quot;Belgium eID&amp;quot;&lt;/span&gt; -libfile /usr/lib/libbeidpkcs11.so.0
+&lt;span class="nv"&gt;$ &lt;/span&gt;modutil -dbdir sql:.pki/nssdb/ -list
+&lt;/pre&gt;
+&lt;p&gt;So if you now start your chromium browser you could &lt;a class="reference external" href="http://test.eid.belgium.be/"&gt;test&lt;/a&gt; if it all works on your machine too :)&lt;/p&gt;
+&lt;p&gt;Resources:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://eid.belgium.be/nl/je_eid_gebruiken/de_eid-middleware_installeren/linux/"&gt;eid-belgium&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</summary><category term="archlinux"></category><category term="fedora"></category><category term="linux"></category><category term="eid"></category><category term="fod"></category><category term="Belgium"></category><category term="chrome"></category><category term="chromium"></category><category term="browser"></category></entry><entry><title>Ratpoison window manager</title><link href="https://visibilityspots.com/ratpoison.html" rel="alternate"></link><updated>2013-05-22T19:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2013-05-22:ratpoison.html</id><summary type="html">&lt;p&gt;My first steps in linux where on a ubuntu distribution, when you could order the ISO images on a cd-rom delivered by the post.&lt;/p&gt;
+&lt;p&gt;I liked it a lot and ever since I only used linux on my home based devices. Following the releases of Ubuntu. Starting at inuits I tried something else and installed CentOS desktop on my laptop. The idea behind this was to gain experience on the CentOS distributions.&lt;/p&gt;
+&lt;p&gt;Once I figured out that it didn't made sense since a laptop has other purposes then a server. By the time we got new machines I decided to install fedora on it. Nevertheless I don't like the gnome 3 unity layer. It's not that it's bad, But I just don't like it. So I started by installing &lt;a class="reference external" href="http://mate-desktop.org"&gt;mate-desktop&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;By playing around and looking how other people are configuring and using their local machines a colleague pointed me to &lt;a class="reference external" href="http://www.nongnu.org/ratpoison/"&gt;ratpoison&lt;/a&gt;. Because I could install this window manager nicely next to the existing mate-desktop I gave it a try. Shameful I have to admit that when I first gave it a try I thought I did something wrong on the installation. That installation is not that hard on fedora, since they packaged it in their own repository:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo yum install ratpoison
+&lt;/pre&gt;
+&lt;p&gt;Once installed you can logout and try to log in after changed your window manager. For me that first introduction was like I already mentioned a bit shameful. Nothing happened, I only saw a black background and couldn't do anything. It took me some time to figuring out that you had to use a keyboard pre configured strike to get started using the ratpoison functionality. And by default that is CTRL-T.&lt;/p&gt;
+&lt;p&gt;So if you for example tap in CTRL-T and then SHIFT-V you should see the ratpoison version disclaimer.&lt;/p&gt;
+&lt;p&gt;Once I figured that out I started to configure the whole environment for my needs. After some try and error I finally became in love with it. My screen movements are a lot faster by moving around screens, windows and applications trough my keyboard without physical moving my hands!&lt;/p&gt;
+&lt;p&gt;The configuration is done in the ~/.ratpoisonrc file:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# Ratpoison configuration
+startup_message off
+set winname class
+
+# Desktop
+set padding 0 0 0 93
+exec conky -c ~/.conky/conkyrc
+feh --bg-scale ~/path/to/background/picture.png
+exec xscreensaver -nosplash
+&lt;/pre&gt;
+&lt;p&gt;To begin I disable the startup message which only says what your keystroke is. Then I configure my desktop, setting a padding at the bottom of my screen so my &lt;a class="reference external" href="http://www.visibilityspots.com/conky-colors.html"&gt;conky&lt;/a&gt; setup is displayed smoothly on my screen. Starting the conky daemon, setting a background picture and starting the xscreensaver daemon.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ # Startup programs
+exec dropbox start
+exec dropbox2
+
+exec /home/Jan/.scripts/fnotify -s
+exec /home/Jan/.scripts/ratcpi
+exec /home/Jan/.scripts/detectPhone
+&lt;/pre&gt;
+&lt;p&gt;The second part of my .ratpoisonrc file is the file with my startup scripts. To start my dropbox scripts as explained on a previous &lt;a class="reference external" href="http://www.visibilityspots.com/dropbox.html"&gt;post&lt;/a&gt;, the &lt;a class="reference external" href="https://github.com/visibilityspots/scripts#fnotifysh"&gt;fnotify&lt;/a&gt; script to display irssi notifications, &lt;a class="reference external" href="https://github.com/jbaber/ratpoison_scripts/blob/master/Ratcpi/Ratcpi"&gt;ratcpi&lt;/a&gt; for displaying battery notifications and &lt;a class="reference external" href="https://github.com/vlachoudis/DetectPhone"&gt;detectPhone&lt;/a&gt; which looks for my phone by bluetooth to decide to lock my laptop yes or no.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# Aliasses
+alias showroot exec ratpoison -c $HOME/.rpfdump; ratpoison -c 'select -' -c only
+alias unshowroot exec ratpoison -c &amp;quot;frestore at $HOME/.rpfdump&amp;quot;
+alias showpadding set padding 0 0 0 93
+alias showfullscreen set padding 0 0 0 0
+alias term exec terminator
+
+# Bindings
+unbind n
+unbind c
+unbind s
+unbind Q
+
+## Software bindings
+bind d exec chromium-browser
+bind c exec terminator
+bind C-c exec terminator
+bind l exec xscreensaver-command -lock
+bind C-s exec spotify
+bind s exec synapse
+
+## Move bindings
+bind C-k delete
+bind r restart
+bind n nextscreen
+bind C-n nextscreen
+bind b showroot
+bind B unshowroot
+bind p showpadding
+bind f showfullscreen
+
+bind v hsplit
+bind h vsplit
+bind q only
+&lt;/pre&gt;
+&lt;p&gt;This last part is about setting my key stroke bindings. Most of them are self explaining, all those keys need a pre hit of CTRL-T before called.&lt;/p&gt;
+</summary><category term="ratpoison"></category><category term="window"></category><category term="manager"></category><category term="fedora"></category><category term="desktop"></category></entry><entry><title>Conky-colors</title><link href="https://visibilityspots.com/conky-colors.html" rel="alternate"></link><updated>2013-05-20T00:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2013-05-20:conky-colors.html</id><summary type="html">&lt;p&gt;Back in the days I once wrote a &lt;a class="reference external" href="http://www.visibilityspots.com/conky.html"&gt;blogpost&lt;/a&gt; about a &lt;a class="reference external" href="http://conky.sourceforge.net"&gt;conky&lt;/a&gt; setup on a Ubuntu desktop. In the meantime I'm not using ubuntu anymore and kinda tweaked my whole conky setup. I switched to fedora 18 and using &lt;a class="reference external" href="http://helmuthdu.deviantart.com/art/CONKY-COLORS-244793180"&gt;conky-colors&lt;/a&gt; those days in front of the &lt;a class="reference external" href="http://www.nongnu.org/ratpoison/"&gt;ratpoison&lt;/a&gt; window manager.&lt;/p&gt;
+&lt;p&gt;This post will go trough all the steps I did to came to the actual result. When something isn't clear, or could be done on a more smoother/better way, please feel free to bug me about it!&lt;/p&gt;
+&lt;p&gt;Installing some required packages before actually compiling the conky-colors source:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo yum install hddtemp curl lm-sensors conky
+&lt;/pre&gt;
+&lt;p&gt;Next thing is to scan your local machine for all available sensors (answering yes on all questions):&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo sensors-detect
+&lt;/pre&gt;
+&lt;p&gt;Once the pre requirements are successfully installed on your system we can start compiling the &lt;a class="reference external" href="http://www.deviantart.com/download/244793180/conky_colors_by_helmuthdu-d41qrmk.zip?token=f47492fbd545e0ff90c83169ec04f24615aceb11&amp;amp;ts=1368796616"&gt;source&lt;/a&gt; of conky colors:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ cd into/unzipped/source/directory
+$ make
+$ sudo make install
+&lt;/pre&gt;
+&lt;p&gt;Once that is done we can start by actually generating your desired conky setup. I based my setup on the SLIM theme and adopted it afterwards. Your custom weather code is based on the &lt;a class="reference external" href="http://edg3.co.uk/snippets/weather-location-codes/"&gt;yahoo&lt;/a&gt; service.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ conky-colors --slim --w=1440 --h=900 --theme=white --weather=brxx0043
+&lt;/pre&gt;
+&lt;p&gt;Two important files will be generated by this command. One will be located in your homedir and should be named like ~/.conkycolors/conkyrc. This is the config file we need to call when actually starting the conky daemon afterwards. Some configuration parameters to your specific layout can be adopted.&lt;/p&gt;
+&lt;a class="reference external image-reference" href="static/images/conky-colors/initialSlim.png"&gt;&lt;img alt="Initial conky slim view" src="static/images/conky-colors/initialSlim.png" /&gt;&lt;/a&gt;
+&lt;p&gt;I changed some of those params in the &lt;a class="reference external" href="http://www.visibilityspots.com/static/documents/conky-colors/conkyrc"&gt;conkyrc&lt;/a&gt; file, so the conky bar is located at the bottom om my screen (dell latitude E6530) with yellow colors and a border around it.&lt;/p&gt;
+&lt;a class="reference external image-reference" href="static/images/conky-colors/initialCustom.png"&gt;&lt;img alt="Changed color scheme to yellow view" src="static/images/conky-colors/initialCustom.png" /&gt;&lt;/a&gt;
+&lt;pre class="literal-block"&gt;
+own_window_type override
+
+alignment bottom_left
+gap_x 5
+gap_y 5
+minimum_size 1910 80
+maximum_width 1910 80
+
+draw_borders yes
+
+color0 white
+color1 CE5C00
+color2 white
+color3 CE5C00
+&lt;/pre&gt;
+&lt;p&gt;The command to run the conky daemon:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ conky -c ~/.conkyrc
+$ CTRL-C to stop the job
+
+# Move the conky job in the background
+$ conky -c ~/.conkyrc &amp;amp;
+&lt;/pre&gt;
+&lt;p&gt;We now should have a standard conky-colors theme running. But it wasn't sufficient for me. I kinda tweaked the whole setup and added some additional features:&lt;/p&gt;
+&lt;a class="reference external image-reference" href="static/images/conky-colors/customizedSlim.png"&gt;&lt;img alt="Customized view" src="static/images/conky-colors/customizedSlim.png" /&gt;&lt;/a&gt;
+&lt;p&gt;All those tweaks were added to the &lt;a class="reference external" href="http://www.visibilityspots.com/static/documents/conky-colors/conkySlim-MainSection.lua"&gt;conkySlim.lua&lt;/a&gt; file:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo vim /usr/share/conkycolors/scripts/conkySlim.lua
+&lt;/pre&gt;
+&lt;p&gt;The fist tweak is the linux logo at the beginning of the conky screen (using the OpenLogos font):&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+--LOGO COLUMN
+settings = {--VARIA
+        txt='Z',
+        x=50             , y=95          ,
+        txt_weight=0        , txt_size=100 ,
+        txt_fg_colour=theme , txt_fg_alpha=fga ,
+        font=&amp;quot;OpenLogos&amp;quot;
+};display_text(settings)
+&lt;/pre&gt;
+&lt;p&gt;The second tweak is about the 2nd column in the conky output. I'll start with the uptime and update config which are quite straightforward:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+--SECOND COLUMN
+settings = {--UPTIME TITLE
+    txt=conky_parse(&amp;quot;Uptime: &amp;quot;),
+    x=100               , y=20            ,
+    txt_weight=0        , txt_size=12 ,
+    txt_fg_colour=theme , txt_fg_alpha=fga    ,
+};display_text(settings)
+
+settings = {--UPTIME TITLE
+    txt=conky_parse(&amp;quot;${uptime}&amp;quot;),
+    x=160               , y=20            ,
+    txt_weight=1        , txt_size=12 ,
+    txt_fg_colour=theme , txt_fg_alpha=fga    ,
+};display_text(settings)
+
+
+settings = {--UPDATES TITLE
+    txt=conky_parse(&amp;quot;Updates: &amp;quot;),
+    x=100               , y=35           ,
+    txt_weight=0        , txt_size=12 ,
+    txt_fg_colour=fgc , txt_fg_alpha=fga    ,
+};display_text(settings)
+
+updates = conky_parse(&amp;quot;${execi 360 yum -e0 -d0 check-update | wc -l}&amp;quot;)
+
+if updates &amp;gt; '9' then
+    color = theme
+    weight = '1'
+    message = 'available'
+    xAs = '175'
+elseif updates &amp;gt; '0' then
+    color = theme
+    weight = '1'
+    message = 'available'
+    xAs = '180'
+else
+    color = fgc
+    weight = '0'
+    message = ''
+    xAs = '175'
+end
+settings = {--# UPDATES
+    txt=updates,
+    x=160               , y=35           ,
+    txt_weight=weight        , txt_size=12 ,
+    txt_fg_colour=color , txt_fg_alpha=fga    ,
+};display_text(settings)
+
+settings = {--UPDATES MESSAGE
+    txt=message,
+    x=xAs      , y=35           ,
+    txt_weight=0        , txt_size=12 ,
+    txt_fg_colour=fgc , txt_fg_alpha=fga    ,
+};display_text(settings)
+&lt;/pre&gt;
+&lt;p&gt;Following with my own &lt;a class="reference external" href="http://www.irssi.org"&gt;irssi&lt;/a&gt; status based on an html file which is generated on the server where the irssi daemon is running using the irssi script &lt;a class="reference external" href="http://scripts.irssi.org/scripts/away2web.pl"&gt;away2web&lt;/a&gt;. The username and password in this example are needed for basic htaccess authentication:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+irssiState= conky_parse(&amp;quot;${exec curl --user USERNAME:PASSWORD https://URLTOGENERATEDAWAY2WEBFILE/status.html -k -s | head -1}&amp;quot;)
+
+if irssiState == '1' then
+    color = theme
+    message = ''
+    state = 'Online'
+else
+    color = theme
+    message = conky_parse(&amp;quot;${exec curl --user USERNAME:PASSWORD https://URLTOGENERATEDAWAY2WEBFILE/status.html -k -s | tail -1}&amp;quot;)
+    state = 'Offline '
+end
+
+settings = {--IRSSI TITLE
+    txt='Irssi:',
+    x=100             , y=51          ,
+    txt_weight=0        , txt_size=12 ,
+    txt_fg_colour=theme , txt_fg_alpha=fga ,
+};display_text(settings)
+
+settings = {--IRSSI STATE
+    txt=state,
+    x=160             , y=51          ,
+    txt_weight=1        , txt_size=12 ,
+    txt_fg_colour=color , txt_fg_alpha=fga ,
+};display_text(settings)
+
+settings = {--IRSSI MESSAGE
+    txt=message,
+    x=207             , y=51          ,
+    txt_weight=0        , txt_size=10 ,
+    txt_fg_colour=theme , txt_fg_alpha=fga ,
+};display_text(settings)
+&lt;/pre&gt;
+&lt;p&gt;And as last informational message in this column a minimal overview of your infrastructure based on an &lt;a class="reference external" href="http://www.icinga.org"&gt;icinga&lt;/a&gt; instance based on a &lt;a class="reference external" href="https://github.com/visibilityspots/scripts#conky-icingash"&gt;conky-icinga&lt;/a&gt; bash script:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+--ICINGA STATE
+IcingaState=conky_parse(&amp;quot;${execpi 53 PATH/TO/conky-icinga.sh}&amp;quot;)
+if IcingaState == 'OK' then
+    color = fgc
+elseif IcingaState == 'WARN' then
+    color = fgc
+else
+    color = fgc
+end
+
+settings = {--ICINGA TITLE
+    txt='Icinga:',
+    x=100             , y=80          ,
+    txt_weight=0        , txt_size=12 ,
+    txt_fg_colour=fgc , txt_fg_alpha=fga ,
+};display_text(settings)
+
+settings = {--ICINGA STATE
+    txt=IcingaState,
+    x=160             , y=80          ,
+    txt_weight=1        , txt_size=12 ,
+    txt_fg_colour=color , txt_fg_alpha=fga ,
+};display_text(settings)
+&lt;/pre&gt;
+&lt;p&gt;As you can see in the middle section I added a counter for incoming mails based on my maildir folders:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+    settings = {--MAILS
+    txt=conky_parse(&amp;quot;Inuits: ${new_mails PATH/TO/MAILDIR}&amp;quot;),
+    x=(w/2)-160             , y=65          ,
+    txt_weight=0        , txt_size=12 ,
+    txt_fg_colour=fgc , txt_fg_alpha=fga ,
+};display_text(settings)
+&lt;/pre&gt;
+&lt;p&gt;Depending if the spotify service is running conky will display the 'Now playing song - artist':&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+settings = {--SPOTIFY MUSIC SYMBOL
+    txt=conky_parse(&amp;quot;${if_running spotify}z${endif}&amp;quot;),
+    x=(w/2)+60             , y=83          ,
+    txt_weight=0        , txt_size=10 ,
+    txt_fg_colour=theme , txt_fg_alpha=fga ,
+    font=&amp;quot;musicelements&amp;quot;
+};display_text(settings)
+
+settings = {--SPOTIFY
+    txt=conky_parse(&amp;quot;${if_running spotify}${exec sudo spotify-nowplaying}${endif}&amp;quot;),
+    x=(w/2)+67             , y=83          ,
+    txt_weight=0        , txt_size=10 ,
+    txt_fg_colour=theme , txt_fg_alpha=fga ,
+};display_text(settings)
+&lt;/pre&gt;
+&lt;p&gt;The same counts for &lt;a class="reference external" href="http://cmus.sourceforge.net/"&gt;cmus&lt;/a&gt; a command line music player which will show 'Now playing song - artist when active' using a very basic &lt;a class="reference external" href="https://github.com/visibilityspots/scripts#cmussh"&gt;script&lt;/a&gt;&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+settings = {--CMUS MUSIC SYMBOL
+    txt=conky_parse(&amp;quot;${if_running cmus}z${endif}&amp;quot;),
+    x=(w/2)+60             , y=83          ,
+    txt_weight=0        , txt_size=10 ,
+    txt_fg_colour=theme , txt_fg_alpha=fga ,
+    font=&amp;quot;musicelements&amp;quot;
+};display_text(settings)
+
+settings = {--CMUS
+    txt=conky_parse(&amp;quot;${if_running cmus}${execi 2 ~/PATH/TO/cmus.sh}${endif}&amp;quot;),
+    x=(w/2)+67             , y=83          ,
+    txt_weight=0        , txt_size=10 ,
+    txt_fg_colour=theme , txt_fg_alpha=fga ,
+};display_text(settings)
+&lt;/pre&gt;
+&lt;p&gt;4 cpu's will be used to draw the CPU graphics and showing the load of the local machine:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+settings = {--CPU GRAPH CPU1
+        value=tonumber(conky_parse(&amp;quot;${cpu cpu1}&amp;quot;)),
+        value_max=100              ,
+        x=xp                       , y=yp                        ,
+        graph_radius=22            ,
+        graph_thickness=5          ,
+        graph_start_angle=180      ,
+        graph_unit_angle=2.7       , graph_unit_thickness=2.7    ,
+        graph_bg_colour=bgc        , graph_bg_alpha=bga          ,
+        graph_fg_colour=theme      , graph_fg_alpha=fga          ,
+        hand_fg_colour=theme       , hand_fg_alpha=0.0           ,
+        txt_radius=35              ,
+        txt_weight=1               , txt_size=8.0                ,
+        txt_fg_colour=fgc          , txt_fg_alpha=fga            ,
+        graduation_radius=28       ,
+        graduation_thickness=0     , graduation_mark_thickness=1 ,
+        graduation_unit_angle=27   ,
+        graduation_fg_colour=theme , graduation_fg_alpha=0.3     ,
+        caption='CPU'              ,
+        caption_weight=1           , caption_size=10.0           ,
+        caption_fg_colour=fgc      , caption_fg_alpha=fga        ,
+};draw_gauge_ring(settings)
+
+settings = {--CPU GRAPH CPU2
+        value=tonumber(conky_parse(&amp;quot;${cpu cpu2}&amp;quot;)) ,
+        value_max=100              ,
+        x=xp                       , y=yp                        ,
+        graph_radius=17            ,
+        graph_thickness=5          ,
+        graph_start_angle=180      ,
+        graph_unit_angle=2.7       , graph_unit_thickness=2.7    ,
+        graph_bg_colour=bgc        , graph_bg_alpha=bga          ,
+        graph_fg_colour=theme      , graph_fg_alpha=fga          ,
+        hand_fg_colour=theme       , hand_fg_alpha=0.0           ,
+        txt_radius=9               ,
+        txt_weight=1               , txt_size=8.0                ,
+        txt_fg_colour=fgc          , txt_fg_alpha=fga            ,
+        graduation_radius=28       ,
+        graduation_thickness=0     , graduation_mark_thickness=1 ,
+        graduation_unit_angle=27   ,
+        graduation_fg_colour=theme , graduation_fg_alpha=0.3     ,
+        caption=''                 ,
+        caption_weight=1           , caption_size=10.0           ,
+        caption_fg_colour=fgc      , caption_fg_alpha=fga        ,
+};draw_gauge_ring(settings)
+
+settings = {--CPU GRAPH CPU3
+        value=tonumber(conky_parse(&amp;quot;${cpu cpu3}&amp;quot;)) ,
+        value_max=100              ,
+        x=xp                       , y=yp                        ,
+        graph_radius=17            ,
+        graph_thickness=5          ,
+        graph_start_angle=180      ,
+        graph_unit_angle=2.7       , graph_unit_thickness=2.7    ,
+        graph_bg_colour=bgc        , graph_bg_alpha=bga          ,
+        graph_fg_colour=theme      , graph_fg_alpha=fga          ,
+        hand_fg_colour=theme       , hand_fg_alpha=0.0           ,
+        txt_radius=0               ,
+        txt_weight=1               , txt_size=8.0                ,
+        txt_fg_colour=fgc          , txt_fg_alpha=fga            ,
+        graduation_radius=28       ,
+        graduation_thickness=0     , graduation_mark_thickness=1 ,
+        graduation_unit_angle=27   ,
+        graduation_fg_colour=theme , graduation_fg_alpha=0.3     ,
+        caption=''                 ,
+        caption_weight=1           , caption_size=10.0           ,
+        caption_fg_colour=fgc      , caption_fg_alpha=fga        ,
+};draw_gauge_ring(settings)
+
+settings = {--CPU GRAPH CPU4
+        value=tonumber(conky_parse(&amp;quot;${cpu cpu4}&amp;quot;)) ,
+        value_max=100              ,
+        x=xp                       , y=yp                        ,
+        graph_radius=17            ,
+        graph_thickness=5          ,
+        graph_start_angle=180      ,
+        graph_unit_angle=2.7       , graph_unit_thickness=2.7    ,
+        graph_bg_colour=bgc        , graph_bg_alpha=bga          ,
+        graph_fg_colour=theme      , graph_fg_alpha=fga          ,
+        hand_fg_colour=theme       , hand_fg_alpha=0.0           ,
+        txt_radius=-9              ,
+        txt_weight=1               , txt_size=8.0                ,
+        txt_fg_colour=fgc          , txt_fg_alpha=fga            ,
+        graduation_radius=28       ,
+        graduation_thickness=0     , graduation_mark_thickness=1 ,
+        graduation_unit_angle=27   ,
+        graduation_fg_colour=theme , graduation_fg_alpha=0.3     ,
+        caption=''                 ,
+        caption_weight=1           , caption_size=10.0           ,
+        caption_fg_colour=fgc      , caption_fg_alpha=fga        ,
+};draw_gauge_ring(settings)
+
+settings = {--LOAD
+        txt=conky_parse(&amp;quot;${loadavg}&amp;quot;),
+        x=xp+10             , y=yp+38,
+        txt_weight=0        , txt_size=10 ,
+        txt_fg_colour=theme , txt_fg_alpha=fga ,
+};display_text(settings)
+&lt;/pre&gt;
+&lt;p&gt;I also added a additional graph for the temperature based on acpi:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+settings = {--TEMP GRAPH
+        value=tonumber(conky_parse(&amp;quot;${acpitemp}&amp;quot;)),
+        value_max=100              ,
+        x=xp                       , y=yp                        ,
+        graph_radius=22            ,
+        graph_thickness=5          ,
+        graph_start_angle=180      ,
+        graph_unit_angle=2.7       , graph_unit_thickness=2.7    ,
+        graph_bg_colour=bgc        , graph_bg_alpha=bga          ,
+        graph_fg_colour=theme      , graph_fg_alpha=fga          ,
+        hand_fg_colour=theme       , hand_fg_alpha=0.0           ,
+        txt_radius=0               ,
+        txt_weight=1               , txt_size=8.0                ,
+        txt_fg_colour=fgc          , txt_fg_alpha=fga            ,
+        graduation_radius=22       ,
+        graduation_thickness=4     , graduation_mark_thickness=2 ,
+        graduation_unit_angle=27   ,
+        graduation_fg_colour=theme , graduation_fg_alpha=0.5     ,
+        caption='TEMP'              ,
+        caption_weight=1           , caption_size=10.0           ,
+        caption_fg_colour=fgc      , caption_fg_alpha=fga        ,
+};draw_gauge_ring(settings)
+&lt;/pre&gt;
+&lt;p&gt;I'm moving around a lot, connecting to wifi or wired depending on location. To let conky graph the right interface I wrote a wrapper around that:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+iface = conky_parse(&amp;quot;${exec ip n | awk {'print $3'} | head -1}&amp;quot;)
+if iface == 'em1' then
+        ifaceCaption = 'EM1'
+else
+        ifaceCaption = 'WLAN0'
+end
+
+settings = {--NETWORK GRAPH UP
+        value=tonumber(conky_parse(&amp;quot;${upspeedf &amp;quot; .. iface .. &amp;quot;}&amp;quot;)),
+        value_max=100              ,
+        x=xp                       , y=yp                        ,
+        graph_radius=17            ,
+        graph_thickness=5          ,
+        graph_start_angle=180      ,
+        graph_unit_angle=2.7       , graph_unit_thickness=2.7    ,
+        graph_bg_colour=bgc        , graph_bg_alpha=bga          ,
+        graph_fg_colour=theme      , graph_fg_alpha=fga          ,
+        hand_fg_colour=theme       , hand_fg_alpha=0.0           ,
+        txt_radius=0               ,
+        txt_weight=1               , txt_size=8.0                ,
+        txt_fg_colour=fgc          , txt_fg_alpha=fga            ,
+        graduation_radius=28       ,
+        graduation_thickness=0     , graduation_mark_thickness=1 ,
+        graduation_unit_angle=27   ,
+        graduation_fg_colour=theme , graduation_fg_alpha=0.3     ,
+        caption=''                 ,
+        caption_weight=1           , caption_size=10.0           ,
+        caption_fg_colour=fgc      , caption_fg_alpha=fga        ,
+};draw_gauge_ring(settings)
+
+settings = {--NETWORK GRAPH DOWN
+        value=tonumber(conky_parse(&amp;quot;${downspeedf &amp;quot; .. iface .. &amp;quot;}&amp;quot;)),
+        value_max=100              ,
+        x=xp                       , y=yp                        ,
+        graph_radius=22            ,
+        graph_thickness=5          ,
+        graph_start_angle=180      ,
+        graph_unit_angle=2.7       , graph_unit_thickness=2.7    ,
+        graph_bg_colour=bgc        , graph_bg_alpha=bga          ,
+        graph_fg_colour=theme      , graph_fg_alpha=fga          ,
+        hand_fg_colour=theme       , hand_fg_alpha=0.0           ,
+        txt_radius=35              ,
+        txt_weight=1               , txt_size=8.0                ,
+        txt_fg_colour=fgc          , txt_fg_alpha=fga            ,
+        graduation_radius=28       ,
+        graduation_thickness=0     , graduation_mark_thickness=1 ,
+        graduation_unit_angle=27   ,
+        graduation_fg_colour=theme , graduation_fg_alpha=0.3     ,
+        caption=ifaceCaption              ,
+        caption_weight=1           , caption_size=10.0           ,
+        caption_fg_colour=fgc      , caption_fg_alpha=fga        ,
+};draw_gauge_ring(settings)
+&lt;/pre&gt;
+&lt;p&gt;Depending on those locations I get other ip addresses on other networks and therefore other SMTP services. To tackle those smtp service I wrote a &lt;a class="reference external" href="https://github.com/visibilityspots/scripts#setsmtpsh"&gt;setsmtp&lt;/a&gt; script which will be called from within my conky setup based on the ip addresses:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+if iface =='em1' then
+        ip = conky_parse(&amp;quot;${addr em1}&amp;quot;)
+        if ip == 'IP AT WORK PLACE ONE' then
+           conky_parse(&amp;quot;${exec setsmtp -b}&amp;quot;)
+           todo='work'
+        elseif ip == 'IP AT WORK PLACE TO' then
+           todo='work'
+        else
+           conky_parse(&amp;quot;${exec setsmtp -t}&amp;quot;)
+           todo='personal'
+        end
+
+        settings = {--IP ADDRESS
+                txt=ip,
+                x=xp+10             , y=83,
+                txt_weight=0        , txt_size=10 ,
+                txt_fg_colour=theme , txt_fg_alpha=fga ,
+        };display_text(settings)
+
+elseif iface == 'wlan0' then
+
+        ssid = conky_parse(&amp;quot;${wireless_essid wlan0}&amp;quot;)
+        if ssid == 'SSID WORK PLACE ONE' then
+           conky_parse(&amp;quot;${exec setsmtp -b}&amp;quot;)
+           todo='work'
+        elseif ssid == 'SSID HOME' then
+           conky_parse(&amp;quot;${exec shares -a}&amp;quot;)
+           conky_parse(&amp;quot;${exec setsmtp -t}&amp;quot;)
+           todo='personal'
+        else
+           conky_parse(&amp;quot;${exec setsmtp -t}&amp;quot;)
+           todo='personal'
+        end
+
+        settings = {--WIRELESS INFO
+                txt=conky_parse(&amp;quot;${wireless_link_qual wlan0} %&amp;quot;),
+                x=xp+10             , y=83,
+                txt_weight=1        , txt_size=10 ,
+                txt_fg_colour=theme , txt_fg_alpha=fga ,
+        };display_text(settings)
+
+else
+        iface=''
+end
+&lt;/pre&gt;
+&lt;p&gt;To monitor my battery state I added this graph:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+settings = {--BATTERY GRAPH
+        value=tonumber(conky_parse(&amp;quot;${battery_percent}&amp;quot;)),
+        value_max=100              ,
+        x=xp                       , y=yp                        ,
+        graph_radius=22            ,
+        graph_thickness=5          ,
+        graph_start_angle=180      ,
+        graph_unit_angle=2.7       , graph_unit_thickness=2.7    ,
+        graph_bg_colour=bgc        , graph_bg_alpha=bga          ,
+        graph_fg_colour=theme      , graph_fg_alpha=fga          ,
+        hand_fg_colour=theme       , hand_fg_alpha=0.0           ,
+        txt_radius=0               ,
+        txt_weight=1               , txt_size=8.0                ,
+        txt_fg_colour=fgc          , txt_fg_alpha=fga            ,
+        graduation_radius=22       ,
+        graduation_thickness=4     , graduation_mark_thickness=2 ,
+        graduation_unit_angle=27   ,
+        graduation_fg_colour=theme , graduation_fg_alpha=0.5     ,
+        caption='BATTERY'              ,
+        caption_weight=1           , caption_size=10.0           ,
+        caption_fg_colour=fgc      , caption_fg_alpha=fga        ,
+};draw_gauge_ring(settings)
+
+settings = {--BATTERY CHARGING STATE
+        txt=conky_parse(&amp;quot;${acpiacadapter} ${battery_time}&amp;quot;),
+        x=xp-25             , y=83,
+        txt_weight=0        , txt_size=10 ,
+        txt_fg_colour=theme , txt_fg_alpha=fga ,
+};display_text(settings)
+&lt;/pre&gt;
+&lt;p&gt;As you saw in the network topic I set a todo variable based on my location. That variable will point to a specific tracks-work/tracks-personal &lt;a class="reference external" href="https://github.com/visibilityspots/scripts#conky-trackssh"&gt;bash script&lt;/a&gt; which will grab my todo's for work or for leisure ;)&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+-- TODO COLUMN
+conky_parse(&amp;quot;${execpi 53 ~/.conky/scripts/tracks-&amp;quot; .. todo .. &amp;quot;.sh}&amp;quot;)
+arrayYfactors={'20', '35', '51', '65'}
+
+for i, Yfactor in ipairs(arrayYfactors) do
+        firstchar=conky_parse(&amp;quot;${exec head -&amp;quot; .. i .. &amp;quot; ~/.conky/scripts/todo-&amp;quot; .. todo .. &amp;quot; | tail -1 | sed -r 's/^  //' | cut -d ' ' -f 1}&amp;quot;)
+        if firstchar == '*' then
+                tmpweight='0'
+                tmpcolour=fgc
+        elseif firstchar == '-' then
+                tmpweight='0'
+                tmpcolour=fgc
+        else
+                tmpweight='1'
+                tmpcolour=theme
+        end
+
+        settings = { --TODO column
+                txt=conky_parse(&amp;quot;${exec head -&amp;quot; .. i .. &amp;quot; ~/.conky/scripts/todo-&amp;quot; .. todo .. &amp;quot; | tail -1 | sed -r 's/^  //' | cut -d '(' -f 1}&amp;quot;),
+                x=xp+80             , y=Yfactor,
+                txt_weight=tmpweight        , txt_size=12,
+                txt_fg_colour=tmpcolour , txt_fg_alpha=fga ,
+        };display_text(settings)
+end
+&lt;/pre&gt;
+&lt;p&gt;And last but not least based on location I monitor also a specific &lt;a class="reference external" href="http://jenkins-ci.org/"&gt;jenkins&lt;/a&gt; job using the &lt;a class="reference external" href="https://github.com/Ronnie76er/conkyhudson"&gt;conky hudson&lt;/a&gt; script&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+settings = { --JENKINS TITLE
+          txt=conky_parse(&amp;quot;${exec ~/.conky/scripts/hudson/conkyhudson.py -t ~/.conky/scripts/hudson/&amp;quot; .. todo .. &amp;quot;.template | cut -d '|' -f 1 | head -1}&amp;quot;),
+          x=xp+80             , y=80,
+          txt_weight=1       , txt_size=9,
+          txt_fg_colour=theme , txt_fg_alpha=fga ,
+  };display_text(settings)
+
+  settings = { --JENKINS line
+          txt=conky_parse(&amp;quot;${exec ~/.conky/scripts/hudson/conkyhudson.py -t ~/.conky/scripts/hudson/&amp;quot; .. todo .. &amp;quot;.template | cut -d '|' -f 2 | sed 's/_/ /' | head -1}&amp;quot;),
+          x=xp+178             , y=80,
+          txt_weight=0        , txt_size=10,
+          txt_fg_colour=fgc , txt_fg_alpha=fga ,
+  };display_text(settings)
+&lt;/pre&gt;
+&lt;p&gt;The conky hudson template used in this last feature is looking like:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[job;1;jenkinsurl.com;nameofyourjenkinsjob]
+nameofyourjenkinsjob|#[1;number] [1;result] [1;id]
+&lt;/pre&gt;
+</summary><category term="conky"></category><category term="conky-colors"></category><category term="fedora"></category><category term="desktop"></category></entry><entry><title>Tracks</title><link href="https://visibilityspots.com/tracks.html" rel="alternate"></link><updated>2013-05-16T19:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2013-05-16:tracks.html</id><summary type="html">&lt;p&gt;To get an overview of my todo's I used to list them in google tasks. Back in time I was convinced it would nicely integrate with all tools software and distributions I would use. After some month's I figured out it wouldn't.&lt;/p&gt;
+&lt;p&gt;So I searched on the web for software which would take that task over from google. I used to play with several tools, from &lt;a class="reference external" href="http://trac.edgewall.org/"&gt;trac&lt;/a&gt;, to &lt;a class="reference external" href="https://www.chiliproject.org/"&gt;chiliproject&lt;/a&gt; to &lt;a class="reference external" href="http://www.redmine.org/"&gt;redmine&lt;/a&gt;.
+All those tools worked very nice but were some overkill to only manages todo lists.&lt;/p&gt;
+&lt;p&gt;In the meantime I installed &lt;a class="reference external" href="http://gitlab.org/"&gt;gitlabhq&lt;/a&gt;, tried to abuse the issues there to manage my todo's. But that went into chaos when managing repo's for household tasks etc. When creating that repo I figured out it wasn't logical neither.&lt;/p&gt;
+&lt;p&gt;So I tumbled into a rails application. &lt;a class="reference external" href="http://getontracks.org"&gt;Tracks&lt;/a&gt;, and hell I like it a lot. It's easy, it can be viewed with &lt;a class="reference external" href="http://xvx.ca/code/tracks-android/"&gt;android&lt;/a&gt; devices, it mails every week an overview of upcoming tasks for that week and I stripped it out in my &lt;a class="reference external" href="http://conky.sourceforge.net/"&gt;conky&lt;/a&gt; setup.&lt;/p&gt;
+&lt;p&gt;Today I have 2 instances running one on my personal server and one for my tasks at the customer. Depending on location conky shows me the right tasks.&lt;/p&gt;
+&lt;p&gt;The setup is rather easy, it's all &lt;a class="reference external" href="https://github.com/TracksApp/tracks/blob/v2.2.2/doc/installation.textile"&gt;explained&lt;/a&gt; clear on their website. I opted for a sqlite3 database and running &lt;a class="reference external" href="http://code.macournoyer.com/thin/"&gt;thin&lt;/a&gt; to host it.&lt;/p&gt;
+&lt;p&gt;Nevertheless I still suffer 2 major issues, the &lt;a class="reference external" href="https://github.com/adamwg/tracks-android/issues/20"&gt;first one&lt;/a&gt; is related to the android app. Seems like it shows also closed tasks as being open.&lt;/p&gt;
+&lt;p&gt;The 2nd one is the frustration of integration github issues. Until today I didn't find a tool which is able to synchronizes all your github issues into whatever application. The only tool I found was &lt;a class="reference external" href="https://github.com/stephencelis/ghi"&gt;ghi&lt;/a&gt; which is just a command line overview of your github tasks.&lt;/p&gt;
+&lt;p&gt;So please if you found a solution for that don't hesitate to contact me about it! You could make my day!&lt;/p&gt;
+</summary><category term="tracks"></category><category term="gtd"></category><category term="project"></category><category term="management"></category><category term="todo"></category><category term="list"></category></entry><entry><title>Irssi bitlbee channel</title><link href="https://visibilityspots.com/irssi-bitlbee-channel.html" rel="alternate"></link><updated>2013-05-10T13:30:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2013-05-10:irssi-bitlbee-channel.html</id><summary type="html">&lt;p&gt;Every time I want to join a channel on a jabber account using bitlbee I'm a bit confused and have to search the whole inter-webs before actually finding out howto configure my chat setup to do so.&lt;/p&gt;
+&lt;p&gt;My online search points me out to the &lt;a class="reference external" href="http://wiki.bitlbee.org/JabberGroupchats"&gt;bitlbee wiki&lt;/a&gt;. Nevertheless those commands never got to the point to have it actually working. After many attempts a colleague pointed me to the right solution.&lt;/p&gt;
+&lt;p&gt;To never forget it anymore and sharing the working setup with the world I summarize it in this blog post.&lt;/p&gt;
+&lt;p&gt;In your bitlbee control channel &lt;strong&gt;&amp;amp;bitlbee&lt;/strong&gt; :&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+chat add [account id] room&amp;#64;conference.jabber.link #room
+/j #room
+&lt;/pre&gt;
+&lt;p&gt;As you can see in the chat add command the ending #room was missing in the online documentation.&lt;/p&gt;
+&lt;p&gt;Hope to tackle many frustrations by this one :)&lt;/p&gt;
+</summary><category term="irssi"></category><category term="bitlbee"></category><category term="channel"></category><category term="chat"></category><category term="groupchat"></category><category term="jabber"></category><category term="xmpp"></category></entry><entry><title>Lighttpd change tcp port in CentOS</title><link href="https://visibilityspots.com/selinux.html" rel="alternate"></link><updated>2012-12-05T21:24:00+01:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2012-12-05:selinux.html</id><summary type="html">&lt;p&gt;It seems like a very simple job, and in fact it is. But I had an issue when I tried to change this in my&amp;nbsp;Cent OS&amp;nbsp;6.3 setup.&lt;/p&gt;
+&lt;p&gt;After some digging on the internet I found out selinux was the blocking factor.&lt;/p&gt;
+&lt;p&gt;The configuration of the new port has to be done in the lighttpd conf file.&lt;/p&gt;
+&lt;p&gt;/etc/lighttpd/lighttpd.conf&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+server.port = 2080
+&lt;/pre&gt;
+&lt;p&gt;When I changed the config file and restarted the /etc/init.d/lighttpd service I got following error:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+(network.c.379) can't bind to port: &amp;nbsp;2080 Permission denied
+&lt;/pre&gt;
+&lt;p&gt;I checked that I added the port to iptables, tried other ports, nothing worked. Until I found out it was related to the default selinux configuration.&lt;/p&gt;
+&lt;p&gt;On many forums was indicated that the problem is solved by disabling the selinux service. Nevertheless I wanted to do it the right way and after some try and error found out that by installing the package policycoreutils-python you can look up the status of the selinux feature&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# sestatus
+SELinux status: enabled
+SELinuxfs mount: /selinux
+Current mode: enforcing
+Mode from config file: enforcing
+Policy version: 24
+Policy from config file: targeted
+
+# yum provides /usr/sbin/semanage
+Loaded plugins: fastestmirror, presto, priorities
+Loading mirror speeds from cached hostfile
+* base: centos.weepeetelecom.be
+* epel: be.mirror.eurid.eu
+* extras: centos.weepeetelecom.be
+* remi: remi-mirror.dedipower.com
+* updates: centos.weepeetelecom.be
+187 packages excluded due to repository priority protections
+policycoreutils-python-2.0.83-19.24.el6.x86\_64 : SELinux policy core python utilities
+Repo : base
+Matched from:
+Filename : /usr/sbin/semanage
+
+# yum install policycoreutils-python
+&lt;/pre&gt;
+&lt;p&gt;Once this is done we can use the semanage command to add our new port to the selinux security feature. First we can list all already configured ports for the http service:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+semanage port -l \| grep http\_port\_t
+&lt;/pre&gt;
+&lt;p&gt;If the&amp;nbsp;desired&amp;nbsp;port isn't listed we can add this with following command:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+semanage port -a -t http\_port\_t -p tcp 2080
+&lt;/pre&gt;
+&lt;p&gt;You don't need to restart the selinux feature, the setting will take effect&amp;nbsp;immediately&amp;nbsp;after you added the last command. Once that is done you can restart the lighttpd service without the permission denied issue!&lt;/p&gt;
+&lt;p&gt;If you also want to have tcp port 9000 be able to work for php you also have to add this one to selinux:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+semanage port -a -t http\_port\_t -p tcp 9000
+&lt;/pre&gt;
+&lt;p&gt;Sources:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.howtoforge.com/installing-lighttpd-with-php5-php-fpm-and-mysql-support-on-centos-6.3"&gt;http://www.howtoforge.com/installing-lighttpd-with-php5-php-fpm-and-mysql-support-on-centos-6.3&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.cyberciti.biz/faq/rhel-fedora-redhat-selinux-protection/"&gt;http://www.cyberciti.biz/faq/rhel-fedora-redhat-selinux-protection/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.cyberciti.biz/faq/redhat-install-semanage-selinux-command-rpm/"&gt;http://www.cyberciti.biz/faq/redhat-install-semanage-selinux-command-rpm/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</summary><category term="centOS"></category><category term="lighttpd"></category><category term="selinux"></category><category term="webserver"></category></entry><entry><title>Dropbox</title><link href="https://visibilityspots.com/dropbox.html" rel="alternate"></link><updated>2012-10-15T18:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2012-10-15:dropbox.html</id><summary type="html">&lt;p&gt;Reading this article will go through the process I went through configuring multiple dropbox accounts on my centos machine (one personal and one for work) and encrypting them both using encfs.&lt;/p&gt;
+&lt;p&gt;That way I'm sure dropbox can't read the data stored into it. Because no I don't trust anybody on the cloud!&lt;/p&gt;
+&lt;p&gt;In the first part I will configure 2 dropbox services using a CentOS 6 Desktop, in the second part I will encrypt those 2 dropbox services using encfs.&lt;/p&gt;
+&lt;p&gt;The first account you can just install and configure the normal way provided by &lt;a class="reference external" href="https://www.dropbox.com/install"&gt;dropbox&lt;/a&gt;&amp;nbsp;itself. Here I configured my work account on so all work related data will be stored in my home/Dropbox folder later on.&lt;/p&gt;
+&lt;p&gt;Once this is done we have to install the 2nd service and configure the personal account into it. To do this we have to create 2 new folders into your home directory.
+One named .dropbox-personal where the 2nd dropbox service configuration files will be stored in. And another named for example Personal where the actual Dropbox folder for this 2nd account will be written to.&lt;/p&gt;
+&lt;p&gt;When you created those 2 fresh directories you can open a terminal and run the command&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+HOME=$HOME/.dropbox-personal /usr/bin/dropbox start -i
+&lt;/pre&gt;
+&lt;p&gt;so the 2nd dropbox service will be started from this newly .dropbox-personal folder.&lt;/p&gt;
+&lt;p&gt;Follow the wizard, but make sure you enter a CUSTOM folder (e.g. ~/Personal) where you point to the 2nd new folder you've created ~/Dropbox-personal/!&lt;/p&gt;
+&lt;p&gt;To start this 2nd instance of dropbox we have to create a script which will start this instance and add it to our Startup programs.&lt;/p&gt;
+&lt;p&gt;Create an executable (chmod +x file.sh) .sh file with this content:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+#!/bin/bash HOME=$HOME/.dropbox-personal /usr/bin/dropbox start
+&lt;/pre&gt;
+&lt;p&gt;And add a new entry via System -&amp;gt; Preferences -&amp;gt; Startup Applications for this script.&lt;/p&gt;
+&lt;p&gt;Or you can copy the script.sh file to your /usr/bin/ director without the extension so your script will be available as a command in your terminal.&lt;/p&gt;
+&lt;p&gt;So right now we have 2 dropbox accounts uploading the folders ~/Dropbox for work related stuff and ~/Personal/Dropbox/ for personal data.&lt;/p&gt;
+&lt;p&gt;Next step will be encryption for those folders. By encrypting your dropbox folders we make sure our data will not be readable when stored on the dropbox servers and sent over the internet.
+To accomplish this encryption I opted for encfs. On a CentOS machine you can install it using yum:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+sudo yum install fuse-encfs
+&lt;/pre&gt;
+&lt;p&gt;Once the package is installed we can configure our encrypted volumes.
+The way this encryption will work is quite simple. You have 2 folders, a private folder which is the working directory where you can edit delete and create files and folders to work with.
+All content in your private folder will be encrypted to you encrypted folder which will be synchronized to the dropbox online services.&lt;/p&gt;
+&lt;p&gt;So in our case we have to create 4 folders, 2 for our work account (~/Private &amp;amp; ~/Dropbox/.encrypted) and 2 for our personal account (~/Personal/Private-personal &amp;amp; ~/Personal/Dropbox/.encrypted-personal).&lt;/p&gt;
+&lt;p&gt;Once those folders are created we can configure the encfs volumes:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+encfs ~/Dropbox/.encrypted ~/Private encfs ~/Personal/Dropbox/.encrypted-personal ~/Personal/Private-personal
+&lt;/pre&gt;
+&lt;p&gt;where you can use the paranoia mode to encrypt your files&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+enter &amp;quot;p&amp;quot; for pre-configured paranoia mode
+&lt;/pre&gt;
+&lt;p&gt;with your chosen password. When you created your encrypted volumes you can administer your data in the private folders, this data will be encrypted automatically to your .encrypted* folders which will be uploaded to dropbox.
+When you install dropbox on another computer you also have to install encfs on it to decrypt your files.&lt;/p&gt;
+&lt;p&gt;In the dropbox folders you can see there is a&amp;nbsp;.encfs6.xml file. To be completely sure dropbox can't do anything with your files you can exclude this file to be synchronized online.
+But make some copies of it to a secure place (usb stick or your phone) before you continue. This can be done with the command:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+dropbox exclude add ~/Dropbox/.encrypted/.encfs6.xml dropbox exclude list
+&lt;/pre&gt;
+&lt;p&gt;And remove the .encfs6.xml file from the online dropbox account using the web service.&lt;/p&gt;
+&lt;p&gt;For the 2nd service you have to use the following commands:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+HOME=$HOME/.dropbox-personal /usr/bin/dropbox exclude add ~/Personal/Dropbox/.encrypted-personal/.encfs6.xml HOME=$HOME/.dropbox-personal /usr/bin/dropbox exclude list``
+&lt;/pre&gt;
+&lt;p&gt;On every computer where you install encfs to decrypt those files you have to copy the proper .encfs6.xml file in the .encrypted* folders so you can decrypt the encfs volumes.&lt;/p&gt;
+&lt;p&gt;Be aware you can't use your encrypted files using the dropbox web interface. On your android phone you can install &lt;a class="reference external" href="https://code.google.com/p/cryptonite/"&gt;cryptonite&lt;/a&gt; which will decrypt your files so you can use them on your phone.&lt;/p&gt;
+&lt;p&gt;I created a Startup script which can decrypt and umount the encrypted folders and shared it on &lt;a class="reference external" href="https://github.com/visibilityspots/scripts"&gt;github&lt;/a&gt; by adding the script with the preferred parameters to your Startup
+programs you have to fill in the passwords each time you log in so your folders are decrypted and you can start using them.
+(or add the script to your /usr/bin/ folder named encryption so you can handle it as a command called encryption as you named it in your terminal)&lt;/p&gt;
+&lt;p&gt;You can also use this setup to share for example your evolution mails via dropbox on an encrypted way so nobody can read your mails except your on your different computers with evolution. (Make sure the
+evolution versions match and point your evolution working directory to the private one using symlinks - e.g. ln -s ~/Private/.evolution ~/.evolution)&lt;/p&gt;
+&lt;p&gt;Feel free to add patches, send remarks about this topic.) by adding the script with the preferred parameters to your Startup programs you have to fill in the passwords each time you log in so your folders are
+decrypted and you can start using them.&lt;/p&gt;
+&lt;p&gt;Resources:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://maketecheasier.com/run-multiple-dropbox-accounts-in-mac-and-linux/2010/05/24"&gt;http://maketecheasier.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://help.ubuntu.com/community/EncryptedPrivateDirectory"&gt;https://help.ubuntu.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://janaksingh.com/blog/dropbox-encryption-install-encfs-linux-encrypt-decrypt-dropbox-content-realtime-155"&gt;http://janaksingh.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</summary><category term="accounts"></category><category term="centOS"></category><category term="dropbox"></category><category term="encfs"></category><category term="encryption"></category><category term="multiple"></category><category term="security"></category></entry><entry><title>Writing customized icinga checks</title><link href="https://visibilityspots.com/icinga-checks.html" rel="alternate"></link><updated>2012-09-25T11:16:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2012-09-25:icinga-checks.html</id><summary type="html">&lt;p&gt;Recently I started to try writing a customized script for the &lt;a class="reference external" href="https://www.icinga.org/"&gt;icinga&lt;/a&gt; monitoring tool. I will try to describe the steps I went trough to achieve this in this post. I assume you already have a working icinga setup.
+If not you can find documentation about this on&amp;nbsp;&lt;a class="reference external" href="http://docs.icinga.org/"&gt;http://docs.icinga.org/&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;First of all you need to script. I created a script which will check if a service is running using the command&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# /etc/init.d/service status
+&lt;/pre&gt;
+&lt;p&gt;to see how to implement this in icinga. The script can be found on my &lt;a class="reference external" href="https://github.com/visibilityspots/icinga-scripts/blob/master/check_jenkins"&gt;github&lt;/a&gt; repo.&lt;/p&gt;
+&lt;p&gt;Once you have tested the script you have to make sure it is copied to the scripts directory on the server you want to monitor. Usually this directory can be found in /usr/lib64/nagios/plugins/ on a CentOS 6 machine.
+Also make sure your script is executable (chmod +x).&lt;/p&gt;
+&lt;p&gt;Next we have to configure the NRPE daemon on this remote host. The nrpe configuration file can be found in etc/nagios/nrpe.cfg found using the mlocate software.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# updatedb
+# locate nrpe.cfg.
+&lt;/pre&gt;
+&lt;p&gt;Here you have to make sure that you point the command to your script location by adding the&amp;nbsp;underlying&amp;nbsp;line and restarting the NRPE service&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+command[check_NAME]=/usr/lib64/nagios/plugins/check_NAME
+/etc/init.d/nrpe restart
+&lt;/pre&gt;
+&lt;p&gt;The server side where we have to configure the command and the service itself into the icinga service.&lt;/p&gt;
+&lt;p&gt;We have to add the command check_NAME into the file /etc/icinga/objects/commands.cfg&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+define command {
+        command_name check_NAME
+        command_line $USER1$/check_NAME
+}
+&lt;/pre&gt;
+&lt;p&gt;To configure the specified service you have to configure a node with this newly created command for in example /etc/icinga/objects/services/node.cfg&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+define service {
+        service_description DESCRIPTION
+        check_command check_nrpe_command!
+        check_NAME use generic-service
+        notification_period 24x7
+        host_name HOSTNAME.OF.SERVER
+}
+&lt;/pre&gt;
+&lt;p&gt;And restart the icinga service&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# /etc/init.d/icinga restart
+&lt;/pre&gt;
+&lt;p&gt;After a few minutes the check should appear into your icinga front-end. Enjoy scripting your own custom scripts!&lt;/p&gt;
+</summary><category term="centOS"></category><category term="checks"></category><category term="icinga"></category><category term="monitoring"></category><category term="nrpe"></category><category term="server"></category></entry><entry><title>SMS server using CentOS, kannel and playsms</title><link href="https://visibilityspots.com/sms-server.html" rel="alternate"></link><updated>2012-07-24T11:34:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2012-07-24:sms-server.html</id><summary type="html">&lt;p&gt;On this page I will describe the way I went trough to configure an sms gateway using a laptop, &lt;a class="reference external" href="http://www.business.vodafone.com/site/bus/public/enuk/support/10_productsupport/usb_stick/01_vodafone/02_vodafone_k3565/20_software/p_software.jsp"&gt;huawei&lt;/a&gt; modem, &lt;a class="reference external" href="http://www.falcom.de"&gt;falcom&lt;/a&gt; A2D-1 or the &lt;a class="reference external" href="http://www.option.com/support/globe-trotter-hsdpa"&gt;option&lt;/a&gt; Globetrotter hardware using the open source software &lt;a class="reference external" href="http://www.kannel.org/"&gt;kannel&lt;/a&gt; &amp;amp; &lt;a class="reference external" href="http://playsms.org/"&gt;playsms&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The main goal of this project was related to the scouting movement in Belgium I'm active. We wanted to interrogate all of our members who were on a start weekend of the next scouting year. To do this we had the idea to use the sms communication channel. This because almost every youngster has the possibility to send sms messages without a big effort.&lt;/p&gt;
+&lt;p&gt;To achieve this I searched on the internet and found the &lt;a class="reference external" href="http://playsms.org/"&gt;playsms&lt;/a&gt; software. Using this software you can easily add an interactive flow to communicate with people using sms. We used the sms quiz where we added some questions with keywords were people could answer to and we replied with a next question.&lt;/p&gt;
+&lt;p&gt;As mobile provider we choose for &lt;a class="reference external" href="http://www.mobilevikings.com"&gt;Mobile Vikings&lt;/a&gt; a belgium operator with an open-mind. They were very helpfull when I contacted them to see if they could monitor some mobile traffic for my sim.&lt;/p&gt;
+&lt;p&gt;But before this software can handle your sms messages they have to be captured and received using a SIM card and pushed to the software. This step in the whole process can be done by &lt;a class="reference external" href="http://www.kannel.org/"&gt;kannel&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="section" id="process-using-centos-6-3-minimal-installation"&gt;
+&lt;h2&gt;Process using CentOS 6.3 minimal installation&lt;/h2&gt;
+&lt;p&gt;Install some required dependency packages:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# yum install gcc&amp;nbsp;libxml2-devel mysql-server&amp;nbsp;wvdial vim
+&lt;/pre&gt;
+&lt;p&gt;Looking for the modem:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# wvdialconf /etc/wvdial.conf
+Found a modem on **/dev/ttyUSB0**
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="minicom"&gt;
+&lt;h2&gt;Minicom&lt;/h2&gt;
+&lt;p&gt;Before starting configuring the services which were going to communicate with the modem I wanted to make sure I could send text messages with it. To check that functionality I installed the &lt;a class="reference external" href="http://linux.die.net/man/1/minicom"&gt;minicom&lt;/a&gt; serial communication program:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# yum install minicom
+# minicom
+&lt;/pre&gt;
+&lt;p&gt;In this terminal you can control the modem using AT commands. A nice tutorial about those commands is available on &lt;a class="reference external" href="http://qualityguru.wordpress.com/test-status-to-smsmms/"&gt;qualityguru&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Steps for entering the PIN.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+AT+CPIN=XXXX
+OK
+AT+CPIN?
++CPIN: READY
+OK
+&lt;/pre&gt;
+&lt;p&gt;Checking if the SMS center is configured:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+AT+CSCA?
++CSCA: &amp;quot;+32XXXXXXXXX&amp;quot;,145
+OK
+&lt;/pre&gt;
+&lt;p&gt;If not configured, configure it by:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+AT+CSCA=&amp;quot;+32XXXXXXXXX&amp;quot;
+OK
+&lt;/pre&gt;
+&lt;p&gt;The steps for sending a text message:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+AT+CMGF=1
+OK
+AT+CMGS=&amp;quot;+32XXXXXXXXX&amp;quot;
+&amp;gt; This is the text message.
+&amp;gt; (CTRL-Z)
++CMGS: XX
+OK
+&lt;/pre&gt;
+&lt;p&gt;If you received the message on your phone its working obviously and we can start configuring kannel.&lt;/p&gt;
+&lt;p&gt;If not, check the &lt;a class="reference external" href="http://qualityguru.wordpress.com/2010/03/02/test-status-to-smsmms-trouble-shooting-sending-sms-messages-with-dedicated-gsm-modem-device/"&gt;troubleshoot&lt;/a&gt; page of qualityguru for some common mistakes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="kannel"&gt;
+&lt;h2&gt;Kannel&lt;/h2&gt;
+&lt;p&gt;At the moment of writing this post the last stable version is 1.4.3. Using CentOS 6.4 you can install kannel from the epel &lt;a class="reference external" href="http://fedoraproject.org/wiki/EPEL"&gt;repository&lt;/a&gt;:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# yum install kannel
+&lt;/pre&gt;
+&lt;p&gt;Or you can choose to compile it from source:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# wget http://www.kannel.org/download/1.4.3/gateway-1.4.3.tar.gz
+# tar zxvf gateway-1.4.3.tar.gz -C /usr/local/src/
+# cd /usr/local/src/gateway-1.4.3/
+# mkdir -p /etc/kannel
+# ./configure --prefix=/etc/kannel
+# make
+# make install
+&lt;/pre&gt;
+&lt;p&gt;I installed the kannel service from the repository and created a symlink from /etc/kannel.conf to the /etc/kannel/kannel.conf so the playsms service could read the configuration afterwards:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# mkdir /etc/kannel/
+# ln -s /etc/kannel.conf /etc/kannel/kannel.conf
+&lt;/pre&gt;
+&lt;p&gt;Once you configured your device you start kannel by starting the kannel service:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# service kannel start
+&lt;/pre&gt;
+&lt;p&gt;If everything went well you can see that there are 2 services started:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# ps aux | grep kannel
+kannel    9611  1.9  0.1 750424  6684 ?        Sl   13:14   2:37 /usr/sbin/bearerbox /etc/kannel.conf
+kannel    9636  0.0  0.1 674228  4676 ?        Sl   13:14   0:00 /usr/sbin/smsbox /etc/kannel.conf
+&lt;/pre&gt;
+&lt;p&gt;In the /var/log/kannel/kannel.log file you can follow the state of the kannel service. I struggled a bit with this to find out the reset string for the modems I used. By searching the internet you can find the particular string for your device.&lt;/p&gt;
+&lt;p&gt;For example the option one I found on &lt;a class="reference external" href="http://forums.enterprisemobiletoday.com/showthread.php?50854-Getting-Vodafone-s-Option-Globetrotter-to-work"&gt;enterprisemobiletoday.com&lt;/a&gt; by try &amp;amp; error in the minicom terminal.&lt;/p&gt;
+&lt;p&gt;I used different sorts of hardware and listed the specific kannel.conf files here under per device.&lt;/p&gt;
+&lt;p&gt;In the first phase I used a &lt;a class="reference external" href="http://www.business.vodafone.com/site/bus/public/enuk/support/10_productsupport/usb_stick/01_vodafone/02_vodafone_k3565/20_software/p_software.jsp"&gt;huawei&lt;/a&gt; USB dongle:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+#CORE
+group = core
+admin-port = 13000
+admin-password = #PASSWORD
+status-password = #PASSWORD
+log-file = &amp;quot;/var/log/kannel/kannel.log&amp;quot;
+log-level = 0
+access-log = &amp;quot;/var/log/kannel/access.log&amp;quot;
+smsbox-port = 13001
+store-type = file
+store-location = &amp;quot;/var/log/kannel/kannel.store&amp;quot;*
+
+#SMSC MODEM GSM
+group = smsc
+smsc = at
+connect-allow-ip = 127.0.0.1
+port = 13013
+host = &amp;quot;localhost&amp;quot;
+smsc-id = Huawei
+modemtype = Huawei
+device = /dev/ttyUSB0
+speed = 9600
+sms-center = &amp;quot;+32486000005&amp;quot;
+my-number = &amp;quot;+324XXXXXXXX&amp;quot;
+pin = XXXX
+
+group = modems
+id = huawei
+name = huawei
+detect-string = &amp;quot;huawei&amp;quot;
+init-string = &amp;quot;AT+CNMI=2,1,0,0,0;+CMEE=1&amp;quot;
+
+#SMSBOX SETUP
+group = smsbox
+bearerbox-host = 127.0.0.1
+bearerbox-port = 130X01
+sendsms-port = 13131
+sendsms-chars = &amp;quot;0123456789+&amp;quot;
+global-sender = 00324XXXXXXXX
+log-file = &amp;quot;/var/log/kannel/smsbox.log&amp;quot;
+log-level = 0
+access-log = &amp;quot;/var/log/kannel/access.log&amp;quot;
+
+#SEND-SMS USERS
+group = sendsms-user
+username = #USERNAME
+password = #PASSWORD
+user-allow-ip = &amp;quot;\*.\*.\*.\*&amp;quot;
+
+#SMS SERVICE
+group = sms-service
+keyword = default
+accept-x-kannel-headers = true
+#accepted-smsc = Huawei
+accepted-smsc = at2
+max-messages = 0
+assume-plain-text = true
+catch-all = true
+
+get-url = &amp;quot;http://localhost/playsms/index.php?app=call&amp;amp;cat=gateway&amp;amp;plugin=kannel&amp;amp;access=geturl&amp;amp;t=%t&amp;amp;q=%q&amp;amp;a=%a&amp;quot;
+&lt;/pre&gt;
+&lt;p&gt;During the event was in the possession of a &lt;a class="reference external" href="http://www.falcom.de"&gt;falcom&lt;/a&gt; A2D-1 gateway which was connected from serial to usb:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+group = core
+admin-port = 13000
+admin-password = playsms
+log-file = &amp;quot;/var/log/kannel/kannel.log&amp;quot;
+log-level = 0
+access-log = &amp;quot;/var/log/kannel/access.log&amp;quot;
+smsbox-port = 13001
+store-type = file
+store-location = &amp;quot;/var/log/kannel/kannel.store&amp;quot;*
+
+group = smsc
+smsc = at
+modemtype = falcom
+device = /dev/ttyUSB0
+my-number = &amp;quot;+324XXXXXXXX&amp;quot;
+sms-center = &amp;quot;+32486000005&amp;quot;
+pin = XXXX
+
+group = modems
+id = falcom
+name = &amp;quot;Falcom&amp;quot;
+detect-string = &amp;quot;Falcom&amp;quot;
+reset-string = &amp;quot;AT+CFUN=1&amp;quot;
+
+#SMSBOX SETUP
+group = smsbox
+bearerbox-host = localhost
+sendsms-port = 13131
+log-file = &amp;quot;/var/log/kannel/smsbox.log&amp;quot;
+log-level = 0
+access-log = &amp;quot;/var/log/kannel/access.log&amp;quot;
+
+#SEND-SMS USERS
+group = sendsms-user
+username = #USER
+password = #PASSWORD
+
+#SMS SERVICE
+group = sms-service
+keyword = default
+accept-x-kannel-headers = true
+max-messages = 0
+assume-plain-text = true
+catch-all = true
+
+get-url = &amp;quot;http://127.0.0.1:2080/playsms/index.php?app=call&amp;amp;cat=gateway&amp;amp;plugin=kannel&amp;amp;access=geturl&amp;amp;t=%t&amp;amp;q=%q&amp;amp;a=%a&amp;quot;
+&lt;/pre&gt;
+&lt;p&gt;After the event I had to give back the falcom and got my hands on an &lt;a class="reference external" href="http://www.option.com/support/globe-trotter-hsdpa"&gt;option&lt;/a&gt; globetrotter HSPDA card connected on a pcmci slot of the laptop I configured as CentOS server:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+#CORE
+group = core
+admin-port = 13000
+admin-password = playsms
+status-password = playsms
+log-file = /var/log/kannel/kannel.log
+log-level = 0
+access-log = /var/log/kannel/access.log
+smsbox-port = 13001
+store-type = file
+store-location = /var/log/kannel/kannel.store
+
+#SMSC MODEM GSM
+group = smsc
+smsc = at
+connect-allow-ip = 127.0.0.1
+port = 13013
+host = “localhost”
+smsc-id = Option
+modemtype = Option
+device = /dev/ttyUSB0
+speed = 9600
+sms-center = &amp;quot;32486000005&amp;quot;
+my-number = &amp;quot;324XXXXXXXX&amp;quot;
+pin = XXXX
+
+# If modemtype=auto, try everyone and defaults to this one
+group = modems
+id = generic
+name = &amp;quot;Generic Modem&amp;quot;
+reset-string = &amp;quot;AT&amp;amp;F&amp;quot;
+
+#SMSBOX SETUP
+group = smsbox
+bearerbox-host = 127.0.0.1
+bearerbox-port = 13001
+sendsms-port = 13131
+sendsms-chars = “0123456789+”
+global-sender = 0032485550261
+log-file = “/var/log/kannel/smsbox.log”
+log-level = 0
+access-log = “/var/log/kannel/access.log”
+
+#SEND-SMS USERS
+group = sendsms-user
+username = playsms
+password = playsms
+
+#SMS SERVICE
+group = sms-service
+keyword = default
+accept-x-kannel-headers = true
+accepted-smsc = at
+max-messages = 0
+assume-plain-text = true
+catch-all = true
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="web-service"&gt;
+&lt;h2&gt;Web service&lt;/h2&gt;
+&lt;p&gt;For the playsms service we need to have a webserver configured. You can use every webserver you want, I tried with xampp and lighttpd.&lt;/p&gt;
+&lt;p&gt;During the event I used with the xampp web service because it was working after all by following the howto of &lt;a class="reference external" href="http://kasrut.blogspot.be/2011/07/install-playsms-and-kannel-on-centos-6.html"&gt;kasrut&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;After the event was finished I migrated to lighttpd mainly because I already had some other applications running on that service.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Xampp&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# wget http://nchc.dl.sourceforge.net/project/xampp/XAMPP%20Linux/1.7.4/xampp-linux-1.7.4.tar.gz
+# tar zxvf xampp-linux-1.7.4.tar.gz -C /opt/
+# cd /opt/lampp
+# ./lampp start
+&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Lighttpd&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;For the installation of lighttpd I refer to a clear tutorial on &lt;a class="reference external" href="http://www.howtoforge.com/installing-lighttpd-with-php5-php-fpm-and-mysql-support-on-centos-6.3"&gt;howtoforge&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="playsms"&gt;
+&lt;h2&gt;playsms&lt;/h2&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://playsms.org/"&gt;playsms&lt;/a&gt; is a free and open-source gateway. I used this software to configure a big quiz to set up a cool and trendy communication flow between people and our scouting movement.&lt;/p&gt;
+&lt;p&gt;I used the &lt;a class="reference external" href="https://github.com/antonraharja/playSMS"&gt;git&lt;/a&gt; repository to easily update my instance to the newest releases:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# cd /usr/local/src/
+# git clone git&amp;#64;github.com:antonraharja/playSMS.git
+# cd playSMS/
+&lt;/pre&gt;
+&lt;p&gt;Creation of the necessary directories and copy the web files to the webserver directory&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# mkdir -p /var/www/html/playsms /var/spool/playsms /var/log/playsms /var/lib/playsms
+# cp -r usr/local/src/playSMS/web/* /var/www/html/playsms/
+&lt;/pre&gt;
+&lt;p&gt;Creation of a mysql db and user:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# mysql -u root -p
+# Enter password:
+
+
+# mysql&amp;gt; create database playsms;
+Query OK, 1 row affected (0.00 sec)
+
+# mysql&amp;gt; grant usage on *.* to USER&amp;#64;localhost identified by ‘PASSWORD’;
+Query OK, 0 rows affected (0.00 sec)
+
+# mysql&amp;gt; grant all privileges on playsms.* to USER&amp;#64;localhost ;
+Query OK, 0 rows affected (0.00 sec)
+
+# mysql&amp;gt; quit
+
+# msql -u root -p playsms &amp;lt; /usr/local/src/playSMS/db/playsms.sql
+&lt;/pre&gt;
+&lt;p&gt;Next step is to configure the playsms web service. Therefore follow those steps:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# cd /var/www/html/playsms
+# cp config-dist.php config.php
+&lt;/pre&gt;
+&lt;p&gt;Edit this config.php file to your own needs.&lt;/p&gt;
+&lt;p&gt;Now we configured the parameters we can start to install the services:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# mkdir -p /etc/default /usr/local/bin
+# cp /usr/local/src/playSMS/daemon/linux/etc/playsms /etc/default/
+# cp /usr/local/src/playSMS/daemon/linux/bin/* /usr/local/bin/
+# vim /etc/default/playsms # edit the paths to your environment ones
+&lt;/pre&gt;
+&lt;p&gt;I've used rc.local to start the service at boot:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# vim /etc/rc.d/rc.local
+&lt;/pre&gt;
+&lt;p&gt;and put /usr/local/bin/playsmsd_start at the end of that file&lt;/p&gt;
+&lt;p&gt;Next I configured 2 new aliases in my ~/.bashrc to easily start and stop the service:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+alias playsms-start='/usr/local/bin/playsmsd_start'
+alias playsms-stop='/usr/local/bin/playsmsd_stop'
+&lt;/pre&gt;
+&lt;p&gt;By re-logging in you can start the service by:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# playsms-start
+&lt;/pre&gt;
+&lt;p&gt;And check if the necessary services are started:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# ps aux | grep playsms
+root      7735  0.0  0.0 103236   868 pts/4    S+   15:52   0:00 grep playsms
+root     21845  0.0  0.0 106312  1660 pts/4    S    12:25   0:06 /bin/bash ./playsmsd /var/www/html/playsms
+root     21847  0.0  0.0 106184  1536 pts/4    S    12:25   0:05 /bin/bash ./sendsmsd /var/www/html/playsms
+&lt;/pre&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;Finally you can browse &lt;a class="reference external" href="http:/"&gt;http:/&lt;/a&gt;/&amp;lt;your web server IP&amp;gt;/playsms/ and login using&lt;/dt&gt;
+&lt;dd&gt;username: admin
+password: admin&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;Where you need to configure kannel in the menu: Gateway &amp;gt; Manage Kannel &amp;gt; kannel (Inactive) (click here to activate) and adopt the parameters to the ones you configured in kannel.conf&lt;/p&gt;
+&lt;p&gt;After filling in your preferences you should be able to send and receive messages through this nifty web console.&lt;/p&gt;
+&lt;p&gt;(TIP: Using twice the same keyword for a quiz resulted in the fact that only this word is needed to send to the sms server to start the interactivity)&lt;/p&gt;
+&lt;p&gt;Have fun with it!&lt;/p&gt;
+&lt;/div&gt;
+</summary><category term="centOS"></category><category term="debian"></category><category term="gsm"></category><category term="huawai"></category><category term="kannel"></category><category term="playsms"></category><category term="server"></category><category term="sms"></category><category term="option"></category><category term="globetrotter"></category><category term="falcom"></category><category term="mobile"></category><category term="vikings"></category></entry><entry><title>SSH acces on Lacie Network Space 2</title><link href="https://visibilityspots.com/lacie-networkspace-2.html" rel="alternate"></link><updated>2012-05-28T15:18:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2012-05-28:lacie-networkspace-2.html</id><summary type="html">&lt;p&gt;Recently we installed a Lacie Network Space 2 at home. Easy to share documents on the LAN network, having a central place for common media etc. After playing around with it I wanted to see if it's possible to gain access to the underlying operating system of it. On that way I could for example use this access to wake up a pc with wake on LAN.&lt;/p&gt;
+&lt;p&gt;And guess what, it can be done and thanks to a script of a guy Andreus it's even very easy! I found a &lt;a class="reference external" href="http://forum.nas-central.org/viewtopic.php?f=240&amp;amp;t=4631"&gt;forum post&lt;/a&gt; about his work and tested it successfully with the latest firmware version 2.2.8!&lt;/p&gt;
+&lt;p&gt;After you created the right capsule the best way do update is to force it &lt;a class="reference external" href="http://lacie.nas-central.org/wiki/Category:2big_Network_2#3._Manual_Force_Update"&gt;manually&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;When you achieved to get ssh access to the device you can play around with it, by for example installing debian squeeze in a chkroot environment. On the &lt;a class="reference external" href="http://lacie.nas-central.org/wiki/Category:Network_Space_2"&gt;wiki&lt;/a&gt; of nas-central.org you can find more information how to play around with your ssh access.&lt;/p&gt;
+&lt;p&gt;Have fun with it!&lt;/p&gt;
+</summary><category term="access"></category><category term="capsule"></category><category term="lacie"></category><category term="Linux"></category><category term="NAS"></category><category term="network"></category><category term="root"></category><category term="space"></category><category term="ssh"></category><category term="update"></category></entry><entry><title>Create and distribute .rpm package</title><link href="https://visibilityspots.com/rpm-package.html" rel="alternate"></link><updated>2012-04-07T17:31:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2012-04-07:rpm-package.html</id><summary type="html">&lt;p&gt;You wrote a piece of software and want to distribute it on an easy way through a yum repository? That can be done, by making in the first place an rpm package of your code.&lt;/p&gt;
+&lt;p&gt;In the first place you need to set up a directory structure. This can be done using the tool rpmdevtools on a rhel based machine:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# yum install rpmdevtools
+&lt;/pre&gt;
+&lt;p&gt;Once you installed the software you need to setup the directory tree:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ rpmdev-setuptree
+&lt;/pre&gt;
+&lt;p&gt;This will install the necessary rmpbuild directory tree.&lt;/p&gt;
+&lt;p&gt;You will see there is create a SOURCES directory, you need to get your software source into here. Best is to copy your source code into this directory named like * namoOfYourSoftware-0.0* where 0.0 stands for the release version.&lt;/p&gt;
+&lt;p&gt;Once you copied your source code you need to package it into a tar file:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ tar -cvzf nameOfYourSoftware-0.0.tar.gz namoOfYourSoftware-0.0
+&lt;/pre&gt;
+&lt;p&gt;Once you packaged your source code we need to create a &lt;a class="reference external" href="http://kmymoney2.sourceforge.net/phb/rpm-example.html"&gt;spec file&lt;/a&gt; in the SPEC directory.&lt;/p&gt;
+&lt;p&gt;When you created and configured your spec file the last thing we need to do is to build the actual rpm package:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ rpmbuild -ba SPECS/name.spec
+&lt;/pre&gt;
+&lt;p&gt;If everything went smooth you should find your rpm package in the RPMS directory.&lt;/p&gt;
+&lt;p&gt;To install your rpm package to see if it actually works:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+rpm -ivh name-package.rpm
+&lt;/pre&gt;
+&lt;p&gt;Now you have your own rpm package you can distribute. A nice and clean distribution solution could be your very own &lt;a class="reference external" href="http://yum.baseurl.org/wiki/RepoCreate"&gt;yum repository&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Resources:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://rpmfind.net/linux/rpm2html/search.php?query=hello&amp;amp;submit=Search+..."&gt;hello world&lt;/a&gt; package&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://tldp.org/HOWTO/RPM-HOWTO/index.html"&gt;tutorial&lt;/a&gt; from The Linux Documentation project&lt;/li&gt;
+&lt;/ul&gt;
+</summary><category term="build"></category><category term="new"></category><category term="package"></category><category term="repository"></category><category term="rpm"></category><category term="yum"></category></entry><entry><title>Symbolic linux links</title><link href="https://visibilityspots.com/symbolic-links.html" rel="alternate"></link><updated>2010-02-10T23:14:00+01:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2010-02-10:symbolic-links.html</id><summary type="html">&lt;p&gt;It's rather simple, but I used to look for it a while when writing my first bash/python scripts. Wanted to typing in one command so I would need to type in every time the whole path to my newly written script.&lt;/p&gt;
+&lt;p&gt;That way routine tasks could be called much faster and easier. This can be done by creating a symlink to your /usr/bin directory:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ln -s /path/to/your/script /usr/bin/nameOfTheOverallCommmandYouWantToUseForYourScript
+&lt;/pre&gt;
+</summary><category term="/usr/bin/"></category><category term="link"></category><category term="linux"></category><category term="symbolic"></category><category term="terminal"></category></entry><entry><title>Conky</title><link href="https://visibilityspots.com/conky.html" rel="alternate"></link><updated>2009-12-30T14:18:00+01:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2009-12-30:conky.html</id><summary type="html">&lt;p&gt;To monitor the different resources of my local system I use conky. After you installed the conky software you can start with the configuration of it.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ apt-get install conky conky-colors
+&lt;/pre&gt;
+&lt;p&gt;After I adapted the configuration my desktop became like this:&lt;/p&gt;
+&lt;a class="reference external image-reference" href="static/images/conky/desktop.png"&gt;&lt;img alt="Desktop image" src="static/images/conky/desktop.png" /&gt;&lt;/a&gt;
+&lt;p&gt;At the left side there is a pane which only monitors my system resources. The config file for it, &lt;a class="reference external" href="http://www.visibilityspots.com/static/documents/conky/conkyrc"&gt;conkyrc&lt;/a&gt; should be placed in your home directory as a hidden file (naming it .conkyrc).&lt;/p&gt;
+&lt;p&gt;When you now type in conky in your terminal, you should see appearing the pane on your desktop:&lt;/p&gt;
+&lt;a class="reference external image-reference" href="static/images/conky/conky.png"&gt;&lt;img alt="Left panel" src="static/images/conky/conky.png" /&gt;&lt;/a&gt;
+&lt;p&gt;On the right bottom I created an rss feeds pane. In the file &lt;a class="reference external" href="http://www.visibilityspots.com/static/documents/conky/conkyrc2"&gt;conkyrc2&lt;/a&gt; some parameters needs your attention. After you found your rss feeds, you can displays them by this instruction (10 stands for the refresh interval in minutes, 5 for the last 5 items of your feed):&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+${rss http://jouwfeed 10 item_titles 5}
+&lt;/pre&gt;
+&lt;p&gt;Once you adopted the file and placed in as a hidden file in your home directory you can start the monitor by:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+conky -c ~/.conkyrc2
+&lt;/pre&gt;
+&lt;p&gt;Using the parameter -d you can force the service to start up as a background daemon process:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+conky -c ~/.conkyrc2 -d
+&lt;/pre&gt;
+&lt;a class="reference external image-reference" href="static/images/conky/conkyrc2.png"&gt;&lt;img alt="Right bottom panel" src="static/images/conky/conkyrc2.png" /&gt;&lt;/a&gt;
+&lt;p&gt;The last pane, on the right top, I configured with for monitoring my social networks and communication. In the &lt;a class="reference external" href="http://www.visibilityspots.com/static/documents/conky/conkyrc3"&gt;conkyrc3&lt;/a&gt; file you need to adopt the twitter and linkedin feed.&lt;/p&gt;
+&lt;p&gt;For the twitter rss feed you need 3 params: username, password, and a token. To find your token, surf to and click on the right bottom to get your rss feed. In your browser url address bar you can find the token at the end of the url XXXXXXXX.rss.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+${rss http://twitternaam:twitterwachtwoord&amp;#64;twitter.com/statuses/friends_timeline/twittercode.rss 20 item_titles 2}
+&lt;/pre&gt;
+&lt;p&gt;For the linkedin rss feed, you need to log in on linkedin.com and search for your own rss feed on the homepage. To display pidgin statuses I used the &lt;a class="reference external" href="http://ubuntuforums.org/showthread.php?t=969933"&gt;conkyPidgin&lt;/a&gt; module.&lt;/p&gt;
+&lt;p&gt;After you adopted the last configuration file once again, place it in your homedir, hide it and start it in your terminal:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+conky -c ~/.conkyrc2
+&lt;/pre&gt;
+&lt;a class="reference external image-reference" href="static/images/conky/conkyrc3.png"&gt;&lt;img alt="Right top panel" src="static/images/conky/conkyrc3.png" /&gt;&lt;/a&gt;
+&lt;p&gt;To automatically start up the conky daemons, you could call a .startConky.sh script with this code:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+#!/bin/bash
+sleep 30 &amp;amp;&amp;amp; conky -d;
+sleep 40 &amp;amp;&amp;amp; conky -c ~/.conkyrc2 -d;
+sleep 50 &amp;amp;&amp;amp; conky -c ~/.conkyrc3 -d;
+
+chmod +x .startConky.sh
+&lt;/pre&gt;
+&lt;p&gt;Then add this command to menu System - Preferences - Startup Applications:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+~/.start_conky.sh
+&lt;/pre&gt;
+&lt;p&gt;This way you also could monitor your system in a fancy way :)&lt;/p&gt;
+</summary><category term="conky"></category><category term="conky-colors"></category><category term="monitor"></category><category term="ubuntu"></category><category term="karmic"></category><category term="linux"></category></entry></feed>

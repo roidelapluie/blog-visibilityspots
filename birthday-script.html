@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>    Showing birthdays using php
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+            <link rel="stylesheet" href="./theme/css/normalize.css">
+        <link href='//fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="./theme/css/font-awesome.min.css">
+        <link rel="stylesheet" href="./theme/css/main.css">
+
+    <link rel="stylesheet" href="./theme/css/blog.css">
+    <link rel="stylesheet" href="./theme/css/github.css">
+        <script src="./theme/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="wrapper">
+<header id="sidebar" class="side-shadow">
+    <hgroup id="site-header">
+        <a id="site-title" href="."><h1>Visibilityspots.com <i class="icon-dashboard"></i></h1></a>
+        <p id="site-desc"> Linux & Open-Source enthousiast | Scouting | Longboarding </p>
+    </hgroup>
+    <nav>
+        <ul id="nav-links">
+                <li><a href="./pages/contact.html">Contact</a></li>
+                <li><a href="./pages/links.html">Links</a></li>
+                <li><a href="./pages/profile.html">Profile</a></li>
+                <li><a href="./pages/projects.html">Projects</a></li>
+        </ul>
+    </nav>
+    Categories:
+      <ul>
+          <li><a href="http://www.visibilityspots.com/category/android.html">android</a></li>
+          <li><a href="http://www.visibilityspots.com/category/apple.html">apple</a></li>
+          <li><a href="http://www.visibilityspots.com/category/linux.html">linux</a></li>
+          <li><a href="http://www.visibilityspots.com/category/networking.html">networking</a></li>
+          <li><a href="http://www.visibilityspots.com/category/php.html">php</a></li>
+          <li><a href="http://www.visibilityspots.com/category/puppet.html">puppet</a></li>
+          <li><a href="http://www.visibilityspots.com/category/security.html">security</a></li>
+      </ul>
+<script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'profile',
+  rpp: 3,
+  interval: 30000,
+  width: 'auto',
+  height: 300,
+  theme: {
+	shell: {
+	  background: '#eeeeee',
+	  color: '#000000'
+	},
+	tweets: {
+	  background: '#eeeeee',
+	  color: '#000000',
+	  links: '#1a50a1'
+	}
+  },
+  features: {
+	scrollbar: false,
+	loop: false,
+	live: false,
+	behavior: 'all'
+  }
+}).render().setUser('visibilityspots').start();
+</script>
+<footer id="site-info">
+    <a href="http://creativecommons.org/licenses/by-nc/2.0/be/deed.nl">License</a> | 2009 - 2013 <a href="http://www.visibilityspots.com">Visibilityspots.com</a> | Powered by <a href="http://getpelican.com/" target="pelican">Pelican</a> | <a href="http://visibilityspots.com/feeds/all.atom.xml" rel="alternate">Atom</a> feed
+</footer></header>
+    <div id="post-container">
+        <ol id="post-list">
+            <li>
+                <article class="post-entry">
+                    <header class="entry-header">
+                        <time class="post-time" datetime="2009-12-30T11:27:00" pubdate>
+                            Wed 30 December 2009
+                        </time>
+                        <a href="./birthday-script.html" rel="bookmark"><h1>Showing birthdays using php</h1></a>
+                    </header>
+
+                    <section class="post-content">
+			<p>For our local scouting group it seemed nice to write a birthday script which displays for every member on the day of his/her birthday the name and age on our homepage.</p>
+<p>Something like &quot;We wish XXX a happy # anniversary!'</p>
+<p>To accomplish this I wrote a php script which gets the data of our members from a mysql db and shows the messages on the right day on our website. In the meantime also an automatic mail will be send to the person with some sort of 'personal' message.</p>
+<p>database connection (db_connectPear.php)</p>
+<pre class="code php literal-block">
+<span class="x">&lt; ?php
+$dsn = array(
+ 'phptype' =&gt; 'mysql',
+ 'username' =&gt; 'DBUSERNAME',
+ 'password' =&gt; 'DBPASSWORD',
+ 'hostspec' =&gt; 'localhost',
+ 'database' =&gt; $database,
+);
+$db_object = DB::connect($dsn, TRUE);
+if(DB::isError($db_object)) {
+ die($db_object-&gt;getMessage());
+}
+$db_object-&gt;setFetchMode(DB_FETCHMODE_ASSOC);
+?&gt;</span>
+</pre>
+<p>birthday script (birthday.php)</p>
+<pre class="code php literal-block">
+<span class="x">&lt; ?php
+$database = 'DBNAME';
+require 'db_connectPear.php';
+$selectLeden = 'SELECT *, round((to_days(now())-to_days(Geboortedatum))/365) as leeftijd
+FROM `ledenlijst` WHERE '
+. ' DAYOFMONTH(Geboortedatum)=date_format(now(),\'%d\') AND '
+. ' MONTH(Geboortedatum)=date_format(now(),\'%c\') ORDER BY voornaam ASC';
+$queryLeden = mysql_query($selectLeden)or die(mysql_error());
+
+$selectStam = 'SELECT *, round((to_days(now())-to_days(Geboortedatum))/365) as leeftijd
+FROM `stam` WHERE '
+. ' DAYOFMONTH(Geboortedatum)=date_format(now(),\'%d\') AND '
+. ' MONTH(Geboortedatum)=date_format(now(),\'%c\') ORDER BY voornaam ASC';
+$queryStam = mysql_query($selectStam)or die(mysql_error());
+
+if (mysql_num_rows($queryLeden) == 0) {
+if (mysql_num_rows($queryStam) == 0) {
+} else {
+
+echo &quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wij wensen&quot;;
+while($list = mysql_fetch_object($queryStam)){
+$naam = $list-&gt;voornaam.&quot; &quot;.$list-&gt;achternaam;
+echo (&quot;$naam, &quot;);
+if ($list-&gt;mailVerjaardag == 'n') {
+$tekst=&quot;Beste &quot;.$list-&gt;voornaam.&quot;\n \n Een gelukkige verjaardag, &quot;.$list-&gt;leeftijd .&quot; jaar is niet niks, geniet van deze mooie dag. \n \n De leiding \n &quot;;
+$email = $list-&gt;email;
+$onderwerp=&quot;Gelukkige Verjaardag!&quot;;
+$headers = &quot;From: Naam \r\n&quot;;
+mail($email,$onderwerp,$tekst,$headers);
+$sql = &quot;UPDATE stam SET mailVerjaardag = 'y' WHERE id = '$list-&gt;id'&quot;;
+mysql_query($sql)or die(mysql_error());
+}
+}
+echo &quot;een gelukkige verjaardag!&quot;;
+}
+} else {
+echo &quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wij wensen &quot;;
+$setIntro = 1;
+while($list = mysql_fetch_object($queryLeden)){
+$naam = $list-&gt;voornaam.&quot; &quot;.$list-&gt;achternaam;
+echo (&quot;$naam - ($list-&gt;leeftijd jaar), &quot;);
+if ($list-&gt;mailVerjaardag == 'n') {
+$tekst=&quot;Beste &quot;.$list-&gt;voornaam.&quot;\n \n Een gelukkige verjaardag, &quot;.$list-&gt;leeftijd .&quot; jaar is niet niks, geniet van deze mooie dag. \n \n De leiding&quot;;
+$email = $list-&gt;email;
+$onderwerp=&quot;Gelukkige Verjaardag!&quot;;
+$headers = &quot;From: Naam \r\n&quot;;
+mail($email,$onderwerp,$tekst,$headers);
+$sql = &quot;UPDATE ledenlijst SET mailVerjaardag = 'y' WHERE ledenlijst_id = '$list-&gt;ledenlijst_id'&quot;;
+mysql_query($sql)or die(mysql_error());
+
+}
+}
+
+if (mysql_num_rows($queryStam) == 0) {
+} else {
+if ($setIntro != 1){
+echo &quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wij wensen &quot;;
+}
+
+while($list = mysql_fetch_object($queryStam)){
+$naam = $list-&gt;voornaam.&quot; &quot;.$list-&gt;achternaam;
+echo (&quot;$naam, &quot;);
+if ($list-&gt;mailVerjaardag == 'n') {
+$tekst=&quot;Beste &quot;.$list-&gt;voornaam.&quot;\n \n Een gelukkige verjaardag, &quot;.$list-&gt;leeftijd .&quot; jaar is niet niks, geniet van deze mooie dag. \n \n De leiding&quot;;
+$email = $list-&gt;email;
+$onderwerp=&quot;Gelukkige Verjaardag!&quot;;
+$headers = &quot;From: Naam \r\n&quot;;
+mail($email,$onderwerp,$tekst,$headers);
+$sql = &quot;UPDATE stam SET mailVerjaardag = 'y' WHERE id = '$list-&gt;id'&quot;;
+mysql_query($sql)or die(mysql_error());
+}
+}
+}
+echo &quot;een gelukkige verjaardag!&quot;;
+}
+?&gt;</span>
+</pre>
+
+                    </section>
+                    <hr/>
+                    <aside class="post-meta">
+                        <p>Category: <a href="./category/php.html">php</a></p>
+                        <p>Tags: <a href="./tag/mysql.html">MySQL</a>, <a href="./tag/php.html">php</a>, <a href="./tag/scouts.html">scouts</a>, <a href="./tag/script.html">script</a>, <a href="./tag/birthdays.html">birthdays</a>, </p>
+                    </aside>
+                    <hr/>
+<div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'visibilityspots';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+                </article>
+            </li>
+        </ol>
+    </div>
+        </div>
+
+        <script src="./theme/js/main.js"></script>
+    </body>
+</html>

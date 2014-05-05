@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>    Vagrant setup
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+            <link rel="stylesheet" href="../theme/css/normalize.css">
+        <link href='//fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="../theme/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../theme/css/main.css">
+
+    <link rel="stylesheet" href="../theme/css/blog.css">
+    <link rel="stylesheet" href="../theme/css/github.css">
+        <script src="../theme/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="wrapper">
+<header id="sidebar" class="side-shadow">
+    <hgroup id="site-header">
+        <a id="site-title" href=".."><h1>Visibilityspots.com <i class="icon-dashboard"></i></h1></a>
+        <p id="site-desc"> Linux & Open-Source enthousiast | Scouting | Longboarding </p>
+    </hgroup>
+    <nav>
+        <ul id="nav-links">
+                <li><a href="../pages/contact.html">Contact</a></li>
+                <li><a href="../pages/links.html">Links</a></li>
+                <li><a href="../pages/profile.html">Profile</a></li>
+                <li><a href="../pages/projects.html">Projects</a></li>
+        </ul>
+    </nav>
+    Categories:
+      <ul>
+          <li><a href="http://www.visibilityspots.com/category/android.html">android</a></li>
+          <li><a href="http://www.visibilityspots.com/category/apple.html">apple</a></li>
+          <li><a href="http://www.visibilityspots.com/category/linux.html">linux</a></li>
+          <li><a href="http://www.visibilityspots.com/category/networking.html">networking</a></li>
+          <li><a href="http://www.visibilityspots.com/category/php.html">php</a></li>
+          <li><a href="http://www.visibilityspots.com/category/puppet.html">puppet</a></li>
+          <li><a href="http://www.visibilityspots.com/category/security.html">security</a></li>
+      </ul>
+<script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'profile',
+  rpp: 3,
+  interval: 30000,
+  width: 'auto',
+  height: 300,
+  theme: {
+	shell: {
+	  background: '#eeeeee',
+	  color: '#000000'
+	},
+	tweets: {
+	  background: '#eeeeee',
+	  color: '#000000',
+	  links: '#1a50a1'
+	}
+  },
+  features: {
+	scrollbar: false,
+	loop: false,
+	live: false,
+	behavior: 'all'
+  }
+}).render().setUser('visibilityspots').start();
+</script>
+<footer id="site-info">
+    <a href="http://creativecommons.org/licenses/by-nc/2.0/be/deed.nl">License</a> | 2009 - 2013 <a href="http://www.visibilityspots.com">Visibilityspots.com</a> | Powered by <a href="http://getpelican.com/" target="pelican">Pelican</a> | <a href="http://visibilityspots.com/feeds/all.atom.xml" rel="alternate">Atom</a> feed
+</footer></header>
+    <div id="post-container">
+        <ol id="post-list">
+            <li>
+                <article class="post-entry">
+                    <header class="entry-header">
+                        <time class="post-time" datetime="2014-02-10T19:00:00" pubdate>
+                            Mon 10 February 2014
+                        </time>
+                        <a href="../vagrant-setup.html" rel="bookmark"><h1>Vagrant setup</h1></a>
+                    </header>
+
+                    <section class="post-content">
+			<p>I do like to develop in a virtual environment. So that my local system isn't infected when messing stuff up on one hand. But I want to keep the speed of my local machine versus a development server on some remote location.</p>
+<p>Therefore I use <a class="reference external" href="http://vagrantup.com">vagrant</a> in combination with <a class="reference external" href="http://virtualbox.com">virtualbox</a> to provision centos-6.x minimal vm's, I'm planning to use <a class="reference external" href="https://linuxcontainers.org/">LXC</a> containers instead of VirtualBox but still strugling for the moment getting centos containers up and running on LXC.</p>
+<p>Since we use puppet for our configuration management and the whole puppet tree consists of git repositories I can easily integrate the puppet setup into vagrant. That way the local vm's are similar to the state of our production servers but keep the joy of using vagrant for development.</p>
+<p>The procedure describes the steps I took to achieve this to come to a way maintainable for both developpers and operations.</p>
+<p>First of all you need to <a class="reference external" href="https://www.virtualbox.org/wiki/Linux_Downloads">install virtualbox</a> and the <a class="reference external" href="https://www.virtualbox.org/wiki/Downloads">extension pack</a>. On a linux machine you can install this pack using the command line, mark the sudo command. I failed installing the pack using the GUI or as a normal user.</p>
+<pre class="code bash literal-block">
+<span class="nv">$ </span>sudo VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-X.X.X-xxxx.vbox-extpack
+</pre>
+<p>Next you need to <a class="reference external" href="http://docs.vagrantup.com/v2/installation/index.html">install vagrant</a> so we can provide our development boxes on a nice accessible way.</p>
+<p>During my research to this setup I also found 2 great vagrant plugins, <a class="reference external" href="https://github.com/spil-ruslan/vagrant-box-updater">vagrant-box-updater</a> &amp; <a class="reference external" href="https://github.com/fgrehm/vagrant-global-status">vagrant-global-status</a> which can easily been installad as follow:</p>
+<pre class="code bash literal-block">
+<span class="nv">$ </span>vagrant plugin install vagrant-box-updater
+<span class="nv">$ </span>vagrant plugin isntall vagrant-global-status
+</pre>
+<p>The box updater plugin will check every time if you spin up a certain vagrant box, if you have installed the latest available box and ask you if you want to download this latest release.</p>
+<p>The global-status plugin will look for all vagrant boxes on your entire system, not only in the current directory and list their statusses.</p>
+<p>Once this setup has been installed and configured on your local machine we could try to get up and running a first vagrant box.</p>
+<p>import basebox centos minimal ex vstone boxes.es</p>
+<p>eplain tree with puppet-modules/manifests and configuration of vagrantfile</p>
+<p>check virtualbox guest additions <a class="reference external" href="https://github.com/dotless-de/vagrant-vbgues">https://github.com/dotless-de/vagrant-vbgues</a>
+$ vagrant plugin install vagrant-vbguest</p>
+<p>vagrant up</p>
+<p>tweaks for virtualbox guest additions on centos 6.5:
+<a class="reference external" href="http://wiki.centos.org/HowTos/Virtualization/VirtualBox/CentOSguest">http://wiki.centos.org/HowTos/Virtualization/VirtualBox/CentOSguest</a></p>
+<p>$ vagrant reload</p>
+<p>vagrant provision vagrant0.pp manifest .gitignore</p>
+<p>package the current state to a new custom box</p>
+<p>Create a vagrantfile.pkg which will contain some custom configuration parameters</p>
+<dl class="docutils">
+<dt>::</dt>
+<dd>$ vim Vagrantfile.pkg
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+config.vm.box_url = &quot;<a class="reference external" href="http://sartre.ugent.be/bt/vagrant/boekentoren.box">http://sartre.ugent.be/bt/vagrant/boekentoren.box</a>&quot;
+config.vm.hostname = &quot;boekentoren&quot;
+config.box_updater.autoupdate = true
+end</dd>
+</dl>
+<p>Create the new box together with the vagrantfiles</p>
+<p>$ vagrant package --output boekentoren.box --vagrantfile Vagrantfile.pkg</p>
+<p>Vagrantfile explaination for local parameters</p>
+<p>$ vagrant box add boekentoren <a class="reference external" href="http://sartre.ugent.be/bt/vagrant/boekentoren.box">http://sartre.ugent.be/bt/vagrant/boekentoren.box</a>
+$ vagrant init boekentoren
+$ vagrant up
+$ vagrant ssh</p>
+<p>optionally explaination of git repository way of developing and packaging</p>
+<p>git hook -&gt; parameterized jenkins build based on specfile point to this script on github?</p>
+
+                    </section>
+                    <hr/>
+                    <aside class="post-meta">
+                        <p>Category: <a href="../category/articles.html">articles</a></p>
+                        <p>Tags: <a href="../tag/vagrant.html">vagrant</a>, <a href="../tag/setup.html">setup</a>, <a href="../tag/package.html">package</a>, <a href="../tag/box.html">box</a>, <a href="../tag/devops.html">devops</a>, </p>
+                    </aside>
+                    <hr/>
+<div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'visibilityspots';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+                </article>
+            </li>
+        </ol>
+    </div>
+        </div>
+
+        <script src="../theme/js/main.js"></script>
+    </body>
+</html>
