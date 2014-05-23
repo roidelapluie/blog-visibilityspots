@@ -1,5 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Visibilityspots</title><link href="https://visibilityspots.com/" rel="alternate"></link><link href="https://visibilityspots.com/feeds/all.atom.xml" rel="self"></link><id>https://visibilityspots.com/</id><updated>2014-05-02T19:00:00+02:00</updated><entry><title>Octoprint</title><link href="https://visibilityspots.com/octoprint.html" rel="alternate"></link><updated>2014-05-02T19:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2014-05-02:octoprint.html</id><summary type="html">&lt;p&gt;At our &lt;a href="https://inuits.eu"&gt;office&lt;/a&gt; we have an &lt;a href="https://www.ultimaker.com/pages/our-printers/ultimaker-2"&gt;ultimaker&lt;/a&gt; installed, we have it now for some weeks and already printed out a bunch of stuff. It's cool to see, amazed by the technology.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Visibilityspots</title><link href="https://visibilityspots.com/" rel="alternate"></link><link href="https://visibilityspots.com/feeds/all.atom.xml" rel="self"></link><id>https://visibilityspots.com/</id><updated>2014-05-16T19:00:00+02:00</updated><entry><title>Raspberry pi setup</title><link href="https://visibilityspots.com/raspberry-pi.html" rel="alternate"></link><updated>2014-05-16T19:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2014-05-16:raspberry-pi.html</id><summary type="html">&lt;p&gt;Since I discovered the joy of linux servers over desktop distributions a few years ago I revived an old portable and promoted him to be my home server. Connected him to our router in the little storage room on a top shelf gathering dust I could test, configure, break (and pass sleep) a huge variety of open-source software.&lt;/p&gt;
+&lt;p&gt;Many of those adventures I also used to provide my blog with content. After a while I figured this setup isn't really needed to be powered on 24h a day 7 days a week. So I bought myself a &lt;a href="http://www.raspberrypi.org/"&gt;raspberry pi&lt;/a&gt; which would cover the basic functionalities I needed to be online as much as possible without the need of a subscription for a VPS or dedicated server in one fancy pansy datacenter.&lt;/p&gt;
+&lt;p&gt;For the operating system I didn't choose for the default &lt;a href="http://www.raspbian.org"&gt;raspbian&lt;/a&gt;, mainly because I don't need a graphical interface. So I headed over to archlinux arm, also called &lt;a href="http://archlinuxarm.org/platforms/armv6/raspberry-pi"&gt;alarm&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;a href="http://archlinuxarm.org/platforms/armv6/raspberry-pi#qt-platform_tabs-ui-tabs2"&gt;installation&lt;/a&gt; is quite straight forward. After that I installed some basics I use like:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/vim"&gt;vim&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/Secure_Shell"&gt;ssh&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/GNU_Screen"&gt;screen&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/yaourt"&gt;yaourt&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;Communication&lt;/h1&gt;
+&lt;p&gt;To be online day and night I installed a chat client using &lt;a href="https://wiki.archlinux.org/index.php/Screen_Irssi_Bitlbee"&gt;bitlbee and irssi&lt;/a&gt;. When I am not connected to this chat terminal and I get some message on one of the connected channels a notification will be sent through my android phone using &lt;a href="https://irssinotifier.appspot.com/"&gt;irssinotifier&lt;/a&gt; so I could decide if it's important enough to connect using my phone, &lt;a href="https://play.google.com/store/apps/details?id=com.sonelli.juicessh"&gt;juicessh&lt;/a&gt; or spin up my laptop.&lt;/p&gt;
+&lt;p&gt;Be sure to check out all the nifty &lt;a href="http://scripts.irssi.org/"&gt;scripts&lt;/a&gt; which can increase the joy of using the irssi chat client.&lt;/p&gt;
+&lt;h1&gt;RAID&lt;/h1&gt;
+&lt;p&gt;For one of projects running at &lt;a href="https://www.inuits.eu"&gt;inuits&lt;/a&gt; I was asked to set up a software raid using &lt;a href="http://en.wikipedia.org/wiki/Mdadm"&gt;mdadm&lt;/a&gt;. Through the years I have collected a bunch of USB disks. Combining those two facts I figured I could set up a raid using a little usb hub.&lt;/p&gt;
+&lt;p&gt;I am aware of the bottle neck this hub creates to the raid setup but since it's not for a production environment and I like to play around I doesn't care about it :)&lt;/p&gt;
+&lt;p&gt;This whole setup is based on the well documented archlinux wiki &lt;a href="https://wiki.archlinux.org/index.php/RAID"&gt;page&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;4 sticks of 2 GB were formatted to ext4:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;  &lt;span class="c"&gt;# mkfs.ext4 /dev/sdXX -L NAME&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Next step was to identify the UUID's of those freshly created volumes so I could use those to initialize the actual raid setup.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;  &lt;span class="nv"&gt;$ &lt;/span&gt;sudo blkid
+  /dev/sde1: &lt;span class="nv"&gt;LABEL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;three&amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;UUID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;39564f64-18ed-4f0b-a2d8-9b2d7c62032a&amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;TYPE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ext4&amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;PARTUUID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;91f72d24-01&amp;quot;&lt;/span&gt;
+  /dev/sdb1: &lt;span class="nv"&gt;LABEL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;four&amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;UUID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;9b37dc7f-3f0c-44ba-846b-e9ba9efaa03a&amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;TYPE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ext4&amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;PARTUUID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;688434a6-01&amp;quot;&lt;/span&gt;
+  /dev/sdd1: &lt;span class="nv"&gt;LABEL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;two&amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;UUID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;321d1d03-eb87-4129-83c7-ee1ce232d1c1&amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;TYPE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ext4&amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;PARTUUID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;9852d7fa-01&amp;quot;&lt;/span&gt;
+  /dev/sdc1: &lt;span class="nv"&gt;LABEL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;one&amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;UUID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;d61e46bd-9a28-427e-9a85-94dc292463ec&amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;TYPE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ext4&amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;PARTUUID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;00099342-01&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Using the gathered UUID's I then created a raid5 using 3 active sticks and one as hot spare device:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;  &lt;span class="nv"&gt;$ &lt;/span&gt;sudo mdadm --create --verbose --level&lt;span class="o"&gt;=&lt;/span&gt;5 --metadata&lt;span class="o"&gt;=&lt;/span&gt;1.2 --chunk&lt;span class="o"&gt;=&lt;/span&gt;256 --raid-devices&lt;span class="o"&gt;=&lt;/span&gt;3 /dev/md0 /dev/disk/by-uuid/d61e46bd-9a28-427e-9a85-94dc292463ec /dev/disk/by-uuid/321d1d03-eb87-4129-83c7-ee1ce232d1c1 /dev/disk/by-uuid/39564f64-18ed-4f0b-a2d8-9b2d7c62032a --spare-devices&lt;span class="o"&gt;=&lt;/span&gt;1 /dev/disk/by-uuid/9b37dc7f-3f0c-44ba-846b-e9ba9efaa03a
+  mdadm: layout defaults to left-symmetric
+  mdadm: /dev/disk/by-uuid/d61e46bd-9a28-427e-9a85-94dc292463ec appears to contain an ext2fs file system
+       &lt;span class="nv"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1982464K  &lt;span class="nv"&gt;mtime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;Thu Jan  1 01:00:00 1970
+  mdadm: /dev/disk/by-uuid/321d1d03-eb87-4129-83c7-ee1ce232d1c1 appears to contain an ext2fs file system
+       &lt;span class="nv"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;2013184K  &lt;span class="nv"&gt;mtime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;Thu Jan  1 01:00:00 1970
+  mdadm: /dev/disk/by-uuid/39564f64-18ed-4f0b-a2d8-9b2d7c62032a appears to contain an ext2fs file system
+       &lt;span class="nv"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;2013184K  &lt;span class="nv"&gt;mtime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;Thu Jan  1 01:00:00 1970
+  mdadm: /dev/disk/by-uuid/9b37dc7f-3f0c-44ba-846b-e9ba9efaa03a appears to contain an ext2fs file system
+       &lt;span class="nv"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1982464K  &lt;span class="nv"&gt;mtime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;Thu Jan  1 01:00:00 1970
+  mdadm: size &lt;span class="nb"&gt;set &lt;/span&gt;to 1981440K
+  mdadm: largest drive &lt;span class="o"&gt;(&lt;/span&gt;/dev/disk/by-uuid/321d1d03-eb87-4129-83c7-ee1ce232d1c1&lt;span class="o"&gt;)&lt;/span&gt; exceeds size &lt;span class="o"&gt;(&lt;/span&gt;1981440K&lt;span class="o"&gt;)&lt;/span&gt; by more than 1%
+  Continue creating array? y
+  mdadm: array /dev/md0 started.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;You can see the progress of the creation by:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;  cat /proc/mdstat
+  Personalities : &lt;span class="o"&gt;[&lt;/span&gt;linear&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;raid0&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;raid1&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;raid10&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;raid6&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;raid5&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;raid4&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;multipath&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;faulty&lt;span class="o"&gt;]&lt;/span&gt;
+  md0 : active raid5 sde1&lt;span class="o"&gt;[&lt;/span&gt;4&lt;span class="o"&gt;]&lt;/span&gt; sdb1&lt;span class="o"&gt;[&lt;/span&gt;3&lt;span class="o"&gt;](&lt;/span&gt;S&lt;span class="o"&gt;)&lt;/span&gt; sdd1&lt;span class="o"&gt;[&lt;/span&gt;1&lt;span class="o"&gt;]&lt;/span&gt; sdc1&lt;span class="o"&gt;[&lt;/span&gt;0&lt;span class="o"&gt;]&lt;/span&gt;
+        3962880 blocks super 1.2 level 5, 256k chunk, algorithm 2 &lt;span class="o"&gt;[&lt;/span&gt;3/2&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;UU_&lt;span class="o"&gt;]&lt;/span&gt;
+        &lt;span class="o"&gt;[&lt;/span&gt;&amp;gt;....................&lt;span class="o"&gt;]&lt;/span&gt;  &lt;span class="nv"&gt;recovery&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  1.8% &lt;span class="o"&gt;(&lt;/span&gt;36960/1981440&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;finish&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;96.5min &lt;span class="nv"&gt;speed&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;335K/sec
+  unused devices: &amp;lt;none&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Once the creation process has been done you can start by updating the configuration:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;  &lt;span class="c"&gt;# mdadm --detail --scan &amp;gt;&amp;gt; /etc/mdadm.conf&lt;/span&gt;
+  &lt;span class="c"&gt;# mdadm --assemble --scan&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And we finally can create a file system on the raid itself:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;  &lt;span class="c"&gt;# mkfs.ext4 -v -L NAME -m 0.5 -b 4096 -E stride=64,stripe-width=192 /dev/md0&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Issues&lt;/h2&gt;
+&lt;p&gt;Since the raspberry is powered by the USB slot of my ISP's modem and they quite often restart their device for software updates the pi also rebooted from time to time. During such reboots I figured that the process of mounting the raid volume got stuck.&lt;/p&gt;
+&lt;p&gt;This because the hardware came up to slowly and the mounting process didn't recognized the usb sticks. So I wrote this script (/usr/bin/start-communication) which does the magic (after many try and error attempts).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;  &lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+  &lt;span class="c"&gt;#&lt;/span&gt;
+  &lt;span class="c"&gt;# Script which mounts the RAID volume storage before starting an irssi screen session&lt;/span&gt;
+
+  &lt;span class="c"&gt;# Mount the storage RAID volume&lt;/span&gt;
+  &lt;span class="k"&gt;while&lt;/span&gt; ! df | grep NAME; &lt;span class="k"&gt;do&lt;/span&gt;
+&lt;span class="k"&gt;     &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;10 sec break...&amp;quot;&lt;/span&gt;; sleep 10
+     sudo mount /dev/md0 /NAME
+  &lt;span class="k"&gt;done&lt;/span&gt;
+
+&lt;span class="k"&gt;  &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;storage mounted&amp;quot;&lt;/span&gt;
+
+  &lt;span class="c"&gt;# Start irssi in a screen session as user &amp;#39;X&amp;#39;&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; ! screen -list | grep irssi ; &lt;span class="k"&gt;then &lt;/span&gt;sudo -u X /usr/bin/screen -dmS irssi irssi; &lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="k"&gt;  &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;irssi screen session started&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This script is triggered by cron after every reboot.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;  &lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;reboot&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;communication&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;startup&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And the output is logged in the file /tmp/startup.log.&lt;/p&gt;
+&lt;h1&gt;VPN&lt;/h1&gt;
+&lt;p&gt;One of the next steps will be a vpn setup based on this &lt;a href="https://raymii.org/s/tutorials/IPSEC_L2TP_vpn_on_a_Raspberry_Pi_with_Arch_Linux.html"&gt;tutorial&lt;/a&gt;&lt;/p&gt;
+&lt;h1&gt;Wake on lan&lt;/h1&gt;
+&lt;p&gt;Once I got configured the VPN setup I will reconfigure my old laptop as being an &lt;a href="https://visibilityspots.com/sms-server.html"&gt;sms-service&lt;/a&gt;. Since I don't need this service being up all the time I will configure the wake on lan service on that laptop.&lt;/p&gt;
+&lt;p&gt;That way I can get him up from remote by logging in at my pi and sending the magical WOL packet to that laptop.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="raspberry" src="../../images/raspberry/raspberry.jpg" /&gt;&lt;/p&gt;</summary><category term="raspberry"></category><category term="pi"></category><category term="archlinux"></category><category term="ARM"></category><category term="software"></category><category term="RAID"></category><category term="mdadm"></category><category term="irssi"></category><category term="bitlbee"></category><category term="usb"></category><category term="disks"></category></entry><entry><title>Octoprint</title><link href="https://visibilityspots.com/octoprint.html" rel="alternate"></link><updated>2014-05-02T19:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2014-05-02:octoprint.html</id><summary type="html">&lt;p&gt;At our &lt;a href="https://inuits.eu"&gt;office&lt;/a&gt; we have an &lt;a href="https://www.ultimaker.com/pages/our-printers/ultimaker-2"&gt;ultimaker&lt;/a&gt; installed, we have it now for some weeks and already printed out a bunch of stuff. It's cool to see, amazed by the technology.&lt;/p&gt;
 &lt;p&gt;Expect the manner to start a print job, you have to save your generated &lt;a href="http://reprap.org/wiki/G-code"&gt;gcode&lt;/a&gt; files onto an SD card, stick it into the ultimaker and use the rather simple menu from the tiny display to start the print job.&lt;/p&gt;
 &lt;p&gt;The time of a print job is rather long depending on the object you want to print, so many times you got up and went seeing if everything went alright, so quickly distracted..&lt;/p&gt;
 &lt;p&gt;This sounds really crazy for such a piece of high tech technology and therefore I did a bit research on the web for a nice remote web interface.&lt;/p&gt;
