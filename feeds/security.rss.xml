@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Visibilityspots</title><link>https://visibilityspots.com/</link><description>Linux &amp; Open-Source enthousiast | Scouting | Longboarding</description><atom:link href="https://visibilityspots.com/feeds/security.rss.xml" rel="self"></atom:link><lastBuildDate>Tue, 09 Feb 2010 18:08:00 +0100</lastBuildDate><item><title>Permissions website</title><link>https://visibilityspots.com/web-permissions.html</link><description>&lt;p&gt;The most recommended permissions for files and directories on the web are 0755 and 0644. If you have shell access to your webserver you can set those permissions using those commands:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+find -type d -print0 | xargs -0 chmod 755
+find -type f -print0 | xargs -0 chmod 644
+&lt;/pre&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Tue, 09 Feb 2010 18:08:00 +0100</pubDate><guid>tag:https://visibilityspots.com,2010-02-09:web-permissions.html</guid><category>hosting</category><category>linux</category><category>online</category><category>permissions</category><category>shell</category><category>web</category><category>security</category></item></channel></rss>

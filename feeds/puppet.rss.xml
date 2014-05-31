@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Visibilityspots</title><link>https://visibilityspots.com/</link><description>Linux &amp; Open-Source enthousiast | Scouting | Longboarding</description><atom:link href="https://visibilityspots.com/feeds/puppet.rss.xml" rel="self"></atom:link><lastBuildDate>Fri, 20 Sep 2013 19:00:00 +0200</lastBuildDate><item><title>Upgrade to puppet 3.3.0</title><link>https://visibilityspots.com/puppet-3-upgrade.html</link><description>&lt;p&gt;I finally got to the point where I upgraded a whole puppet infrastructure from puppet 2.6.x to the last stable version of puppet, &lt;a class="reference external" href="http://docs.puppetlabs.com/puppet/3/reference/release_notes.html"&gt;3.3.0&lt;/a&gt;. And after finding out the way to go it was surprisingly easy and no big issues came across.&lt;/p&gt;
+&lt;p&gt;One of the main reasons to upgrade was to start using the latest version of foreman, were we used 0.4, so we can start provisioning our own development vm's with some fancy cloud solution like for example &lt;a class="reference external" href="http://cloudstack.apache.org/"&gt;cloudstack&lt;/a&gt; using our production puppet tree.&lt;/p&gt;
+&lt;p&gt;Before the upgrade we had the puppet-client &amp;amp; server (2.6.18), puppetdb (1.4), (ruby 1.8.7) and foreman (0.4.2) running on a CentOS 6.3 machine.&lt;/p&gt;
+&lt;p&gt;After upgrading we are running puppet-client &amp;amp; server (3.3.0) puppetdb (1.4), ruby (1.8.7) and foreman (1.2) all managed by puppet itself. (feels quite satisfying ;) )&lt;/p&gt;
+&lt;p&gt;The very fist time I started upgrading the puppet master, but instead of upgrading the puppet-server package from the yum puppetlabs repository I upgraded only the agent.&lt;/p&gt;
+&lt;p&gt;After I figured that out I could kill myself but ran out of time so needed to stop the process.&lt;/p&gt;
+&lt;p&gt;The second time I started totally in the wrong direction. I started with foreman, read about needing ruby 1.9.3. So I started looking for a CentOS 6.3 ruby 1.9.3 package.&lt;/p&gt;
+&lt;p&gt;Didn't find any started compiling it from source, but that came out on a total mess so I reverted my upgrade and postponed it for some days.&lt;/p&gt;
+&lt;p&gt;The final 3Th time I started in the right order. This order I will describe here:&lt;/p&gt;
+&lt;p&gt;(Before all those steps, make sure to disable puppet on your clients to have more control during the process)&lt;/p&gt;
+&lt;div class="section" id="configuring-the-puppetlabs-repository"&gt;
+&lt;h2&gt;Configuring the puppetlabs repository&lt;/h2&gt;
+&lt;p&gt;I like to install software from packages, so I started by configuring the &lt;a class="reference external" href="http://docs.puppetlabs.com/guides/puppetlabs_package_repositories.html"&gt;puppetlabs&lt;/a&gt; repository. I use a puppet-repo module for configuring repo's on our machines but you can quite easy install it from the command line.&lt;/p&gt;
+&lt;p&gt;This command is executed on a Cent0S 6.3 x86_64 machine:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# rpm -ivh http://yum.puppetlabs.com/el/6.0/products/x86_64/puppetlabs-release-6-7.noarch.rpm
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="upgrading-the-puppetmaster"&gt;
+&lt;h2&gt;Upgrading the puppetmaster&lt;/h2&gt;
+&lt;p&gt;So after shamelessly updated only the puppet package the first time, this time I did upgrade the puppet-server package without any issue. Be sure to read the &lt;a class="reference external" href="http://docs.puppetlabs.com/guides/upgrading.html"&gt;docs&lt;/a&gt; first about upgrading!&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# yum update puppet-server
+&lt;/pre&gt;
+&lt;p&gt;Once the puppetmaster is updated we can try our first puppet runs against the upgraded version.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="start-a-native-puppet-master-process-for-testing"&gt;
+&lt;h2&gt;Start a native puppet master process for testing&lt;/h2&gt;
+&lt;p&gt;Before I get further in our upgrade process on passenger and stuff I wanted to know if the client is still able to do a puppet run without the passenger setup.&lt;/p&gt;
+&lt;p&gt;So I had to start the puppetmaster as a daemon, did a local puppet noop run on the master itself and stopped the puppetmaster daemon after I checked the run.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# puppet resource service puppetmaster ensure=running enable=true
+# puppet agent --test --noop
+# puppet resource service puppetmaster ensure=stopped enable=true
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="upgrade-the-passenger-setup"&gt;
+&lt;h2&gt;Upgrade the passenger setup&lt;/h2&gt;
+&lt;p&gt;We are using a passenger setup to have our puppet master in a scalable setup. Therefore we also needed to upgrade passenger on our puppetmaster and adopt the puppetmaster vhost to the upgraded environment.&lt;/p&gt;
+&lt;p&gt;To accomplish this I simply followed the &lt;a class="reference external" href="http://docs.puppetlabs.com/guides/passenger.html"&gt;passenger&lt;/a&gt; documentation of puppetlabs which was quite easy to follow.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="client"&gt;
+&lt;h2&gt;Client&lt;/h2&gt;
+&lt;p&gt;Once the puppetmaster was upgraded I tested a puppet run with a still not updated client against the upgraded puppetmaster. It did the job except from sending reports. Since I planned to upgrade the clients too I did not invest time into this issue.&lt;/p&gt;
+&lt;p&gt;There fore I just upgraded the client itself where the puppetlabs repository already was enabled:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# yum update puppet
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="issues"&gt;
+&lt;h2&gt;Issues&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;403: authentication error&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;By running my first 3.3.0 client vs the 3.3.0 master I got an authentication error 403 forbidden request. Did some research on the net, and found about an issue in the puppetmaster's &lt;a class="reference external" href="http://projects.puppetlabs.com/issues/16765"&gt;auth.conf&lt;/a&gt; file. Once I added this to the file:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# allow nodes to retrieve their own node definition
+path ~ ^/node/([^/]+)$
+method find
+allow $1
+&lt;/pre&gt;
+&lt;p&gt;The run did what I had to do configuring the server by using puppet!&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;undefined method 'symbolize'&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;On some clients I got this error message when trying to run puppet. On &lt;a class="reference external" href="http://somethingsinistral.net/blog/the-angry-guide-to-puppet-3/"&gt;somethingsinistral.net&lt;/a&gt; I found out it had to see with multiple puppet versions on your machine. By looking into the installed gems (make sure to check also possible rvm environments) and cleaned the ancient ones out I got the puppet run up and running again.&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;icinga &lt;a class="reference external" href="https://github.com/ripienaar/monitoring-scripts/issues/3"&gt;check_puppet&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We are using ripienaar's icinga check_puppet to monitor the puppet functionality. The became all red indicating puppet had too long not ran on the server. In the troubleshooting process I figured out the nagios user which is running the check over the NRPE protocol wasn't able to read the /var/lib/puppet/state/last_run_summary.yaml file. By checking permissions I found out the default settings of the /var/lib/puppet directory are 0750 when installing puppet.&lt;/p&gt;
+&lt;p&gt;Once I've changed them to 755 all check's became green again!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="foreman"&gt;
+&lt;h2&gt;Foreman&lt;/h2&gt;
+&lt;p&gt;Once the puppet master was running fine again I also upgraded &lt;a class="reference external" href="http://theforeman.org/manuals/1.2/index.html#3.3InstallFromPackages"&gt;theforeman&lt;/a&gt; service running on the same machine as the puppetmaster. This went smoothly once I figured out the ruby and rake commands in the documentation must be replaced with ruby193-rake/ruby193-ruby when installed foreman from their repository.&lt;/p&gt;
+&lt;p&gt;Also do not forget to install foreman-mysql / foreman-sqlite etc when using those extra features.&lt;/p&gt;
+&lt;/div&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Fri, 20 Sep 2013 19:00:00 +0200</pubDate><guid>tag:https://visibilityspots.com,2013-09-20:puppet-3-upgrade.html</guid><category>puppet</category><category>upgrade</category><category>3.3.0</category><category>2.6.x</category><category>issues</category><category>foreman</category><category>passenger</category><category>puppetdb</category></item><item><title>Puppet sslv3 alert certificate revoked</title><link>https://visibilityspots.com/puppet-revoked-certificate.rst.html</link><description>&lt;p&gt;I started the day with ssl issues using puppet. Last week I cleaned 2 hosts in our tree using the puppet command&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# puppet node clean [hostname]
+&lt;/pre&gt;
+&lt;p&gt;on the puppetmaster. I did this to clean out the stored configs for those nodes.&lt;/p&gt;
+&lt;p&gt;But I didn't realized this also cleaned out the ssl certificates for those clients. So I started the new week with this uncomfortable issue:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[root&amp;#64;agent ~]# puppet agent --test err: Could not retrieve catalog from remote server: SSL_connect returned=1 errno=0 state=SSLv3 read server session ticket A: sslv3 alert certificate revoked warning: Not using cache on failed catalog err: Could not retrieve catalog; skipping run err: Could not send report: SSL_connect returned=1 errno=0 state=SSLv3 read server session ticket A: sslv3 alert certificate revoked
+&lt;/pre&gt;
+&lt;p&gt;After some digging on the internet I achieved to solve this issue.
+Here under I described the steps to breath again:&lt;/p&gt;
+&lt;p&gt;To be sure the certificates are completely removed on the puppetmaster I explicitly cleaned them again&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+i[root&amp;#64;master ~]#puppet cert -c hostname
+&lt;/pre&gt;
+&lt;p&gt;Now we are sure those certificates are cleaned up on the master we have to do this also on the agent&lt;/p&gt;
+&lt;p&gt;Looking for the directory where those certificates are stored&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[root&amp;#64;agent ~]# puppet --genconfig | grep certdir
+# The default value is '$certdir/$certname.pem'.
+# The default value is '$certdir/ca.pem'. certdir = /var/lib/puppet/ssl/certs
+&lt;/pre&gt;
+&lt;p&gt;Removing the existing certificates on the client:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[root&amp;#64;agent ~]# rm /var/lib/puppet/ssl -rf
+&lt;/pre&gt;
+&lt;p&gt;Once the certificates are completely removed on the master and the client we have to regenerate them from the agent&amp;nbsp;using the puppet daemon&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[root&amp;#64;agent ~]#&amp;nbsp;puppet agent --test
+&lt;/pre&gt;
+&lt;p&gt;or by manually regenerating them&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[root&amp;#64;agent ~]# puppet certificate generate hostname.domain --ca-location remote true
+&lt;/pre&gt;
+&lt;p&gt;As soon as new certificates are generated and we got the true back from the agent we can sign the fresh certificate on the master&lt;/p&gt;
+&lt;p&gt;List the certificates which are waiting to get signed and sign them&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[root&amp;#64;master ~]# puppet cert -l &amp;quot;hostname.domain&amp;quot; (XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX)
+[root&amp;#64;master ~]# puppet cert sign hostname.domain
+notice: Signed certificate request for hostname.domain
+notice: Removing file Puppet::SSL::CertificateRequest hostname.domain at '/var/lib/puppetmaster/ssl/ca/requests/hostname.domain.pem'
+&lt;/pre&gt;
+&lt;p&gt;If everything went well you should be able to run puppet again on the client&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+puppet agent --test --noop
+&lt;/pre&gt;
+&lt;p&gt;and relax again!&lt;/p&gt;
+&lt;p&gt;Digging the internet I crossed &lt;a class="reference external" href="http://honglus.blogspot.be/2012/01/force-puppet-agent-to-regenerate.html"&gt;honglus blog&lt;/a&gt; and an issue on &lt;a class="reference external" href="http://projects.puppetlabs.com/issues/11854"&gt;puppetlabs projects&lt;/a&gt;&amp;nbsp;which made my day.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Mon, 08 Oct 2012 11:22:00 +0200</pubDate><guid>tag:https://visibilityspots.com,2012-10-08:puppet-revoked-certificate.rst.html</guid><category>certificate</category><category>continuous integration</category><category>Linux</category><category>puppet</category><category>revoke</category><category>sign</category><category>ssl</category></item><item><title>Puppet module mumble-server</title><link>https://visibilityspots.com/puppet-mumble.html</link><description>&lt;p&gt;&lt;a class="reference external" href="http://mumble.sourceforge.net/"&gt;Mumble&lt;/a&gt; is an open source, low-latency, high quality voice chat software primarily intended for use while gaming.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://puppetlabs.com/"&gt;Puppet&lt;/a&gt; is a tool designed to manage the configuration of Unix-like and Microsoft Windows systems decoratively.&lt;/p&gt;
+&lt;p&gt;The &lt;a class="reference external" href="https://github.com/visibilityspots/puppet-mumble"&gt;puppet-mumble&lt;/a&gt; module installs a mumble server (version 1.2.3) automatically on a CentOS 6.x machine using the puppet software based on &lt;a class="reference external" href="http://mumble.sourceforge.net/Install_CentOS5"&gt;mumble-documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The module needs a repository which contains the &lt;a class="reference external" href="http://www.visibilityspots.com/repos/repoview/mumble-server.html"&gt;mumble-server&lt;/a&gt; package. I distribute this package on my own &lt;a class="reference external" href="http://www.visibilityspots.com/repos/repoview/"&gt;visibilityspots&lt;/a&gt; repository.&lt;/p&gt;
+&lt;p&gt;Using puppet this will create the necessary mumble user and group and will configure the mumble-server using your desired settings, like username, password, and tcp port the daemon will listen on.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Wed, 04 Apr 2012 15:31:00 +0200</pubDate><guid>tag:https://visibilityspots.com,2012-04-04:puppet-mumble.html</guid><category>centOS</category><category>Linux</category><category>module</category><category>mumble</category><category>mumble-server</category><category>open-source</category><category>puppet</category></item></channel></rss>
