@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Visibilityspots</title><link>https://visibilityspots.com/</link><description>Linux &amp; Open-Source enthousiast | Scouting | Longboarding</description><atom:link href="https://visibilityspots.com/feeds/drafts.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 05 Jun 2014 19:00:00 +0200</lastBuildDate><item><title>Puppet setup</title><link>https://visibilityspots.com/puppet-setup.html</link><description>&lt;p&gt;introduction&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://url"&gt;title&lt;/a&gt;&lt;/p&gt;
+&lt;h1&gt;Subtitle&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    CODE
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="title" src="../../images/directory/file.jpg" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Thu, 05 Jun 2014 19:00:00 +0200</pubDate><guid>tag:https://visibilityspots.com,2014-06-05:puppet-setup.html</guid><category></category></item></channel></rss>
