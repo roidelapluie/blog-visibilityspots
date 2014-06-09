@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Visibilityspots</title><link href="https://visibilityspots.com/" rel="alternate"></link><link href="https://visibilityspots.com/feeds/all.atom.xml" rel="self"></link><id>https://visibilityspots.com/</id><updated>2014-06-05T19:00:00+02:00</updated><entry><title>Puppet setup</title><link href="https://visibilityspots.com/puppet-setup.html" rel="alternate"></link><updated>2014-06-05T19:00:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2014-06-05:puppet-setup.html</id><summary type="html">&lt;p&gt;introduction&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://url"&gt;title&lt;/a&gt;&lt;/p&gt;
-&lt;h1&gt;Subtitle&lt;/h1&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;    CODE
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;img alt="title" src="../../images/directory/file.jpg" /&gt;&lt;/p&gt;</summary><category term=""></category></entry><entry><title>Nest</title><link href="https://visibilityspots.com/nest.html" rel="alternate"></link><updated>2014-05-24T23:30:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2014-05-24:nest.html</id><summary type="html">&lt;p&gt;A few years ago I discovered the &lt;a href="http://nest.com"&gt;nest&lt;/a&gt; thermostat. It looked nice, is connected to the internet, self learning but a bit expensive and not so much documentation if it will work in Belgium nor with the boiler we have installed (Vaillant TurboTec).&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Visibilityspots</title><link href="https://visibilityspots.com/" rel="alternate"></link><link href="https://visibilityspots.com/feeds/all.atom.xml" rel="self"></link><id>https://visibilityspots.com/</id><updated>2014-05-24T23:30:00+02:00</updated><entry><title>Nest</title><link href="https://visibilityspots.com/nest.html" rel="alternate"></link><updated>2014-05-24T23:30:00+02:00</updated><author><name>Jan</name></author><id>tag:https://visibilityspots.com,2014-05-24:nest.html</id><summary type="html">&lt;p&gt;A few years ago I discovered the &lt;a href="http://nest.com"&gt;nest&lt;/a&gt; thermostat. It looked nice, is connected to the internet, self learning but a bit expensive and not so much documentation if it will work in Belgium nor with the boiler we have installed (Vaillant TurboTec).&lt;/p&gt;
 &lt;p&gt;Doing some research on the internet I figured that they have updated their system software and are supporting European countries including Belgium. A solution for the power has also been found by an ICY converter so it could easily be implemented in setups where no power is transferred over those wires.&lt;/p&gt;
 &lt;p&gt;So I had only to tackle the price, you could order one using the official nest store of the &lt;a href="http://store.nest.com/uk/"&gt;UK&lt;/a&gt; but then you would pay about € 300 euro's for only the device. And that was still too pricy for me.&lt;/p&gt;
 &lt;p&gt;Luckily you can find them for about € 190 on &lt;a href="http://www.amazon.com/gp/offer-listing/B009GDHYPQ/ref=sr_1_1_olp?ie=UTF8&amp;amp;qid=1401011588&amp;amp;sr=8-1&amp;amp;keywords=nest&amp;amp;condition=new"&gt;amazon&lt;/a&gt;, you have to take into account the shipping and handling fee, € 8 and the import fees € 42. Together with the &lt;a href="http://www.eco-logisch.be/Details.asp?ProductID=3484&amp;amp;category=115"&gt;ICY converter&lt;/a&gt; which is about € 50 you have the whole setup for about € 290.&lt;/p&gt;
@@ -51,7 +44,28 @@
 &lt;p&gt;Since I took the decision to install this thermostat in the summer when we don't need the CV system I could not yet fully test the device. I didn't wanted to take the risk not having a working CV when it was cold.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="nest-off" src="../../images/nest/nest-off.png" /&gt;&lt;/p&gt;
 &lt;p&gt;So I had to turn it off for now and will come back with a review of the usage in most likely december when the winter has taken his start over here in Belgium.&lt;/p&gt;
-&lt;p&gt;In the meantime I could see how I can collect this data, already found a nice &lt;a href="https://github.com/gboudreau/nest-api"&gt;nest-api&lt;/a&gt; which can deliver the data to &lt;a href="https://github.com/chriseng/nestgraph"&gt;nest-graph&lt;/a&gt; so I can report back to you with some neat graphs.&lt;/p&gt;
+&lt;h1&gt;Statistics&lt;/h1&gt;
+&lt;p&gt;Doing some research about applications for the nest thermostat I discovered a tool called &lt;a href="https://github.com/chriseng/nestgraph"&gt;nest-graph&lt;/a&gt;. This tool collects data from the nest device using the unofficial &lt;a href="https://github.com/gboudreau/nest-api"&gt;nest-api&lt;/a&gt; through php.&lt;/p&gt;
+&lt;p&gt;I forked the nest-graph repository to make some &lt;a href="https://github.com/visibilityspots/nestgraph.git"&gt;customizations&lt;/a&gt; like using Celsius instead of Fahrenheit, adding the nest-api-master as a git submodule, changing the database setup and some ignoration of configuration files.&lt;/p&gt;
+&lt;p&gt;Cause I have the availability of a mysql database on my &lt;a href="http://one.com"&gt;one.com&lt;/a&gt; account I decided to collect the data into that database and running the nestgraph service onto that website. Some modifications had to be made to the dbsetup file and adding the login parameters to inc/config.php file.&lt;/p&gt;
+&lt;p&gt;After successfully running the command&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="x"&gt;    $ php test.php&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Once that test is succeeded you could use&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="x"&gt;    $ php insert.php&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;to fetch the real time data from your nest device and import them into your mysql database.&lt;/p&gt;
+&lt;p&gt;From my &lt;a href="../raspberry-pi.html"&gt;raspberry-pi&lt;/a&gt; I configured a cron job to log in into the my one.com hosting account using ssh and start the import job every 5 minutes.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="err"&gt;*/&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;ssh&lt;/span&gt; &lt;span class="n"&gt;ONE&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;COM&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/bin/rm -f /tmp/nest_php_* ; /usr/bin/php /path/to/nestgraph/insert.php &amp;gt; /dev/null&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Last but not least I added some security to this service using &lt;a href="http://one-docs.com/tools/htaccess/"&gt;htaccess&lt;/a&gt; so all this information isn't publicly available. Now I only have to wait to winter so I can finally start monitoring our heating usage!&lt;/p&gt;
+&lt;p&gt;&lt;img alt="nest-graph" src="../../images/nest/nest-graph.png" /&gt;&lt;/p&gt;
 &lt;h1&gt;Resources&lt;/h1&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://www.fousa.be/blog/nest-thermostat"&gt;fousa.be&lt;/a&gt;&lt;/li&gt;

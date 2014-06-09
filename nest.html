@@ -45,7 +45,6 @@
       <ul>
           <li><a href="http://www.visibilityspots.com/category/android.html">android</a></li>
           <li><a href="http://www.visibilityspots.com/category/apple.html">apple</a></li>
-          <li><a href="http://www.visibilityspots.com/category/drafts.html">drafts</a></li>
           <li><a href="http://www.visibilityspots.com/category/home-automation.html">home-automation</a></li>
           <li><a href="http://www.visibilityspots.com/category/linux.html">linux</a></li>
           <li><a href="http://www.visibilityspots.com/category/networking.html">networking</a></li>
@@ -93,7 +92,7 @@ new TWTR.Widget({
                         </time>
                         <a href="https://visibilityspots.com/nest.html" rel="bookmark"><h1>Nest</h1></a>
                         <time class="post-time" datetime="2014-05-24T23:30:00" pubdate>
-last modified on Fri 31 May 2014                        </time>
+last modified on Mon 9 June 2014                        </time>
                     </header>
 
                     <section class="post-content">
@@ -142,7 +141,28 @@ last modified on Fri 31 May 2014                        </time>
 <p>Since I took the decision to install this thermostat in the summer when we don't need the CV system I could not yet fully test the device. I didn't wanted to take the risk not having a working CV when it was cold.</p>
 <p><img alt="nest-off" src="../../images/nest/nest-off.png" /></p>
 <p>So I had to turn it off for now and will come back with a review of the usage in most likely december when the winter has taken his start over here in Belgium.</p>
-<p>In the meantime I could see how I can collect this data, already found a nice <a href="https://github.com/gboudreau/nest-api">nest-api</a> which can deliver the data to <a href="https://github.com/chriseng/nestgraph">nest-graph</a> so I can report back to you with some neat graphs.</p>
+<h1>Statistics</h1>
+<p>Doing some research about applications for the nest thermostat I discovered a tool called <a href="https://github.com/chriseng/nestgraph">nest-graph</a>. This tool collects data from the nest device using the unofficial <a href="https://github.com/gboudreau/nest-api">nest-api</a> through php.</p>
+<p>I forked the nest-graph repository to make some <a href="https://github.com/visibilityspots/nestgraph.git">customizations</a> like using Celsius instead of Fahrenheit, adding the nest-api-master as a git submodule, changing the database setup and some ignoration of configuration files.</p>
+<p>Cause I have the availability of a mysql database on my <a href="http://one.com">one.com</a> account I decided to collect the data into that database and running the nestgraph service onto that website. Some modifications had to be made to the dbsetup file and adding the login parameters to inc/config.php file.</p>
+<p>After successfully running the command</p>
+<div class="highlight"><pre><span class="x">    $ php test.php</span>
+</pre></div>
+
+
+<p>Once that test is succeeded you could use</p>
+<div class="highlight"><pre><span class="x">    $ php insert.php</span>
+</pre></div>
+
+
+<p>to fetch the real time data from your nest device and import them into your mysql database.</p>
+<p>From my <a href="../raspberry-pi.html">raspberry-pi</a> I configured a cron job to log in into the my one.com hosting account using ssh and start the import job every 5 minutes.</p>
+<div class="highlight"><pre>    <span class="err">*/</span><span class="mi">5</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="n">ssh</span> <span class="n">ONE</span><span class="p">.</span><span class="n">COM</span><span class="o">-</span><span class="n">URL</span> <span class="s">&quot;/bin/rm -f /tmp/nest_php_* ; /usr/bin/php /path/to/nestgraph/insert.php &gt; /dev/null&quot;</span>
+</pre></div>
+
+
+<p>Last but not least I added some security to this service using <a href="http://one-docs.com/tools/htaccess/">htaccess</a> so all this information isn't publicly available. Now I only have to wait to winter so I can finally start monitoring our heating usage!</p>
+<p><img alt="nest-graph" src="../../images/nest/nest-graph.png" /></p>
 <h1>Resources</h1>
 <ul>
 <li><a href="http://www.fousa.be/blog/nest-thermostat">fousa.be</a></li>

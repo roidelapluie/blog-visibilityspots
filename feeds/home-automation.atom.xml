@@ -44,7 +44,28 @@
 &lt;p&gt;Since I took the decision to install this thermostat in the summer when we don't need the CV system I could not yet fully test the device. I didn't wanted to take the risk not having a working CV when it was cold.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="nest-off" src="../../images/nest/nest-off.png" /&gt;&lt;/p&gt;
 &lt;p&gt;So I had to turn it off for now and will come back with a review of the usage in most likely december when the winter has taken his start over here in Belgium.&lt;/p&gt;
-&lt;p&gt;In the meantime I could see how I can collect this data, already found a nice &lt;a href="https://github.com/gboudreau/nest-api"&gt;nest-api&lt;/a&gt; which can deliver the data to &lt;a href="https://github.com/chriseng/nestgraph"&gt;nest-graph&lt;/a&gt; so I can report back to you with some neat graphs.&lt;/p&gt;
+&lt;h1&gt;Statistics&lt;/h1&gt;
+&lt;p&gt;Doing some research about applications for the nest thermostat I discovered a tool called &lt;a href="https://github.com/chriseng/nestgraph"&gt;nest-graph&lt;/a&gt;. This tool collects data from the nest device using the unofficial &lt;a href="https://github.com/gboudreau/nest-api"&gt;nest-api&lt;/a&gt; through php.&lt;/p&gt;
+&lt;p&gt;I forked the nest-graph repository to make some &lt;a href="https://github.com/visibilityspots/nestgraph.git"&gt;customizations&lt;/a&gt; like using Celsius instead of Fahrenheit, adding the nest-api-master as a git submodule, changing the database setup and some ignoration of configuration files.&lt;/p&gt;
+&lt;p&gt;Cause I have the availability of a mysql database on my &lt;a href="http://one.com"&gt;one.com&lt;/a&gt; account I decided to collect the data into that database and running the nestgraph service onto that website. Some modifications had to be made to the dbsetup file and adding the login parameters to inc/config.php file.&lt;/p&gt;
+&lt;p&gt;After successfully running the command&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="x"&gt;    $ php test.php&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Once that test is succeeded you could use&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="x"&gt;    $ php insert.php&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;to fetch the real time data from your nest device and import them into your mysql database.&lt;/p&gt;
+&lt;p&gt;From my &lt;a href="../raspberry-pi.html"&gt;raspberry-pi&lt;/a&gt; I configured a cron job to log in into the my one.com hosting account using ssh and start the import job every 5 minutes.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="err"&gt;*/&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;ssh&lt;/span&gt; &lt;span class="n"&gt;ONE&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;COM&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/bin/rm -f /tmp/nest_php_* ; /usr/bin/php /path/to/nestgraph/insert.php &amp;gt; /dev/null&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Last but not least I added some security to this service using &lt;a href="http://one-docs.com/tools/htaccess/"&gt;htaccess&lt;/a&gt; so all this information isn't publicly available. Now I only have to wait to winter so I can finally start monitoring our heating usage!&lt;/p&gt;
+&lt;p&gt;&lt;img alt="nest-graph" src="../../images/nest/nest-graph.png" /&gt;&lt;/p&gt;
 &lt;h1&gt;Resources&lt;/h1&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://www.fousa.be/blog/nest-thermostat"&gt;fousa.be&lt;/a&gt;&lt;/li&gt;
