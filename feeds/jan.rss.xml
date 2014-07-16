@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Visibilityspots</title><link>https://visibilityspots.com/</link><description>Linux &amp; Open-Source enthousiast | Scouting | Longboarding</description><atom:link href="https://visibilityspots.com/feeds/linux.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 16 Jul 2014 19:00:00 +0200</lastBuildDate><item><title>Rsnapshot backup</title><link>https://visibilityspots.com/rsnapshot-backup.html</link><description>&lt;p&gt;Some weeks ago I removed some files on my system I wish I didn't cause I still needed them.&lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Visibilityspots</title><link>https://visibilityspots.com/</link><description>Linux &amp; Open-Source enthousiast | Scouting | Longboarding</description><atom:link href="https://visibilityspots.com/feeds/jan.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 16 Jul 2014 19:00:00 +0200</lastBuildDate><item><title>Rsnapshot backup</title><link>https://visibilityspots.com/rsnapshot-backup.html</link><description>&lt;p&gt;Some weeks ago I removed some files on my system I wish I didn't cause I still needed them.&lt;/p&gt;
 &lt;p&gt;Since I use some &lt;a href="https://visibilityspots.com/dropbox.html"&gt;encrypted containers in dropbox&lt;/a&gt; I figured I could recover them from this nifty service. But in the logs of dropbox those files are obviously also encrypted. So that was a no go.&lt;/p&gt;
 &lt;p&gt;Therefore I started looking for backup solutions. The first one I tried was &lt;a href="http://backintime.le-web.org/"&gt;backintime&lt;/a&gt;, very easy to use, clean GUI interface but failed multiple times in restoring some files.&lt;/p&gt;
 &lt;p&gt;Looking for a more decent piece of software I found &lt;a href="http://rsnapshot.org"&gt;rsnapshot&lt;/a&gt;&lt;/p&gt;
@@ -45,7 +45,82 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;So from now on my data is back upped on an encrypted USB hard disk without using any fancy pansy GUI interface :) Hence feel free to comment if there are some quirks you tackled another way around!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Wed, 16 Jul 2014 19:00:00 +0200</pubDate><guid>tag:visibilityspots.com,2014-07-16:rsnapshot-backup.html</guid><category>udev</category><category>usb</category><category>disk</category><category>archlinux</category><category>mount</category><category>uuid</category><category>serial</category><category>cryptsetup</category><category>backup</category><category>rsnapshot</category></item><item><title>Raspberry pi setup</title><link>https://visibilityspots.com/raspberry-pi.html</link><description>&lt;p&gt;Since I discovered the joy of linux servers over desktop distributions a few years ago I revived an old portable and promoted him to be my home server. Connected him to our router in the little storage room on a top shelf gathering dust I could test, configure, break (and pass sleep) a huge variety of open-source software.&lt;/p&gt;
+&lt;p&gt;So from now on my data is back upped on an encrypted USB hard disk without using any fancy pansy GUI interface :) Hence feel free to comment if there are some quirks you tackled another way around!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Wed, 16 Jul 2014 19:00:00 +0200</pubDate><guid>tag:visibilityspots.com,2014-07-16:rsnapshot-backup.html</guid><category>udev</category><category>usb</category><category>disk</category><category>archlinux</category><category>mount</category><category>uuid</category><category>serial</category><category>cryptsetup</category><category>backup</category><category>rsnapshot</category></item><item><title>Nest</title><link>https://visibilityspots.com/nest.html</link><description>&lt;p&gt;A few years ago I discovered the &lt;a href="http://nest.com"&gt;nest&lt;/a&gt; thermostat. It looked nice, is connected to the internet, self learning but a bit expensive and not so much documentation if it will work in Belgium nor with the boiler we have installed (Vaillant TurboTec).&lt;/p&gt;
+&lt;p&gt;Doing some research on the internet I figured that they have updated their system software and are supporting European countries including Belgium. A solution for the power has also been found by an ICY converter so it could easily be implemented in setups where no power is transferred over those wires.&lt;/p&gt;
+&lt;p&gt;So I had only to tackle the price, you could order one using the official nest store of the &lt;a href="http://store.nest.com/uk/"&gt;UK&lt;/a&gt; but then you would pay about € 300 euro's for only the device. And that was still too pricy for me.&lt;/p&gt;
+&lt;p&gt;Luckily you can find them for about € 190 on &lt;a href="http://www.amazon.com/gp/offer-listing/B009GDHYPQ/ref=sr_1_1_olp?ie=UTF8&amp;amp;qid=1401011588&amp;amp;sr=8-1&amp;amp;keywords=nest&amp;amp;condition=new"&gt;amazon&lt;/a&gt;, you have to take into account the shipping and handling fee, € 8 and the import fees € 42. Together with the &lt;a href="http://www.eco-logisch.be/Details.asp?ProductID=3484&amp;amp;category=115"&gt;ICY converter&lt;/a&gt; which is about € 50 you have the whole setup for about € 290.&lt;/p&gt;
+&lt;p&gt;So you could save some money by ordering with amazon!&lt;/p&gt;
+&lt;p&gt;Convincing myself it's worth the money, and it could save me some on the very long term I took the plunge and ordered one so I could enjoy those geeky features. (Doing so my girlfriend is convinced I'm a nerd, especially because I'm also blogging about it right now)&lt;/p&gt;
+&lt;p&gt;It only took a couple of days to have those 2 packages delivered and I could start playing around with it.&lt;/p&gt;
+&lt;h1&gt;Unboxing&lt;/h1&gt;
+&lt;p&gt;The nest comes into an hipster sleek box.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="nest-boxes" src="../../images/nest/nest-boxes.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;It's almost the same feeling as unboxing the ipod I bought about 10 years ago. Opening the box the first thing which you discover is the nifty looking product itself.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="nest-unboxing-one" src="../../images/nest/nest-unboxing-one.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;Underneath the nest display a whole bunch of stuff is packed, a paper guide, cool looking screw driver, a couple of mount plates, some screws and the base plate to connect the wires too.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="nest-unboxing-all" src="../../images/nest/nest-unboxing-all.jpg" /&gt;&lt;/p&gt;
+&lt;h1&gt;Initialization&lt;/h1&gt;
+&lt;p&gt;First thing I did was charging the display using a micro USB cable, so I could start configuring it afterwards without being disrupted due to a low battery.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="nest-charging" src="../../images/nest/nest-charging.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;After a night of charging I started configuring the thermostat by first connecting it to our wireless network (using a WPA2 encryption) without any hassle it got connected and started downloading the latest updates&lt;/p&gt;
+&lt;p&gt;&lt;img alt="nest-updating" src="../../images/nest/nest-updating.png" /&gt;&lt;/p&gt;
+&lt;p&gt;After the updated had been downloaded and got installed the device rebooted itself and was ready for the real work.&lt;/p&gt;
+&lt;h1&gt;Old thermostat&lt;/h1&gt;
+&lt;p&gt;Before I could get started I had to remove our current thermostat, a Honeywell CM907. I went ahead after I shut down power from our boiler which is connected to the thermostat.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="honeywell" src="../../images/nest/honeywell.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;This can be done easily once I figured out how, you have to remove the cover, battery lid and batteries. In the battery compartment I marked two little arrows which indicates being clips you can unlock using a screw driver. Once I got ejected that control panel I got to the wiring underneath.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="disassembling-desk" src="../../images/nest/disassembling-desk.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;I wrote down the current wired setup on a sticker and putted it on that plastic base mount. That way I could easily roll back if anything will go wrong in the near or far away future.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="dismantled-honeywell" src="../../images/nest/dismantled-honeywell.jpg" /&gt;&lt;/p&gt;
+&lt;h1&gt;Wiring&lt;/h1&gt;
+&lt;h2&gt;ICY connection&lt;/h2&gt;
+&lt;p&gt;Doing my research on the net I came to the issue of powering your nest device. In Europe most devices are powered by batteries, unfortunately the nest device doesn't. To solve this issue you could use a so called ICY converter. I had to cut the wires coming from my boiler to the thermostat itself.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="cutting-wires" src="../../images/nest/cutting-wires.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;Next step was to connect the wires from the boiler to the CV clips on the converter and the wires going to the thermostat on the Th clips.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="ICY-converter" src="../../images/nest/ICY-convertor.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;After connecting all the wires I did not yet plugged the converter in. I first installed the mount plate for the base of the nest before powering on all the electrical devices.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="ICY-connector" src="../../images/nest/ICY-connector.jpg" /&gt;&lt;/p&gt;
+&lt;h2&gt;Mountplate&lt;/h2&gt;
+&lt;p&gt;After disassembling my old thermostat I discovered that the wall has some holes and missing paint behind that old mount plate. Luckily you could use the enclosed base cover to hide those imperfections. Once I drilled the holes, screwed the base plate onto the wall I could connect the wires. As you can see on the picture you have to connect on on the W1 port and one on the Rh port.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="nest-wires" src="../../images/nest/nest-wires.png" /&gt;&lt;/p&gt;
+&lt;p&gt;When I then attached the display, powered on the boiler and plugged in the converter the nest asked configuration of the heating equipment I first got the &lt;a href="http://support.nest.com/#troubleshooting/e24"&gt;E24&lt;/a&gt; error which means no power is detected coming to the nest device. I switched the wires from W1 and Rh and repowered the boiler. Now I got the &lt;a href="http://support.nest.com/#troubleshooting/n23"&gt;N23&lt;/a&gt; looking at the support pages it's indicating you are using an unusual configuration but my boiler picked up signals coming from the nest thermostat.&lt;/p&gt;
+&lt;h1&gt;Configuration&lt;/h1&gt;
+&lt;p&gt;I went to all the configuration steps, connecting to the wifi, adding to my online nest account, setting the auto-away options, ... and many more. Once that's done you could see on the screen that I turned the nest to it's minimal, 9° C and that on the moment of taking the picture it was 26° C inside the nest device.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="nest-working" src="../../images/nest/nest-working.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Since I took the decision to install this thermostat in the summer when we don't need the CV system I could not yet fully test the device. I didn't wanted to take the risk not having a working CV when it was cold.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="nest-off" src="../../images/nest/nest-off.png" /&gt;&lt;/p&gt;
+&lt;p&gt;So I had to turn it off for now and will come back with a review of the usage in most likely december when the winter has taken his start over here in Belgium.&lt;/p&gt;
+&lt;h1&gt;Statistics&lt;/h1&gt;
+&lt;p&gt;Doing some research about applications for the nest thermostat I discovered a tool called &lt;a href="https://github.com/chriseng/nestgraph"&gt;nest-graph&lt;/a&gt;. This tool collects data from the nest device using the unofficial &lt;a href="https://github.com/gboudreau/nest-api"&gt;nest-api&lt;/a&gt; through php.&lt;/p&gt;
+&lt;p&gt;I forked the nest-graph repository to make some &lt;a href="https://github.com/visibilityspots/nestgraph.git"&gt;customizations&lt;/a&gt; like using Celsius instead of Fahrenheit, adding the nest-api-master as a git submodule, changing the database setup and some ignoration of configuration files.&lt;/p&gt;
+&lt;p&gt;Cause I have the availability of a mysql database on my &lt;a href="http://one.com"&gt;one.com&lt;/a&gt; account I decided to collect the data into that database and running the nestgraph service onto that website. Some modifications had to be made to the dbsetup file and adding the login parameters to inc/config.php file.&lt;/p&gt;
+&lt;p&gt;After successfully running the command&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="x"&gt;    $ php test.php&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Once that test is succeeded you could use&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="x"&gt;    $ php insert.php&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;to fetch the real time data from your nest device and import them into your mysql database.&lt;/p&gt;
+&lt;p&gt;From my &lt;a href="../raspberry-pi.html"&gt;raspberry-pi&lt;/a&gt; I configured a cron job to log in into the my one.com hosting account using ssh and start the import job every 5 minutes.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="err"&gt;*/&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;ssh&lt;/span&gt; &lt;span class="n"&gt;ONE&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;COM&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/bin/rm -f /tmp/nest_php_* ; /usr/bin/php /path/to/nestgraph/insert.php &amp;gt; /dev/null&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Last but not least I added some security to this service using &lt;a href="http://one-docs.com/tools/htaccess/"&gt;htaccess&lt;/a&gt; so all this information isn't publicly available. Now I only have to wait to winter so I can finally start monitoring our heating usage!&lt;/p&gt;
+&lt;p&gt;&lt;img alt="nest-graph" src="../../images/nest/nest-graph.png" /&gt;&lt;/p&gt;
+&lt;h1&gt;Resources&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.fousa.be/blog/nest-thermostat"&gt;fousa.be&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://promo-code.be/nest-thermostaat/"&gt;promo-code.be&lt;/a&gt; (dutch)&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://home.howstuffworks.com/nest-learning-thermostat.htm"&gt;how-stuff-works&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/gboudreau/nest-api"&gt;nest-api&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/chriseng/nestgraph"&gt;nest-graph&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.spark.io/2014/01/17/open-source-thermostat/"&gt;open-source&lt;/a&gt; nest alternative&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Mon, 09 Jun 2014 00:00:00 +0200</pubDate><guid>tag:visibilityspots.com,2014-05-24:nest.html</guid><category>nest</category><category>thermostat</category><category>belgium</category><category>nest.com</category><category>honeywell</category><category>ICY</category><category>vaillant</category><category>TurboTec</category></item><item><title>Raspberry pi setup</title><link>https://visibilityspots.com/raspberry-pi.html</link><description>&lt;p&gt;Since I discovered the joy of linux servers over desktop distributions a few years ago I revived an old portable and promoted him to be my home server. Connected him to our router in the little storage room on a top shelf gathering dust I could test, configure, break (and pass sleep) a huge variety of open-source software.&lt;/p&gt;
 &lt;p&gt;Many of those adventures I also used to provide my blog with content. After a while I figured this setup isn't really needed to be powered on 24h a day 7 days a week. So I bought myself a &lt;a href="http://www.raspberrypi.org/"&gt;raspberry pi&lt;/a&gt; which would cover the basic functionalities I needed to be online as much as possible without the need of a subscription for a VPS or dedicated server in one fancy pansy datacenter.&lt;/p&gt;
 &lt;p&gt;For the operating system I didn't choose for the default &lt;a href="http://www.raspbian.org"&gt;raspbian&lt;/a&gt;, mainly because I don't need a graphical interface. So I headed over to archlinux arm, also called &lt;a href="http://archlinuxarm.org/platforms/armv6/raspberry-pi"&gt;alarm&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The &lt;a href="http://archlinuxarm.org/platforms/armv6/raspberry-pi#qt-platform_tabs-ui-tabs2"&gt;installation&lt;/a&gt; is quite straight forward. After that I installed some basics I use like:&lt;/p&gt;
@@ -657,7 +732,84 @@ SyntaxError: invalid syntax
 &lt;/span&gt;
 &lt;span class="c"&gt;# add_user.sh script&lt;/span&gt;
 &lt;/pre&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Mon, 30 Sep 2013 21:45:00 +0200</pubDate><guid>tag:visibilityspots.com,2013-09-30:taskwarrior.html</guid><category>inuits</category><category>tasks</category><category>task</category><category>taskwarrior</category><category>centos</category><category>command</category><category>line</category><category>task-web</category><category>mirakel</category><category>todo</category></item><item><title>Command line printing &amp; scanning</title><link>https://visibilityspots.com/printing-scanning.html</link><description>&lt;p&gt;Since I discovered the joy of using the ratpoison window manager I'm trying to do all tasks I need to perform on my system using the command line.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Mon, 30 Sep 2013 21:45:00 +0200</pubDate><guid>tag:visibilityspots.com,2013-09-30:taskwarrior.html</guid><category>inuits</category><category>tasks</category><category>task</category><category>taskwarrior</category><category>centos</category><category>command</category><category>line</category><category>task-web</category><category>mirakel</category><category>todo</category></item><item><title>Upgrade to puppet 3.3.0</title><link>https://visibilityspots.com/puppet-3-upgrade.html</link><description>&lt;p&gt;I finally got to the point where I upgraded a whole puppet infrastructure from puppet 2.6.x to the last stable version of puppet, &lt;a class="reference external" href="http://docs.puppetlabs.com/puppet/3/reference/release_notes.html"&gt;3.3.0&lt;/a&gt;. And after finding out the way to go it was surprisingly easy and no big issues came across.&lt;/p&gt;
+&lt;p&gt;One of the main reasons to upgrade was to start using the latest version of foreman, were we used 0.4, so we can start provisioning our own development vm's with some fancy cloud solution like for example &lt;a class="reference external" href="http://cloudstack.apache.org/"&gt;cloudstack&lt;/a&gt; using our production puppet tree.&lt;/p&gt;
+&lt;p&gt;Before the upgrade we had the puppet-client &amp;amp; server (2.6.18), puppetdb (1.4), (ruby 1.8.7) and foreman (0.4.2) running on a CentOS 6.3 machine.&lt;/p&gt;
+&lt;p&gt;After upgrading we are running puppet-client &amp;amp; server (3.3.0) puppetdb (1.4), ruby (1.8.7) and foreman (1.2) all managed by puppet itself. (feels quite satisfying ;) )&lt;/p&gt;
+&lt;p&gt;The very fist time I started upgrading the puppet master, but instead of upgrading the puppet-server package from the yum puppetlabs repository I upgraded only the agent.&lt;/p&gt;
+&lt;p&gt;After I figured that out I could kill myself but ran out of time so needed to stop the process.&lt;/p&gt;
+&lt;p&gt;The second time I started totally in the wrong direction. I started with foreman, read about needing ruby 1.9.3. So I started looking for a CentOS 6.3 ruby 1.9.3 package.&lt;/p&gt;
+&lt;p&gt;Didn't find any started compiling it from source, but that came out on a total mess so I reverted my upgrade and postponed it for some days.&lt;/p&gt;
+&lt;p&gt;The final 3Th time I started in the right order. This order I will describe here:&lt;/p&gt;
+&lt;p&gt;(Before all those steps, make sure to disable puppet on your clients to have more control during the process)&lt;/p&gt;
+&lt;div class="section" id="configuring-the-puppetlabs-repository"&gt;
+&lt;h2&gt;Configuring the puppetlabs repository&lt;/h2&gt;
+&lt;p&gt;I like to install software from packages, so I started by configuring the &lt;a class="reference external" href="http://docs.puppetlabs.com/guides/puppetlabs_package_repositories.html"&gt;puppetlabs&lt;/a&gt; repository. I use a puppet-repo module for configuring repo's on our machines but you can quite easy install it from the command line.&lt;/p&gt;
+&lt;p&gt;This command is executed on a Cent0S 6.3 x86_64 machine:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# rpm -ivh http://yum.puppetlabs.com/el/6.0/products/x86_64/puppetlabs-release-6-7.noarch.rpm
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="upgrading-the-puppetmaster"&gt;
+&lt;h2&gt;Upgrading the puppetmaster&lt;/h2&gt;
+&lt;p&gt;So after shamelessly updated only the puppet package the first time, this time I did upgrade the puppet-server package without any issue. Be sure to read the &lt;a class="reference external" href="http://docs.puppetlabs.com/guides/upgrading.html"&gt;docs&lt;/a&gt; first about upgrading!&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# yum update puppet-server
+&lt;/pre&gt;
+&lt;p&gt;Once the puppetmaster is updated we can try our first puppet runs against the upgraded version.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="start-a-native-puppet-master-process-for-testing"&gt;
+&lt;h2&gt;Start a native puppet master process for testing&lt;/h2&gt;
+&lt;p&gt;Before I get further in our upgrade process on passenger and stuff I wanted to know if the client is still able to do a puppet run without the passenger setup.&lt;/p&gt;
+&lt;p&gt;So I had to start the puppetmaster as a daemon, did a local puppet noop run on the master itself and stopped the puppetmaster daemon after I checked the run.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# puppet resource service puppetmaster ensure=running enable=true
+# puppet agent --test --noop
+# puppet resource service puppetmaster ensure=stopped enable=true
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="upgrade-the-passenger-setup"&gt;
+&lt;h2&gt;Upgrade the passenger setup&lt;/h2&gt;
+&lt;p&gt;We are using a passenger setup to have our puppet master in a scalable setup. Therefore we also needed to upgrade passenger on our puppetmaster and adopt the puppetmaster vhost to the upgraded environment.&lt;/p&gt;
+&lt;p&gt;To accomplish this I simply followed the &lt;a class="reference external" href="http://docs.puppetlabs.com/guides/passenger.html"&gt;passenger&lt;/a&gt; documentation of puppetlabs which was quite easy to follow.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="client"&gt;
+&lt;h2&gt;Client&lt;/h2&gt;
+&lt;p&gt;Once the puppetmaster was upgraded I tested a puppet run with a still not updated client against the upgraded puppetmaster. It did the job except from sending reports. Since I planned to upgrade the clients too I did not invest time into this issue.&lt;/p&gt;
+&lt;p&gt;There fore I just upgraded the client itself where the puppetlabs repository already was enabled:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# yum update puppet
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="issues"&gt;
+&lt;h2&gt;Issues&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;403: authentication error&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;By running my first 3.3.0 client vs the 3.3.0 master I got an authentication error 403 forbidden request. Did some research on the net, and found about an issue in the puppetmaster's &lt;a class="reference external" href="http://projects.puppetlabs.com/issues/16765"&gt;auth.conf&lt;/a&gt; file. Once I added this to the file:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# allow nodes to retrieve their own node definition
+path ~ ^/node/([^/]+)$
+method find
+allow $1
+&lt;/pre&gt;
+&lt;p&gt;The run did what I had to do configuring the server by using puppet!&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;undefined method 'symbolize'&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;On some clients I got this error message when trying to run puppet. On &lt;a class="reference external" href="http://somethingsinistral.net/blog/the-angry-guide-to-puppet-3/"&gt;somethingsinistral.net&lt;/a&gt; I found out it had to see with multiple puppet versions on your machine. By looking into the installed gems (make sure to check also possible rvm environments) and cleaned the ancient ones out I got the puppet run up and running again.&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;icinga &lt;a class="reference external" href="https://github.com/ripienaar/monitoring-scripts/issues/3"&gt;check_puppet&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We are using ripienaar's icinga check_puppet to monitor the puppet functionality. The became all red indicating puppet had too long not ran on the server. In the troubleshooting process I figured out the nagios user which is running the check over the NRPE protocol wasn't able to read the /var/lib/puppet/state/last_run_summary.yaml file. By checking permissions I found out the default settings of the /var/lib/puppet directory are 0750 when installing puppet.&lt;/p&gt;
+&lt;p&gt;Once I've changed them to 755 all check's became green again!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="foreman"&gt;
+&lt;h2&gt;Foreman&lt;/h2&gt;
+&lt;p&gt;Once the puppet master was running fine again I also upgraded &lt;a class="reference external" href="http://theforeman.org/manuals/1.2/index.html#3.3InstallFromPackages"&gt;theforeman&lt;/a&gt; service running on the same machine as the puppetmaster. This went smoothly once I figured out the ruby and rake commands in the documentation must be replaced with ruby193-rake/ruby193-ruby when installed foreman from their repository.&lt;/p&gt;
+&lt;p&gt;Also do not forget to install foreman-mysql / foreman-sqlite etc when using those extra features.&lt;/p&gt;
+&lt;/div&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Fri, 20 Sep 2013 19:00:00 +0200</pubDate><guid>tag:visibilityspots.com,2013-09-20:puppet-3-upgrade.html</guid><category>puppet</category><category>upgrade</category><category>3.3.0</category><category>2.6.x</category><category>issues</category><category>foreman</category><category>passenger</category><category>puppetdb</category></item><item><title>Command line printing &amp; scanning</title><link>https://visibilityspots.com/printing-scanning.html</link><description>&lt;p&gt;Since I discovered the joy of using the ratpoison window manager I'm trying to do all tasks I need to perform on my system using the command line.&lt;/p&gt;
 &lt;p&gt;One of those frequently used tasks is printing out documents or scanning in files. Until today I used the software viewer of my documents to print and simple-scan to scan my files.&lt;/p&gt;
 &lt;p&gt;Nowadays I use the command line to perform those tasks. To print out documents I use the &lt;a class="reference external" href="http://www.tldp.org/HOWTO/Printing-Usage-HOWTO-1.html"&gt;lp&lt;/a&gt; command:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
@@ -1487,7 +1639,14 @@ chat add [account id] room&amp;#64;conference.jabber.link #room
 &lt;/pre&gt;
 &lt;p&gt;As you can see in the chat add command the ending #room was missing in the online documentation.&lt;/p&gt;
 &lt;p&gt;Hope to tackle many frustrations by this one :)&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Fri, 10 May 2013 13:30:00 +0200</pubDate><guid>tag:visibilityspots.com,2013-05-10:irssi-bitlbee-channel.html</guid><category>irssi</category><category>bitlbee</category><category>channel</category><category>chat</category><category>groupchat</category><category>jabber</category><category>xmpp</category></item><item><title>Lighttpd change tcp port in CentOS</title><link>https://visibilityspots.com/selinux.html</link><description>&lt;p&gt;It seems like a very simple job, and in fact it is. But I had an issue when I tried to change this in my&amp;nbsp;Cent OS&amp;nbsp;6.3 setup.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Fri, 10 May 2013 13:30:00 +0200</pubDate><guid>tag:visibilityspots.com,2013-05-10:irssi-bitlbee-channel.html</guid><category>irssi</category><category>bitlbee</category><category>channel</category><category>chat</category><category>groupchat</category><category>jabber</category><category>xmpp</category></item><item><title>GTalkSMS mobile alerting through xmpp protocol</title><link>https://visibilityspots.com/gtalksms.html</link><description>&lt;p&gt;Recently I bumped into &lt;a class="reference external" href="http://code.google.com/p/gtalksms/"&gt;GTalkSMS&lt;/a&gt;&amp;nbsp;when I was surfing the net for manuals on irssi &amp;amp; bitlbee using to chat so I could move away from pidgin.&lt;/p&gt;
+&lt;p&gt;This GTalkSMS tool is quite cool. When am at work or at home my mobile isn't always in my sight. Therefore it could happen someone has to call me a few times before I answer the call.&lt;/p&gt;
+&lt;p&gt;(biggest frustration of the girlfriend meaning you have to answer your call within a time period of 3 seconds because you're working in IT)&lt;/p&gt;
+&lt;p&gt;Using this nifty tool you can control your mobile through your favorite chat client by the xmpp protocol. You install the app from the &lt;a class="reference external" href="https://play.google.com/store/apps/details?id=com.googlecode.gtalksms"&gt;google play market&lt;/a&gt; on your phone, choose if you want to use a &lt;a class="reference external" href="https://code.google.com/p/gtalksms/wiki/HowToSetUp#Using_an_account_for_connecting_and_another_one_for_receiving_no"&gt;separate&lt;/a&gt; account (preferred&amp;nbsp;by the guys who&amp;nbsp;developed&amp;nbsp;it) I created one on jabber.org.&lt;/p&gt;
+&lt;p&gt;Fill those credentials into the mobile app and connect your chat client to the chosen account.&lt;/p&gt;
+&lt;p&gt;Once configured you can start sending commands to your phone for example the command 'where' and you get the google maps location link.&lt;/p&gt;
+&lt;p&gt;Have fun controlling your phone the geek way!&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Wed, 19 Dec 2012 18:56:00 +0100</pubDate><guid>tag:visibilityspots.com,2012-12-19:gtalksms.html</guid><category>alerts</category><category>Android</category><category>chat</category><category>control</category><category>gtalk</category><category>gtalksms</category><category>irssi</category><category>Mobile</category><category>Pidgin</category><category>sms</category><category>xmpp</category><category>inuits</category></item><item><title>Lighttpd change tcp port in CentOS</title><link>https://visibilityspots.com/selinux.html</link><description>&lt;p&gt;It seems like a very simple job, and in fact it is. But I had an issue when I tried to change this in my&amp;nbsp;Cent OS&amp;nbsp;6.3 setup.&lt;/p&gt;
 &lt;p&gt;After some digging on the internet I found out selinux was the blocking factor.&lt;/p&gt;
 &lt;p&gt;The configuration of the new port has to be done in the lighttpd conf file.&lt;/p&gt;
 &lt;p&gt;/etc/lighttpd/lighttpd.conf&lt;/p&gt;
@@ -1608,7 +1767,55 @@ decrypted and you can start using them.&lt;/p&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://help.ubuntu.com/community/EncryptedPrivateDirectory"&gt;https://help.ubuntu.com&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://janaksingh.com/blog/dropbox-encryption-install-encfs-linux-encrypt-decrypt-dropbox-content-realtime-155"&gt;http://janaksingh.com&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Mon, 15 Oct 2012 18:00:00 +0200</pubDate><guid>tag:visibilityspots.com,2012-10-15:dropbox.html</guid><category>accounts</category><category>centOS</category><category>dropbox</category><category>encfs</category><category>encryption</category><category>multiple</category><category>security</category></item><item><title>Writing customized icinga checks</title><link>https://visibilityspots.com/icinga-checks.html</link><description>&lt;p&gt;Recently I started to try writing a customized script for the &lt;a class="reference external" href="https://www.icinga.org/"&gt;icinga&lt;/a&gt; monitoring tool. I will try to describe the steps I went trough to achieve this in this post. I assume you already have a working icinga setup.
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Mon, 15 Oct 2012 18:00:00 +0200</pubDate><guid>tag:visibilityspots.com,2012-10-15:dropbox.html</guid><category>accounts</category><category>centOS</category><category>dropbox</category><category>encfs</category><category>encryption</category><category>multiple</category><category>security</category></item><item><title>Puppet sslv3 alert certificate revoked</title><link>https://visibilityspots.com/puppet-revoked-certificate.rst.html</link><description>&lt;p&gt;I started the day with ssl issues using puppet. Last week I cleaned 2 hosts in our tree using the puppet command&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# puppet node clean [hostname]
+&lt;/pre&gt;
+&lt;p&gt;on the puppetmaster. I did this to clean out the stored configs for those nodes.&lt;/p&gt;
+&lt;p&gt;But I didn't realized this also cleaned out the ssl certificates for those clients. So I started the new week with this uncomfortable issue:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[root&amp;#64;agent ~]# puppet agent --test err: Could not retrieve catalog from remote server: SSL_connect returned=1 errno=0 state=SSLv3 read server session ticket A: sslv3 alert certificate revoked warning: Not using cache on failed catalog err: Could not retrieve catalog; skipping run err: Could not send report: SSL_connect returned=1 errno=0 state=SSLv3 read server session ticket A: sslv3 alert certificate revoked
+&lt;/pre&gt;
+&lt;p&gt;After some digging on the internet I achieved to solve this issue.
+Here under I described the steps to breath again:&lt;/p&gt;
+&lt;p&gt;To be sure the certificates are completely removed on the puppetmaster I explicitly cleaned them again&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+i[root&amp;#64;master ~]#puppet cert -c hostname
+&lt;/pre&gt;
+&lt;p&gt;Now we are sure those certificates are cleaned up on the master we have to do this also on the agent&lt;/p&gt;
+&lt;p&gt;Looking for the directory where those certificates are stored&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[root&amp;#64;agent ~]# puppet --genconfig | grep certdir
+# The default value is '$certdir/$certname.pem'.
+# The default value is '$certdir/ca.pem'. certdir = /var/lib/puppet/ssl/certs
+&lt;/pre&gt;
+&lt;p&gt;Removing the existing certificates on the client:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[root&amp;#64;agent ~]# rm /var/lib/puppet/ssl -rf
+&lt;/pre&gt;
+&lt;p&gt;Once the certificates are completely removed on the master and the client we have to regenerate them from the agent&amp;nbsp;using the puppet daemon&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[root&amp;#64;agent ~]#&amp;nbsp;puppet agent --test
+&lt;/pre&gt;
+&lt;p&gt;or by manually regenerating them&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[root&amp;#64;agent ~]# puppet certificate generate hostname.domain --ca-location remote true
+&lt;/pre&gt;
+&lt;p&gt;As soon as new certificates are generated and we got the true back from the agent we can sign the fresh certificate on the master&lt;/p&gt;
+&lt;p&gt;List the certificates which are waiting to get signed and sign them&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[root&amp;#64;master ~]# puppet cert -l &amp;quot;hostname.domain&amp;quot; (XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX)
+[root&amp;#64;master ~]# puppet cert sign hostname.domain
+notice: Signed certificate request for hostname.domain
+notice: Removing file Puppet::SSL::CertificateRequest hostname.domain at '/var/lib/puppetmaster/ssl/ca/requests/hostname.domain.pem'
+&lt;/pre&gt;
+&lt;p&gt;If everything went well you should be able to run puppet again on the client&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+puppet agent --test --noop
+&lt;/pre&gt;
+&lt;p&gt;and relax again!&lt;/p&gt;
+&lt;p&gt;Digging the internet I crossed &lt;a class="reference external" href="http://honglus.blogspot.be/2012/01/force-puppet-agent-to-regenerate.html"&gt;honglus blog&lt;/a&gt; and an issue on &lt;a class="reference external" href="http://projects.puppetlabs.com/issues/11854"&gt;puppetlabs projects&lt;/a&gt;&amp;nbsp;which made my day.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Mon, 08 Oct 2012 11:22:00 +0200</pubDate><guid>tag:visibilityspots.com,2012-10-08:puppet-revoked-certificate.rst.html</guid><category>certificate</category><category>continuous integration</category><category>Linux</category><category>puppet</category><category>revoke</category><category>sign</category><category>ssl</category></item><item><title>Writing customized icinga checks</title><link>https://visibilityspots.com/icinga-checks.html</link><description>&lt;p&gt;Recently I started to try writing a customized script for the &lt;a class="reference external" href="https://www.icinga.org/"&gt;icinga&lt;/a&gt; monitoring tool. I will try to describe the steps I went trough to achieve this in this post. I assume you already have a working icinga setup.
 If not you can find documentation about this on&amp;nbsp;&lt;a class="reference external" href="http://docs.icinga.org/"&gt;http://docs.icinga.org/&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;First of all you need to script. I created a script which will check if a service is running using the command&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
@@ -2041,12 +2248,161 @@ rpm -ivh name-package.rpm
 &lt;li&gt;&lt;a class="reference external" href="http://rpmfind.net/linux/rpm2html/search.php?query=hello&amp;amp;submit=Search+..."&gt;hello world&lt;/a&gt; package&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://tldp.org/HOWTO/RPM-HOWTO/index.html"&gt;tutorial&lt;/a&gt; from The Linux Documentation project&lt;/li&gt;
 &lt;/ul&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Sat, 07 Apr 2012 17:31:00 +0200</pubDate><guid>tag:visibilityspots.com,2012-04-07:rpm-package.html</guid><category>build</category><category>new</category><category>package</category><category>repository</category><category>rpm</category><category>yum</category></item><item><title>Symbolic linux links</title><link>https://visibilityspots.com/symbolic-links.html</link><description>&lt;p&gt;It's rather simple, but I used to look for it a while when writing my first bash/python scripts. Wanted to typing in one command so I would need to type in every time the whole path to my newly written script.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Sat, 07 Apr 2012 17:31:00 +0200</pubDate><guid>tag:visibilityspots.com,2012-04-07:rpm-package.html</guid><category>build</category><category>new</category><category>package</category><category>repository</category><category>rpm</category><category>yum</category></item><item><title>Puppet module mumble-server</title><link>https://visibilityspots.com/puppet-mumble.html</link><description>&lt;p&gt;&lt;a class="reference external" href="http://mumble.sourceforge.net/"&gt;Mumble&lt;/a&gt; is an open source, low-latency, high quality voice chat software primarily intended for use while gaming.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://puppetlabs.com/"&gt;Puppet&lt;/a&gt; is a tool designed to manage the configuration of Unix-like and Microsoft Windows systems decoratively.&lt;/p&gt;
+&lt;p&gt;The &lt;a class="reference external" href="https://github.com/visibilityspots/puppet-mumble"&gt;puppet-mumble&lt;/a&gt; module installs a mumble server (version 1.2.3) automatically on a CentOS 6.x machine using the puppet software based on &lt;a class="reference external" href="http://mumble.sourceforge.net/Install_CentOS5"&gt;mumble-documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The module needs a repository which contains the &lt;a class="reference external" href="http://www.visibilityspots.com/repos/repoview/mumble-server.html"&gt;mumble-server&lt;/a&gt; package. I distribute this package on my own &lt;a class="reference external" href="http://www.visibilityspots.com/repos/repoview/"&gt;visibilityspots&lt;/a&gt; repository.&lt;/p&gt;
+&lt;p&gt;Using puppet this will create the necessary mumble user and group and will configure the mumble-server using your desired settings, like username, password, and tcp port the daemon will listen on.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Wed, 04 Apr 2012 15:31:00 +0200</pubDate><guid>tag:visibilityspots.com,2012-04-04:puppet-mumble.html</guid><category>centOS</category><category>Linux</category><category>module</category><category>mumble</category><category>mumble-server</category><category>open-source</category><category>puppet</category></item><item><title>Cisco HWIC 3G configuration to 2G</title><link>https://visibilityspots.com/cisco-3g.html</link><description>&lt;p&gt;In some cisco routing devices you have the possibility to extend the features with a HWIC 3G card so mobile connectivity is added to your network infrastructure. This can be interesting for a mobile fail-over connection.&lt;/p&gt;
+&lt;p&gt;But as we all now, the mobile reception isn't always that good. To see the signal strength on your cisco device you can use:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+show cellular 0/0/0 connection
+&lt;/pre&gt;
+&lt;p&gt;depending on which slot you plugged the HWIC card into. If the measured value is beneath the -100 dBm then you have sufficient signal to setup a 3G ( CDMA - WCDMA) connection on.&lt;/p&gt;
+&lt;p&gt;If that's not the case or the values of different measurements are very different you should consider to downgrade too a 2G connection because else your 3G connection will be very wonky!&lt;/p&gt;
+&lt;p&gt;The default setup would mostly be auto-band. This means that if there is a little chance to connection over 3G your device will try to connect to this 3G connection. If the 3G signals gets lost it REconnects to 2G and therefore connectivity interruption will take place.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+cellular 0/0/0 gsm band auto-band
+&lt;/pre&gt;
+&lt;p&gt;So if your 3G signals isn't strong enough it's a good idea to force your device to connect only on 2G. This can easily be done by:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+cellular 0/0/0 gsm band gsm-all-bands
+&lt;/pre&gt;
+&lt;p&gt;That way your wonky 3G connection will became a stable 2G connection!&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Tue, 03 Apr 2012 14:36:00 +0200</pubDate><guid>tag:visibilityspots.com,2012-04-03:cisco-3g.html</guid><category>2G</category><category>3G</category><category>auto-band</category><category>band</category><category>cellular</category><category>cisco</category><category>gsm</category><category>gsm-all-bands</category><category>Mobile</category><category>router</category></item><item><title>BGP announcing default route</title><link>https://visibilityspots.com/bgp-default-route.html</link><description>&lt;div class="section" id="advertising-default-route-with-bgp"&gt;
+&lt;h2&gt;Advertising default route with BGP&lt;/h2&gt;
+&lt;p&gt;If you want to announce the default route which is statically routed then you have to add following commands to the working BGP configuration:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ip route 0.0.0.0 0.0.0.0 192.168.1.1
+router bgp 65001
+network 0.0.0.0
+default-information originate
+&lt;/pre&gt;
+&lt;p&gt;when you then clear the ip bgp routing softly (so the current connecting will not be broken)&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+clear ip bgp soft in
+clear ip bgp soft out
+&lt;/pre&gt;
+&lt;p&gt;you should see that the default route is will be advertised:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+sh ip bgp summary
+sh ip bgp neighbors IP.ADDRESS advertised-routes
+&lt;/pre&gt;
+&lt;/div&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Sat, 31 Mar 2012 13:07:00 +0200</pubDate><guid>tag:visibilityspots.com,2012-03-31:bgp-default-route.html</guid><category>bgp</category><category>cisco</category><category>default</category><category>networking</category><category>route</category></item><item><title>Apple remote (A1156) - MacBook Pro 3.1 &amp; Ubuntu 10.04</title><link>https://visibilityspots.com/apple-linux-remote.html</link><description>&lt;p&gt;It isn't supported by default using Ubuntu but it's as handy as hell, the apple infrared remote control. After some mayor headaches I finally succeeded to configure it manually on my MacBook Pro 3.1 running Ubuntu 10.04.&lt;/p&gt;
+&lt;p&gt;It's quite easy once you know how.&lt;/p&gt;
+&lt;p&gt;Installation of the lirc library:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo apt-get install lirc
+&lt;/pre&gt;
+&lt;p&gt;Adapting the configuration files (make sure to backup them first!):&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ sudo cp /old/file /new/file.bak
+&lt;/pre&gt;
+&lt;p&gt;/etc/lirc/hardware.conf&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# /etc/lirc/hardware.conf # #Chosen Remote Control REMOTE=&amp;quot;Apple Mac mini USB IR Receiver&amp;quot; REMOTE_MODULES=&amp;quot;uinput&amp;quot; REMOTE_DRIVER=&amp;quot;macmini&amp;quot; REMOTE_DEVICE=&amp;quot;/dev/usb/hiddev0&amp;quot; REMOTE_SOCKET=&amp;quot;&amp;quot; REMOTE_LIRCD_CONF=&amp;quot;&amp;quot; REMOTE_LIRCD_ARGS=&amp;quot;--uinput&amp;quot;
+
+#Chosen IR Transmitter
+ TRANSMITTER=&amp;quot;None&amp;quot;
+ TRANSMITTER\_MODULES=&amp;quot;&amp;quot;
+ TRANSMITTER\_DRIVER=&amp;quot;&amp;quot;
+ TRANSMITTER\_DEVICE=&amp;quot;&amp;quot;
+ TRANSMITTER\_SOCKET=&amp;quot;&amp;quot;
+ TRANSMITTER\_LIRCD\_CONF=&amp;quot;&amp;quot;
+ TRANSMITTER\_LIRCD\_ARGS=&amp;quot;&amp;quot;
+
+#Enable lircd
+ START\_LIRCD=true
+
+#Don't start lircmd even if there seems to be a good config file
+ #START\_LIRCMD=&amp;quot;false&amp;quot;
+
+#Try to load appropriate kernel modules
+ LOAD\_MODULES=&amp;quot;true&amp;quot;
+
+# Default configuration files for your hardware if any
+ LIRCMD\_CONF=&amp;quot;&amp;quot;
+
+#Forcing noninteractive reconfiguration
+ #If lirc is to be reconfigured by an external application
+ #that doesn't have a debconf frontend available, the noninteractive
+ frontend can be invoked and set to parse REMOTE and TRANSMITTER
+ #It will then populate all other variables without any user input
+ #If you would like to configure lirc via standard methods, be sure
+ #to leave this set to &amp;quot;false&amp;quot;
+ FORCE\_NONINTERACTIVE\_RECONFIGURATION=&amp;quot;false&amp;quot;
+ START\_LIRCMD=&amp;quot;&amp;quot;
+
+# Remote settings required by gnome-lirc-properties
+ REMOTE\_MODEL=&amp;quot;A1156&amp;quot;
+ REMOTE\_VENDOR=&amp;quot;Apple&amp;quot;
+
+# Receiver settings required by gnome-lirc-properties
+ RECEIVER\_MODEL=&amp;quot;Built-in\\ IR\\ Receiver\\ \\(0x8242\\)&amp;quot;
+ RECEIVER\_VENDOR=&amp;quot;Apple&amp;quot;
+
+**/etc/lirc/lircd.conf**
+
+``# This configuration has been automatically generated # by the GNOME LIRC Properties control panel. # # Feel free to add any custom remotes to the configuration # via additional include directives or below the existing # include directives from your selected remote and/or # transmitter. #``
+
+# Configuration selected with GNOME LIRC Properties
+ # include
+
+begin remote
+ name AppleRemote
+ bits 8
+ eps 30
+ aeps 100
+ one 0 0
+ zero 0 0
+ pre\_data\_bits 24
+ pre\_data 0x87EE81
+ gap 211982
+ toggle\_bit\_mask 0x0
+ ignore\_mask 0x0000ff01
+ begin codes
+ KEY\_VOLUMEUP 0x0B
+ KEY\_VOLUMEDOWN 0x0D
+ KEY\_PREVIOUSSONG 0x08
+ KEY\_NEXTSONG 0x07
+ KEY\_PLAYPAUSE 0x04
+ KEY\_MENU 0x02
+ end codes
+ end remote
+&lt;/pre&gt;
+&lt;p&gt;/etc/modules&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# /etc/modules: kernel modules to load at boot time. # # This file contains the names of kernel modules that should be loaded # at boot time, one per line. Lines beginning with &amp;quot;#&amp;quot; are ignored.
+
+lp
+ usbhid
+ applesmc
+&lt;/pre&gt;
+&lt;p&gt;/etc/modprobe.d/blacklist&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+blacklist applesmc blacklist usbhid
+&lt;/pre&gt;
+&lt;p&gt;Restart the lirc daemon after adopted the configuration:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ /etc/init.d/lirc restart
+&lt;/pre&gt;
+&lt;p&gt;To see if the daemon successfully started and is using the right driver:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ ps aux | grep lirc
+&lt;/pre&gt;
+&lt;p&gt;If everything went well you should be able to use the remote without any hassle and you could use the apple hardware user experience on a linux distribution!&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Thu, 27 Jan 2011 22:47:00 +0100</pubDate><guid>tag:visibilityspots.com,2011-01-27:apple-linux-remote.html</guid><category>apple</category><category>linux</category><category>ubuntu</category><category>infrared</category><category>remote</category><category>lirc</category><category>hardware</category></item><item><title>Symbolic linux links</title><link>https://visibilityspots.com/symbolic-links.html</link><description>&lt;p&gt;It's rather simple, but I used to look for it a while when writing my first bash/python scripts. Wanted to typing in one command so I would need to type in every time the whole path to my newly written script.&lt;/p&gt;
 &lt;p&gt;That way routine tasks could be called much faster and easier. This can be done by creating a symlink to your /usr/bin directory:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 ln -s /path/to/your/script /usr/bin/nameOfTheOverallCommmandYouWantToUseForYourScript
 &lt;/pre&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Wed, 10 Feb 2010 23:14:00 +0100</pubDate><guid>tag:visibilityspots.com,2010-02-10:symbolic-links.html</guid><category>/usr/bin/</category><category>link</category><category>linux</category><category>symbolic</category><category>terminal</category></item><item><title>Conky</title><link>https://visibilityspots.com/conky.html</link><description>&lt;p&gt;To monitor the different resources of my local system I use conky. After you installed the conky software you can start with the configuration of it.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Wed, 10 Feb 2010 23:14:00 +0100</pubDate><guid>tag:visibilityspots.com,2010-02-10:symbolic-links.html</guid><category>/usr/bin/</category><category>link</category><category>linux</category><category>symbolic</category><category>terminal</category></item><item><title>Permissions website</title><link>https://visibilityspots.com/web-permissions.html</link><description>&lt;p&gt;The most recommended permissions for files and directories on the web are 0755 and 0644. If you have shell access to your webserver you can set those permissions using those commands:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+find -type d -print0 | xargs -0 chmod 755
+find -type f -print0 | xargs -0 chmod 644
+&lt;/pre&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Tue, 09 Feb 2010 18:08:00 +0100</pubDate><guid>tag:visibilityspots.com,2010-02-09:web-permissions.html</guid><category>hosting</category><category>linux</category><category>online</category><category>permissions</category><category>shell</category><category>web</category><category>security</category></item><item><title>Conky</title><link>https://visibilityspots.com/conky.html</link><description>&lt;p&gt;To monitor the different resources of my local system I use conky. After you installed the conky software you can start with the configuration of it.&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 $ apt-get install conky conky-colors
 &lt;/pre&gt;
@@ -2093,4 +2449,103 @@ chmod +x .startConky.sh
 ~/.start_conky.sh
 &lt;/pre&gt;
 &lt;p&gt;This way you also could monitor your system in a fancy way :)&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Wed, 30 Dec 2009 14:18:00 +0100</pubDate><guid>tag:visibilityspots.com,2009-12-30:conky.html</guid><category>conky</category><category>conky-colors</category><category>monitor</category><category>ubuntu</category><category>karmic</category><category>linux</category></item></channel></rss>
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Wed, 30 Dec 2009 14:18:00 +0100</pubDate><guid>tag:visibilityspots.com,2009-12-30:conky.html</guid><category>conky</category><category>conky-colors</category><category>monitor</category><category>ubuntu</category><category>karmic</category><category>linux</category></item><item><title>Showing birthdays using php</title><link>https://visibilityspots.com/birthday-script.html</link><description>&lt;p&gt;For our local scouting group it seemed nice to write a birthday script which displays for every member on the day of his/her birthday the name and age on our homepage.&lt;/p&gt;
+&lt;p&gt;Something like &amp;quot;We wish XXX a happy # anniversary!'&lt;/p&gt;
+&lt;p&gt;To accomplish this I wrote a php script which gets the data of our members from a mysql db and shows the messages on the right day on our website. In the meantime also an automatic mail will be send to the person with some sort of 'personal' message.&lt;/p&gt;
+&lt;p&gt;database connection (db_connectPear.php)&lt;/p&gt;
+&lt;pre class="code php literal-block"&gt;
+&lt;span class="x"&gt;&amp;lt; ?php
+$dsn = array(
+ 'phptype' =&amp;gt; 'mysql',
+ 'username' =&amp;gt; 'DBUSERNAME',
+ 'password' =&amp;gt; 'DBPASSWORD',
+ 'hostspec' =&amp;gt; 'localhost',
+ 'database' =&amp;gt; $database,
+);
+$db_object = DB::connect($dsn, TRUE);
+if(DB::isError($db_object)) {
+ die($db_object-&amp;gt;getMessage());
+}
+$db_object-&amp;gt;setFetchMode(DB_FETCHMODE_ASSOC);
+?&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;birthday script (birthday.php)&lt;/p&gt;
+&lt;pre class="code php literal-block"&gt;
+&lt;span class="x"&gt;&amp;lt; ?php
+$database = 'DBNAME';
+require 'db_connectPear.php';
+$selectLeden = 'SELECT *, round((to_days(now())-to_days(Geboortedatum))/365) as leeftijd
+FROM `ledenlijst` WHERE '
+. ' DAYOFMONTH(Geboortedatum)=date_format(now(),\'%d\') AND '
+. ' MONTH(Geboortedatum)=date_format(now(),\'%c\') ORDER BY voornaam ASC';
+$queryLeden = mysql_query($selectLeden)or die(mysql_error());
+
+$selectStam = 'SELECT *, round((to_days(now())-to_days(Geboortedatum))/365) as leeftijd
+FROM `stam` WHERE '
+. ' DAYOFMONTH(Geboortedatum)=date_format(now(),\'%d\') AND '
+. ' MONTH(Geboortedatum)=date_format(now(),\'%c\') ORDER BY voornaam ASC';
+$queryStam = mysql_query($selectStam)or die(mysql_error());
+
+if (mysql_num_rows($queryLeden) == 0) {
+if (mysql_num_rows($queryStam) == 0) {
+} else {
+
+echo &amp;quot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Wij wensen&amp;quot;;
+while($list = mysql_fetch_object($queryStam)){
+$naam = $list-&amp;gt;voornaam.&amp;quot; &amp;quot;.$list-&amp;gt;achternaam;
+echo (&amp;quot;$naam, &amp;quot;);
+if ($list-&amp;gt;mailVerjaardag == 'n') {
+$tekst=&amp;quot;Beste &amp;quot;.$list-&amp;gt;voornaam.&amp;quot;\n \n Een gelukkige verjaardag, &amp;quot;.$list-&amp;gt;leeftijd .&amp;quot; jaar is niet niks, geniet van deze mooie dag. \n \n De leiding \n &amp;quot;;
+$email = $list-&amp;gt;email;
+$onderwerp=&amp;quot;Gelukkige Verjaardag!&amp;quot;;
+$headers = &amp;quot;From: Naam \r\n&amp;quot;;
+mail($email,$onderwerp,$tekst,$headers);
+$sql = &amp;quot;UPDATE stam SET mailVerjaardag = 'y' WHERE id = '$list-&amp;gt;id'&amp;quot;;
+mysql_query($sql)or die(mysql_error());
+}
+}
+echo &amp;quot;een gelukkige verjaardag!&amp;quot;;
+}
+} else {
+echo &amp;quot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Wij wensen &amp;quot;;
+$setIntro = 1;
+while($list = mysql_fetch_object($queryLeden)){
+$naam = $list-&amp;gt;voornaam.&amp;quot; &amp;quot;.$list-&amp;gt;achternaam;
+echo (&amp;quot;$naam - ($list-&amp;gt;leeftijd jaar), &amp;quot;);
+if ($list-&amp;gt;mailVerjaardag == 'n') {
+$tekst=&amp;quot;Beste &amp;quot;.$list-&amp;gt;voornaam.&amp;quot;\n \n Een gelukkige verjaardag, &amp;quot;.$list-&amp;gt;leeftijd .&amp;quot; jaar is niet niks, geniet van deze mooie dag. \n \n De leiding&amp;quot;;
+$email = $list-&amp;gt;email;
+$onderwerp=&amp;quot;Gelukkige Verjaardag!&amp;quot;;
+$headers = &amp;quot;From: Naam \r\n&amp;quot;;
+mail($email,$onderwerp,$tekst,$headers);
+$sql = &amp;quot;UPDATE ledenlijst SET mailVerjaardag = 'y' WHERE ledenlijst_id = '$list-&amp;gt;ledenlijst_id'&amp;quot;;
+mysql_query($sql)or die(mysql_error());
+
+}
+}
+
+if (mysql_num_rows($queryStam) == 0) {
+} else {
+if ($setIntro != 1){
+echo &amp;quot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Wij wensen &amp;quot;;
+}
+
+while($list = mysql_fetch_object($queryStam)){
+$naam = $list-&amp;gt;voornaam.&amp;quot; &amp;quot;.$list-&amp;gt;achternaam;
+echo (&amp;quot;$naam, &amp;quot;);
+if ($list-&amp;gt;mailVerjaardag == 'n') {
+$tekst=&amp;quot;Beste &amp;quot;.$list-&amp;gt;voornaam.&amp;quot;\n \n Een gelukkige verjaardag, &amp;quot;.$list-&amp;gt;leeftijd .&amp;quot; jaar is niet niks, geniet van deze mooie dag. \n \n De leiding&amp;quot;;
+$email = $list-&amp;gt;email;
+$onderwerp=&amp;quot;Gelukkige Verjaardag!&amp;quot;;
+$headers = &amp;quot;From: Naam \r\n&amp;quot;;
+mail($email,$onderwerp,$tekst,$headers);
+$sql = &amp;quot;UPDATE stam SET mailVerjaardag = 'y' WHERE id = '$list-&amp;gt;id'&amp;quot;;
+mysql_query($sql)or die(mysql_error());
+}
+}
+}
+echo &amp;quot;een gelukkige verjaardag!&amp;quot;;
+}
+?&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Wed, 30 Dec 2009 11:27:00 +0100</pubDate><guid>tag:visibilityspots.com,2009-12-30:birthday-script.html</guid><category>MySQL</category><category>php</category><category>scouts</category><category>script</category><category>birthdays</category></item></channel></rss>

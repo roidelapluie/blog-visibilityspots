@@ -102,4 +102,4 @@ $ /etc/init.d/lirc restart
 $ ps aux | grep lirc
 &lt;/pre&gt;
 &lt;p&gt;If everything went well you should be able to use the remote without any hassle and you could use the apple hardware user experience on a linux distribution!&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Thu, 27 Jan 2011 22:47:00 +0100</pubDate><guid>tag:https://visibilityspots.com,2011-01-27:apple-linux-remote.html</guid><category>apple</category><category>linux</category><category>ubuntu</category><category>infrared</category><category>remote</category><category>lirc</category><category>hardware</category></item></channel></rss>
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Thu, 27 Jan 2011 22:47:00 +0100</pubDate><guid>tag:visibilityspots.com,2011-01-27:apple-linux-remote.html</guid><category>apple</category><category>linux</category><category>ubuntu</category><category>infrared</category><category>remote</category><category>lirc</category><category>hardware</category></item></channel></rss>

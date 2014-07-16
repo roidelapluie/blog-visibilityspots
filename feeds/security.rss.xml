@@ -4,4 +4,4 @@
 find -type d -print0 | xargs -0 chmod 755
 find -type f -print0 | xargs -0 chmod 644
 &lt;/pre&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Tue, 09 Feb 2010 18:08:00 +0100</pubDate><guid>tag:https://visibilityspots.com,2010-02-09:web-permissions.html</guid><category>hosting</category><category>linux</category><category>online</category><category>permissions</category><category>shell</category><category>web</category><category>security</category></item></channel></rss>
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Tue, 09 Feb 2010 18:08:00 +0100</pubDate><guid>tag:visibilityspots.com,2010-02-09:web-permissions.html</guid><category>hosting</category><category>linux</category><category>online</category><category>permissions</category><category>shell</category><category>web</category><category>security</category></item></channel></rss>

@@ -15,7 +15,7 @@ cellular 0/0/0 gsm band auto-band
 cellular 0/0/0 gsm band gsm-all-bands
 &lt;/pre&gt;
 &lt;p&gt;That way your wonky 3G connection will became a stable 2G connection!&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Tue, 03 Apr 2012 14:36:00 +0200</pubDate><guid>tag:https://visibilityspots.com,2012-04-03:cisco-3g.html</guid><category>2G</category><category>3G</category><category>auto-band</category><category>band</category><category>cellular</category><category>cisco</category><category>gsm</category><category>gsm-all-bands</category><category>Mobile</category><category>router</category></item><item><title>BGP announcing default route</title><link>https://visibilityspots.com/bgp-default-route.html</link><description>&lt;div class="section" id="advertising-default-route-with-bgp"&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Tue, 03 Apr 2012 14:36:00 +0200</pubDate><guid>tag:visibilityspots.com,2012-04-03:cisco-3g.html</guid><category>2G</category><category>3G</category><category>auto-band</category><category>band</category><category>cellular</category><category>cisco</category><category>gsm</category><category>gsm-all-bands</category><category>Mobile</category><category>router</category></item><item><title>BGP announcing default route</title><link>https://visibilityspots.com/bgp-default-route.html</link><description>&lt;div class="section" id="advertising-default-route-with-bgp"&gt;
 &lt;h2&gt;Advertising default route with BGP&lt;/h2&gt;
 &lt;p&gt;If you want to announce the default route which is statically routed then you have to add following commands to the working BGP configuration:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
@@ -35,4 +35,4 @@ sh ip bgp summary
 sh ip bgp neighbors IP.ADDRESS advertised-routes
 &lt;/pre&gt;
 &lt;/div&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Sat, 31 Mar 2012 13:07:00 +0200</pubDate><guid>tag:https://visibilityspots.com,2012-03-31:bgp-default-route.html</guid><category>bgp</category><category>cisco</category><category>default</category><category>networking</category><category>route</category></item></channel></rss>
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Sat, 31 Mar 2012 13:07:00 +0200</pubDate><guid>tag:visibilityspots.com,2012-03-31:bgp-default-route.html</guid><category>bgp</category><category>cisco</category><category>default</category><category>networking</category><category>route</category></item></channel></rss>
