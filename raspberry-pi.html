@@ -10,17 +10,17 @@
 </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
-            <link rel="stylesheet" href="https://visibilityspots.com/theme/css/normalize.css">
+            <link rel="stylesheet" href="./theme/css/normalize.css">
         <link href='//fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://visibilityspots.com/theme/css/font-awesome.min.css">
-        <link rel="stylesheet" href="https://visibilityspots.com/theme/css/main.css">
+        <link rel="stylesheet" href="./theme/css/font-awesome.min.css">
+        <link rel="stylesheet" href="./theme/css/main.css">
 
-    <link rel="stylesheet" href="https://visibilityspots.com/theme/css/blog.css">
-    <link rel="stylesheet" href="https://visibilityspots.com/theme/css/github.css">
+    <link rel="stylesheet" href="./theme/css/blog.css">
+    <link rel="stylesheet" href="./theme/css/github.css">
         <link href="https://visibilityspots.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Visibilityspots Atom Feed" />
         <link href="https://visibilityspots.com/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Visibilityspots RSS Feed" />
-        <script src="https://visibilityspots.com/theme/js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="./theme/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -30,15 +30,15 @@
         <div id="wrapper">
 <header id="sidebar" class="side-shadow">
     <hgroup id="site-header">
-        <a id="site-title" href="https://visibilityspots.com"><h1>Visibilityspots.com <i class="icon-dashboard"></i></h1></a>
+        <a id="site-title" href="."><h1>Visibilityspots.com <i class="icon-dashboard"></i></h1></a>
         <p id="site-desc"> Linux & Open-Source enthousiast | Scouting | Longboarding </p>
     </hgroup>
     <nav>
         <ul id="nav-links">
-                <li><a href="https://visibilityspots.com/pages/contact.html">Contact</a></li>
-                <li><a href="https://visibilityspots.com/pages/links.html">Links</a></li>
-                <li><a href="https://visibilityspots.com/pages/profile.html">Profile</a></li>
-                <li><a href="https://visibilityspots.com/pages/projects.html">Projects</a></li>
+                <li><a href="./pages/contact.html">Contact</a></li>
+                <li><a href="./pages/links.html">Links</a></li>
+                <li><a href="./pages/profile.html">Profile</a></li>
+                <li><a href="./pages/projects.html">Projects</a></li>
         </ul>
     </nav>
     Categories:
@@ -90,28 +90,62 @@ new TWTR.Widget({
                         <time class="post-time" datetime="2014-05-16T19:00:00" pubdate>
 				Fri 16 May 2014
                         </time>
-                        <a href="https://visibilityspots.com/raspberry-pi.html" rel="bookmark"><h1>Raspberry pi setup</h1></a>
+                        <a href="./raspberry-pi.html" rel="bookmark"><h1>Raspberry pi setup</h1></a>
                         <time class="post-time" datetime="2014-05-16T19:00:00" pubdate>
-                        </time>
+last modified on 2014-08-04 19:00:00                        </time>
                     </header>
 
                     <section class="post-content">
-			<p>Since I discovered the joy of linux servers over desktop distributions a few years ago I revived an old portable and promoted him to be my home server. Connected him to our router in the little storage room on a top shelf gathering dust I could test, configure, break (and pass sleep) a huge variety of open-source software.</p>
+			<p>Since I discovered the joy of linux servers over desktop distributions a few years ago I revived an old portable and promoted him to be my home server.</p>
+<p>Connected him our router in the little storage room on a top shelf gathering dust I could test, configure, break (and pass sleep) a huge variety of open-source software.</p>
 <p>Many of those adventures I also used to provide my blog with content. After a while I figured this setup isn't really needed to be powered on 24h a day 7 days a week. So I bought myself a <a href="http://www.raspberrypi.org/">raspberry pi</a> which would cover the basic functionalities I needed to be online as much as possible without the need of a subscription for a VPS or dedicated server in one fancy pansy datacenter.</p>
 <p>For the operating system I didn't choose for the default <a href="http://www.raspbian.org">raspbian</a>, mainly because I don't need a graphical interface. So I headed over to archlinux arm, also called <a href="http://archlinuxarm.org/platforms/armv6/raspberry-pi">alarm</a>.</p>
-<p>The <a href="http://archlinuxarm.org/platforms/armv6/raspberry-pi#qt-platform_tabs-ui-tabs2">installation</a> is quite straight forward. After that I installed some basics I use like:</p>
+<p>The <a href="http://archlinuxarm.org/platforms/armv6/raspberry-pi#qt-platform_tabs-ui-tabs2">installation</a> is quite straight forward. After that I installed and configured some other stuff on it to gather my ultimate personal little mini server:</p>
 <ul>
 <li><a href="https://wiki.archlinux.org/index.php/vim">vim</a></li>
 <li><a href="https://wiki.archlinux.org/index.php/Secure_Shell">ssh</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/Secure_Shell#SSH_alternative:_Mobile_Shell_-_responsive.2C_survives_disconnects">mosh</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/Noip">noip</a></li>
 <li><a href="https://wiki.archlinux.org/index.php/GNU_Screen">screen</a></li>
 <li><a href="https://wiki.archlinux.org/index.php/yaourt">yaourt</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/pkgfile">pkgfile</a></li>
+<li><a href="https://www.archlinux.org/packages/extra/any/bash-completion/">bash-completion</a></li>
+<li><a href="https://www.archlinux.org/packages/community/x86_64/ncdu/">ncdu</a></li>
+<li><a href="https://www.archlinux.org/packages/extra/x86_64/htop/">htop</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/locate">mlocate</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/msmtp">msmtp</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/locale">locale</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/time">timedatectl</a></li>
+<li><a href="https://github.com/xanmanning/alarm-fake-hwclock">fake-hwclock</a></li>
+<li><a href="https://github.com/axkibe/lsyncd">lsyncd</a></li>
 </ul>
+<h1>Partitioning</h1>
+<p>After a while I couldn't update any packages anymore cause my root parition was full. When looking at the partititions I noticed I had only 1.7G for my root partition available but I installed it on a 4G sd card.</p>
+<p>Looking for a solution I discovered the base image I copied over is by default configured for 2G cards. You have to expand the file system yourself if you want to benefit the full amount of storage on your sd card.</p>
+<p>Following this <a href="http://jan.alphadev.net/post/53594241659/growing-the-rpi-root-partition">tutorial</a> I found on the net I achieved to grow my root partition without extracting the sd card.</p>
+<h1>RAM</h1>
+<p>Using ssh I will only use terminal connections to the pi without any graphical interfaces though the HDMI socket. By default the memory of the pi is shared for those graphical stuff and normal os operations.</p>
+<p>I decided to decrease the amount of memory for the gpu by setting those amounts into the /boot/config.txt file:</p>
+<div class="highlight"><pre>    <span class="nv">gpu_mem_512</span><span class="o">=</span>48
+    <span class="nv">gpu_mem_256</span><span class="o">=</span>48
+</pre></div>
+
+
+<p>That way I could benefit of more memory for the stuff I will run on the pi.</p>
 <h1>Communication</h1>
 <p>To be online day and night I installed a chat client using <a href="https://wiki.archlinux.org/index.php/Screen_Irssi_Bitlbee">bitlbee and irssi</a>. When I am not connected to this chat terminal and I get some message on one of the connected channels a notification will be sent through my android phone using <a href="https://irssinotifier.appspot.com/">irssinotifier</a> so I could decide if it's important enough to connect using my phone, <a href="https://play.google.com/store/apps/details?id=com.sonelli.juicessh">juicessh</a> or spin up my laptop.</p>
 <p>Be sure to check out all the nifty <a href="http://scripts.irssi.org/">scripts</a> which can increase the joy of using the irssi chat client.</p>
 <h1>RAID</h1>
-<p>For one of projects running at <a href="https://www.inuits.eu">inuits</a> I was asked to set up a software raid using <a href="http://en.wikipedia.org/wiki/Mdadm">mdadm</a>. Through the years I have collected a bunch of USB disks. Combining those two facts I figured I could set up a raid using a little usb hub.</p>
+<p>For one of projects running at <a href="https://www.inuits.eu">inuits</a> I was asked to set up a software raid using <a href="http://en.wikipedia.org/wiki/Mdadm">mdadm</a>. Through the years I have collected a bunch of USB disks.</p>
+<p>Combining those two facts I figured I could set up a raid using a little usb hub.</p>
+<h2>Model B</h2>
 <p>I am aware of the bottle neck this hub creates to the raid setup but since it's not for a production environment and I like to play around I doesn't care about it :)</p>
+<p><img alt="raspberry" src="../../images/raspberry/raspberry.jpg" /></p>
+<h2>Model B+</h2>
+<p>An updated model of the raspberry pi was launched, the <a href="http://www.raspberrypi.org/introducing-raspberry-pi-model-b-plus/">model b+</a> extended with to 4 USB ports in total. So finally I could gain benefit of my raid setup.</p>
+<p>I reconfigured my whole RAID setup by using those 4 individual USB sockets intstead of the hub I used before. And man what a difference! It runs a lot faster and is a lot more usefull and efficient nowdays.</p>
+<p><img alt="raspberry-b+" src="../../images/raspberry/raspberry-b+.jpg" /></p>
+<h1>Configuration</h1>
 <p>This whole setup is based on the well documented archlinux wiki <a href="https://wiki.archlinux.org/index.php/RAID">page</a></p>
 <p>4 sticks of 2 GB were formatted to ext4:</p>
 <div class="highlight"><pre>  <span class="c"># mkfs.ext4 /dev/sdXX -L NAME</span>
@@ -194,17 +228,30 @@ new TWTR.Widget({
 
 
 <p>And the output is logged in the file /tmp/startup.log.</p>
+<h1>Backup</h1>
+<h2>image</h2>
+<p>Once a week I overnight I have a cron job running which creates a compressed image file of the whole sd card of my running pi and pushes it to a mounted network share on my <a href="http://www.trustedreviews.com/iomega-tv-with-boxee_DVRs-and-Media-players-_review">boxee</a> iomega device.</p>
+<div class="highlight"><pre>    <span class="c">#!/bin/bash</span>
+    <span class="nv">DATE</span><span class="o">=</span><span class="k">$(</span>date +%d-%m-%Y<span class="k">)</span>
+    <span class="k">if</span> /usr/bin/mount | grep MOUNT; <span class="k">then</span>
+<span class="k">            </span>dd <span class="k">if</span><span class="o">=</span>/dev/mmcblk0 | gzip -1 - | dd <span class="nv">of</span><span class="o">=</span>MOUNT/backup-<span class="nv">$DATE</span>.img.gz
+    <span class="k">fi</span>
+</pre></div>
+
+
+<p>That way I can easily pull this image onto a new sd card if there goes something wrong with the existing one without the need of reinstalling everything</p>
+<h2>directory backup</h2>
+<p>For some minor applications like irssi I use <a href="https://github.com/axkibe/lsyncd">lsyncd</a> to sync between different machines. I have one daemon running which is used to backup directories to a network share and another one to mirror between different machines through ssh.</p>
 <h1>VPN</h1>
 <p>One of the next steps will be a vpn setup based on this <a href="https://raymii.org/s/tutorials/IPSEC_L2TP_vpn_on_a_Raspberry_Pi_with_Arch_Linux.html">tutorial</a></p>
 <h1>Wake on lan</h1>
 <p>Once I got configured the VPN setup I will reconfigure my old laptop as being an <a href="https://visibilityspots.com/sms-server.html">sms-service</a>. Since I don't need this service being up all the time I will configure the wake on lan service on that laptop.</p>
 <p>That way I can get him up from remote by logging in at my pi and sending the magical WOL packet to that laptop.</p>
-<p><img alt="raspberry" src="../../images/raspberry/raspberry.jpg" /></p>
                     </section>
                     <hr/>
                     <aside class="post-meta">
-                        <p>Category: <a href="https://visibilityspots.com/category/linux.html">linux</a></p>
-                        <p>Tags: <a href="https://visibilityspots.com/tag/raspberry.html">raspberry</a>, <a href="https://visibilityspots.com/tag/pi.html">pi</a>, <a href="https://visibilityspots.com/tag/archlinux.html">archlinux</a>, <a href="https://visibilityspots.com/tag/arm.html">ARM</a>, <a href="https://visibilityspots.com/tag/software.html">software</a>, <a href="https://visibilityspots.com/tag/raid.html">RAID</a>, <a href="https://visibilityspots.com/tag/mdadm.html">mdadm</a>, <a href="https://visibilityspots.com/tag/irssi.html">irssi</a>, <a href="https://visibilityspots.com/tag/bitlbee.html">bitlbee</a>, <a href="https://visibilityspots.com/tag/usb.html">usb</a>, <a href="https://visibilityspots.com/tag/disks.html">disks</a>, </p>
+                        <p>Category: <a href="./category/linux.html">linux</a></p>
+                        <p>Tags: <a href="./tag/raspberry.html">raspberry</a>, <a href="./tag/pi.html">pi</a>, <a href="./tag/archlinux.html">archlinux</a>, <a href="./tag/arm.html">ARM</a>, <a href="./tag/software.html">software</a>, <a href="./tag/raid.html">RAID</a>, <a href="./tag/mdadm.html">mdadm</a>, <a href="./tag/irssi.html">irssi</a>, <a href="./tag/bitlbee.html">bitlbee</a>, <a href="./tag/usb.html">usb</a>, <a href="./tag/disks.html">disks</a>, </p>
                     </aside>
                     <hr/>
 <div class="comments">
@@ -226,6 +273,6 @@ new TWTR.Widget({
     </div>
         </div>
 
-        <script src="https://visibilityspots.com/theme/js/main.js"></script>
+        <script src="./theme/js/main.js"></script>
     </body>
 </html>

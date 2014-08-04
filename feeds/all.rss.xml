@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Visibilityspots</title><link>https://visibilityspots.com/</link><description>Linux &amp; Open-Source enthousiast | Scouting | Longboarding</description><atom:link href="https://visibilityspots.com/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 16 Jul 2014 19:00:00 +0200</lastBuildDate><item><title>Rsnapshot backup</title><link>https://visibilityspots.com/rsnapshot-backup.html</link><description>&lt;p&gt;Some weeks ago I removed some files on my system I wish I didn't cause I still needed them.&lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Visibilityspots</title><link>https://visibilityspots.com/</link><description>Linux &amp; Open-Source enthousiast | Scouting | Longboarding</description><atom:link href="https://visibilityspots.com/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Mon, 04 Aug 2014 19:00:00 +0200</lastBuildDate><item><title>Rsnapshot backup</title><link>https://visibilityspots.com/rsnapshot-backup.html</link><description>&lt;p&gt;Some weeks ago I removed some files on my system I wish I didn't cause I still needed them.&lt;/p&gt;
 &lt;p&gt;Since I use some &lt;a href="https://visibilityspots.com/dropbox.html"&gt;encrypted containers in dropbox&lt;/a&gt; I figured I could recover them from this nifty service. But in the logs of dropbox those files are obviously also encrypted. So that was a no go.&lt;/p&gt;
 &lt;p&gt;Therefore I started looking for backup solutions. The first one I tried was &lt;a href="http://backintime.le-web.org/"&gt;backintime&lt;/a&gt;, very easy to use, clean GUI interface but failed multiple times in restoring some files.&lt;/p&gt;
 &lt;p&gt;Looking for a more decent piece of software I found &lt;a href="http://rsnapshot.org"&gt;rsnapshot&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;And hell I like it. It's not a GUI interface which is a plus for me, it don't use a huge amount of disk space for all the backups, instead it uses symlinks between non changed files and it's completely indepented and automizable by cron.&lt;/p&gt;
+&lt;p&gt;And hell I like it. It's not a GUI interface which is a plus for me, it don't use a huge amount of disk space for all the backups, instead it uses hard links between non changed files and it's completely indepented and automizable by cron.&lt;/p&gt;
 &lt;p&gt;So I bought myself a &lt;a href="https://www.lacie.com/products/product.htm?id=10609"&gt;lacie slim P9223 SSD&lt;/a&gt; external USB 3.0 disk from about 120GB only used for backing up my system.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="lacie" src="../../images/backup/lacie-p9223-slim.png" /&gt;&lt;/p&gt;
 &lt;h1&gt;Encryption&lt;/h1&gt;
@@ -121,22 +121,56 @@
 &lt;li&gt;&lt;a href="https://github.com/gboudreau/nest-api"&gt;nest-api&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/chriseng/nestgraph"&gt;nest-graph&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://blog.spark.io/2014/01/17/open-source-thermostat/"&gt;open-source&lt;/a&gt; nest alternative&lt;/li&gt;
-&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Mon, 09 Jun 2014 00:00:00 +0200</pubDate><guid>tag:visibilityspots.com,2014-05-24:nest.html</guid><category>nest</category><category>thermostat</category><category>belgium</category><category>nest.com</category><category>honeywell</category><category>ICY</category><category>vaillant</category><category>TurboTec</category></item><item><title>Raspberry pi setup</title><link>https://visibilityspots.com/raspberry-pi.html</link><description>&lt;p&gt;Since I discovered the joy of linux servers over desktop distributions a few years ago I revived an old portable and promoted him to be my home server. Connected him to our router in the little storage room on a top shelf gathering dust I could test, configure, break (and pass sleep) a huge variety of open-source software.&lt;/p&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Mon, 09 Jun 2014 00:00:00 +0200</pubDate><guid>tag:visibilityspots.com,2014-05-24:nest.html</guid><category>nest</category><category>thermostat</category><category>belgium</category><category>nest.com</category><category>honeywell</category><category>ICY</category><category>vaillant</category><category>TurboTec</category></item><item><title>Raspberry pi setup</title><link>https://visibilityspots.com/raspberry-pi.html</link><description>&lt;p&gt;Since I discovered the joy of linux servers over desktop distributions a few years ago I revived an old portable and promoted him to be my home server.&lt;/p&gt;
+&lt;p&gt;Connected him our router in the little storage room on a top shelf gathering dust I could test, configure, break (and pass sleep) a huge variety of open-source software.&lt;/p&gt;
 &lt;p&gt;Many of those adventures I also used to provide my blog with content. After a while I figured this setup isn't really needed to be powered on 24h a day 7 days a week. So I bought myself a &lt;a href="http://www.raspberrypi.org/"&gt;raspberry pi&lt;/a&gt; which would cover the basic functionalities I needed to be online as much as possible without the need of a subscription for a VPS or dedicated server in one fancy pansy datacenter.&lt;/p&gt;
 &lt;p&gt;For the operating system I didn't choose for the default &lt;a href="http://www.raspbian.org"&gt;raspbian&lt;/a&gt;, mainly because I don't need a graphical interface. So I headed over to archlinux arm, also called &lt;a href="http://archlinuxarm.org/platforms/armv6/raspberry-pi"&gt;alarm&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;The &lt;a href="http://archlinuxarm.org/platforms/armv6/raspberry-pi#qt-platform_tabs-ui-tabs2"&gt;installation&lt;/a&gt; is quite straight forward. After that I installed some basics I use like:&lt;/p&gt;
+&lt;p&gt;The &lt;a href="http://archlinuxarm.org/platforms/armv6/raspberry-pi#qt-platform_tabs-ui-tabs2"&gt;installation&lt;/a&gt; is quite straight forward. After that I installed and configured some other stuff on it to gather my ultimate personal little mini server:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/vim"&gt;vim&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/Secure_Shell"&gt;ssh&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/Secure_Shell#SSH_alternative:_Mobile_Shell_-_responsive.2C_survives_disconnects"&gt;mosh&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/Noip"&gt;noip&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/GNU_Screen"&gt;screen&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/yaourt"&gt;yaourt&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/pkgfile"&gt;pkgfile&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.archlinux.org/packages/extra/any/bash-completion/"&gt;bash-completion&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.archlinux.org/packages/community/x86_64/ncdu/"&gt;ncdu&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.archlinux.org/packages/extra/x86_64/htop/"&gt;htop&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/locate"&gt;mlocate&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/msmtp"&gt;msmtp&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/locale"&gt;locale&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/time"&gt;timedatectl&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/xanmanning/alarm-fake-hwclock"&gt;fake-hwclock&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/axkibe/lsyncd"&gt;lsyncd&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h1&gt;Partitioning&lt;/h1&gt;
+&lt;p&gt;After a while I couldn't update any packages anymore cause my root parition was full. When looking at the partititions I noticed I had only 1.7G for my root partition available but I installed it on a 4G sd card.&lt;/p&gt;
+&lt;p&gt;Looking for a solution I discovered the base image I copied over is by default configured for 2G cards. You have to expand the file system yourself if you want to benefit the full amount of storage on your sd card.&lt;/p&gt;
+&lt;p&gt;Following this &lt;a href="http://jan.alphadev.net/post/53594241659/growing-the-rpi-root-partition"&gt;tutorial&lt;/a&gt; I found on the net I achieved to grow my root partition without extracting the sd card.&lt;/p&gt;
+&lt;h1&gt;RAM&lt;/h1&gt;
+&lt;p&gt;Using ssh I will only use terminal connections to the pi without any graphical interfaces though the HDMI socket. By default the memory of the pi is shared for those graphical stuff and normal os operations.&lt;/p&gt;
+&lt;p&gt;I decided to decrease the amount of memory for the gpu by setting those amounts into the /boot/config.txt file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nv"&gt;gpu_mem_512&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;48
+    &lt;span class="nv"&gt;gpu_mem_256&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;48
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;That way I could benefit of more memory for the stuff I will run on the pi.&lt;/p&gt;
 &lt;h1&gt;Communication&lt;/h1&gt;
 &lt;p&gt;To be online day and night I installed a chat client using &lt;a href="https://wiki.archlinux.org/index.php/Screen_Irssi_Bitlbee"&gt;bitlbee and irssi&lt;/a&gt;. When I am not connected to this chat terminal and I get some message on one of the connected channels a notification will be sent through my android phone using &lt;a href="https://irssinotifier.appspot.com/"&gt;irssinotifier&lt;/a&gt; so I could decide if it's important enough to connect using my phone, &lt;a href="https://play.google.com/store/apps/details?id=com.sonelli.juicessh"&gt;juicessh&lt;/a&gt; or spin up my laptop.&lt;/p&gt;
 &lt;p&gt;Be sure to check out all the nifty &lt;a href="http://scripts.irssi.org/"&gt;scripts&lt;/a&gt; which can increase the joy of using the irssi chat client.&lt;/p&gt;
 &lt;h1&gt;RAID&lt;/h1&gt;
-&lt;p&gt;For one of projects running at &lt;a href="https://www.inuits.eu"&gt;inuits&lt;/a&gt; I was asked to set up a software raid using &lt;a href="http://en.wikipedia.org/wiki/Mdadm"&gt;mdadm&lt;/a&gt;. Through the years I have collected a bunch of USB disks. Combining those two facts I figured I could set up a raid using a little usb hub.&lt;/p&gt;
+&lt;p&gt;For one of projects running at &lt;a href="https://www.inuits.eu"&gt;inuits&lt;/a&gt; I was asked to set up a software raid using &lt;a href="http://en.wikipedia.org/wiki/Mdadm"&gt;mdadm&lt;/a&gt;. Through the years I have collected a bunch of USB disks.&lt;/p&gt;
+&lt;p&gt;Combining those two facts I figured I could set up a raid using a little usb hub.&lt;/p&gt;
+&lt;h2&gt;Model B&lt;/h2&gt;
 &lt;p&gt;I am aware of the bottle neck this hub creates to the raid setup but since it's not for a production environment and I like to play around I doesn't care about it :)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="raspberry" src="../../images/raspberry/raspberry.jpg" /&gt;&lt;/p&gt;
+&lt;h2&gt;Model B+&lt;/h2&gt;
+&lt;p&gt;An updated model of the raspberry pi was launched, the &lt;a href="http://www.raspberrypi.org/introducing-raspberry-pi-model-b-plus/"&gt;model b+&lt;/a&gt; extended with to 4 USB ports in total. So finally I could gain benefit of my raid setup.&lt;/p&gt;
+&lt;p&gt;I reconfigured my whole RAID setup by using those 4 individual USB sockets intstead of the hub I used before. And man what a difference! It runs a lot faster and is a lot more usefull and efficient nowdays.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="raspberry-b+" src="../../images/raspberry/raspberry-b+.jpg" /&gt;&lt;/p&gt;
+&lt;h1&gt;Configuration&lt;/h1&gt;
 &lt;p&gt;This whole setup is based on the well documented archlinux wiki &lt;a href="https://wiki.archlinux.org/index.php/RAID"&gt;page&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;4 sticks of 2 GB were formatted to ext4:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;  &lt;span class="c"&gt;# mkfs.ext4 /dev/sdXX -L NAME&lt;/span&gt;
@@ -219,12 +253,25 @@
 
 
 &lt;p&gt;And the output is logged in the file /tmp/startup.log.&lt;/p&gt;
+&lt;h1&gt;Backup&lt;/h1&gt;
+&lt;h2&gt;image&lt;/h2&gt;
+&lt;p&gt;Once a week I overnight I have a cron job running which creates a compressed image file of the whole sd card of my running pi and pushes it to a mounted network share on my &lt;a href="http://www.trustedreviews.com/iomega-tv-with-boxee_DVRs-and-Media-players-_review"&gt;boxee&lt;/a&gt; iomega device.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+    &lt;span class="nv"&gt;DATE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;date +%d-%m-%Y&lt;span class="k"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; /usr/bin/mount | grep MOUNT; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;            &lt;/span&gt;dd &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/dev/mmcblk0 | gzip -1 - | dd &lt;span class="nv"&gt;of&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;MOUNT/backup-&lt;span class="nv"&gt;$DATE&lt;/span&gt;.img.gz
+    &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;That way I can easily pull this image onto a new sd card if there goes something wrong with the existing one without the need of reinstalling everything&lt;/p&gt;
+&lt;h2&gt;directory backup&lt;/h2&gt;
+&lt;p&gt;For some minor applications like irssi I use &lt;a href="https://github.com/axkibe/lsyncd"&gt;lsyncd&lt;/a&gt; to sync between different machines. I have one daemon running which is used to backup directories to a network share and another one to mirror between different machines through ssh.&lt;/p&gt;
 &lt;h1&gt;VPN&lt;/h1&gt;
 &lt;p&gt;One of the next steps will be a vpn setup based on this &lt;a href="https://raymii.org/s/tutorials/IPSEC_L2TP_vpn_on_a_Raspberry_Pi_with_Arch_Linux.html"&gt;tutorial&lt;/a&gt;&lt;/p&gt;
 &lt;h1&gt;Wake on lan&lt;/h1&gt;
 &lt;p&gt;Once I got configured the VPN setup I will reconfigure my old laptop as being an &lt;a href="https://visibilityspots.com/sms-server.html"&gt;sms-service&lt;/a&gt;. Since I don't need this service being up all the time I will configure the wake on lan service on that laptop.&lt;/p&gt;
-&lt;p&gt;That way I can get him up from remote by logging in at my pi and sending the magical WOL packet to that laptop.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="raspberry" src="../../images/raspberry/raspberry.jpg" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Fri, 16 May 2014 19:00:00 +0200</pubDate><guid>tag:visibilityspots.com,2014-05-16:raspberry-pi.html</guid><category>raspberry</category><category>pi</category><category>archlinux</category><category>ARM</category><category>software</category><category>RAID</category><category>mdadm</category><category>irssi</category><category>bitlbee</category><category>usb</category><category>disks</category></item><item><title>Octoprint</title><link>https://visibilityspots.com/octoprint.html</link><description>&lt;p&gt;At our &lt;a href="https://inuits.eu"&gt;office&lt;/a&gt; we have an &lt;a href="https://www.ultimaker.com/pages/our-printers/ultimaker-2"&gt;ultimaker&lt;/a&gt; installed, we have it now for some weeks and already printed out a bunch of stuff. It's cool to see, amazed by the technology.&lt;/p&gt;
+&lt;p&gt;That way I can get him up from remote by logging in at my pi and sending the magical WOL packet to that laptop.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Mon, 04 Aug 2014 19:00:00 +0200</pubDate><guid>tag:visibilityspots.com,2014-05-16:raspberry-pi.html</guid><category>raspberry</category><category>pi</category><category>archlinux</category><category>ARM</category><category>software</category><category>RAID</category><category>mdadm</category><category>irssi</category><category>bitlbee</category><category>usb</category><category>disks</category></item><item><title>Octoprint</title><link>https://visibilityspots.com/octoprint.html</link><description>&lt;p&gt;At our &lt;a href="https://inuits.eu"&gt;office&lt;/a&gt; we have an &lt;a href="https://www.ultimaker.com/pages/our-printers/ultimaker-2"&gt;ultimaker&lt;/a&gt; installed, we have it now for some weeks and already printed out a bunch of stuff. It's cool to see, amazed by the technology.&lt;/p&gt;
 &lt;p&gt;Expect the manner to start a print job, you have to save your generated &lt;a href="http://reprap.org/wiki/G-code"&gt;gcode&lt;/a&gt; files onto an SD card, stick it into the ultimaker and use the rather simple menu from the tiny display to start the print job.&lt;/p&gt;
 &lt;p&gt;The time of a print job is rather long depending on the object you want to print, so many times you got up and went seeing if everything went alright, so quickly distracted..&lt;/p&gt;
 &lt;p&gt;This sounds really crazy for such a piece of high tech technology and therefore I did a bit research on the web for a nice remote web interface.&lt;/p&gt;
