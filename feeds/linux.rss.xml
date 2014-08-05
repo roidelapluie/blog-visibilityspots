@@ -48,7 +48,7 @@
 &lt;p&gt;So from now on my data is back upped on an encrypted USB hard disk without using any fancy pansy GUI interface :)&lt;/p&gt;
 &lt;p&gt;Hence feel free to comment if there are some quirks you tackled another way around!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Jan</dc:creator><pubDate>Wed, 16 Jul 2014 19:00:00 +0200</pubDate><guid>tag:visibilityspots.com,2014-07-16:rsnapshot-backup.html</guid><category>udev</category><category>usb</category><category>disk</category><category>archlinux</category><category>mount</category><category>uuid</category><category>serial</category><category>cryptsetup</category><category>backup</category><category>rsnapshot</category></item><item><title>Raspberry pi setup</title><link>https://visibilityspots.com/raspberry-pi.html</link><description>&lt;p&gt;Since I discovered the joy of linux servers over desktop distributions a few years ago I revived an old portable and promoted him to be my home server.&lt;/p&gt;
 &lt;p&gt;Connected him our router in the little storage room on a top shelf gathering dust I could test, configure, break (and pass sleep) a huge variety of open-source software.&lt;/p&gt;
-&lt;p&gt;Many of those adventures I also used to provide my blog with content. After a while I figured this setup isn't really needed to be powered on 24h a day 7 days a week. So I bought myself a &lt;a href="http://www.raspberrypi.org/"&gt;raspberry pi&lt;/a&gt; which would cover the basic functionalities I needed to be online as much as possible without the need of a subscription for a VPS or dedicated server in one fancy pansy datacenter.&lt;/p&gt;
+&lt;p&gt;Many of those adventures I also used to provide my blog with content. After a while I figured this setup isn't really needed to be powered on 24h a day 7 days a week. So I bought myself a &lt;a href="http://www.raspberrypi.org/"&gt;raspberry pi&lt;/a&gt; which would cover the basic functionalities I needed to be online as much as possible without the need of a subscription for a VPS or dedicated server in one fancy pansy data center.&lt;/p&gt;
 &lt;p&gt;For the operating system I didn't choose for the default &lt;a href="http://www.raspbian.org"&gt;raspbian&lt;/a&gt;, mainly because I don't need a graphical interface. So I headed over to archlinux arm, also called &lt;a href="http://archlinuxarm.org/platforms/armv6/raspberry-pi"&gt;alarm&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The &lt;a href="http://archlinuxarm.org/platforms/armv6/raspberry-pi#qt-platform_tabs-ui-tabs2"&gt;installation&lt;/a&gt; is quite straight forward. After that I installed and configured some other stuff on it to gather my ultimate personal little mini server:&lt;/p&gt;
 &lt;ul&gt;
@@ -70,7 +70,7 @@
 &lt;li&gt;&lt;a href="https://github.com/axkibe/lsyncd"&gt;lsyncd&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h1&gt;Partitioning&lt;/h1&gt;
-&lt;p&gt;After a while I couldn't update any packages anymore cause my root parition was full. When looking at the partititions I noticed I had only 1.7G for my root partition available but I installed it on a 4G sd card.&lt;/p&gt;
+&lt;p&gt;After a while I couldn't update any packages anymore cause my root partition was full. When looking at the partitions I noticed I had only 1.7G for my root partition available but I installed it on a 4G sd card.&lt;/p&gt;
 &lt;p&gt;Looking for a solution I discovered the base image I copied over is by default configured for 2G cards. You have to expand the file system yourself if you want to benefit the full amount of storage on your sd card.&lt;/p&gt;
 &lt;p&gt;Following this &lt;a href="http://jan.alphadev.net/post/53594241659/growing-the-rpi-root-partition"&gt;tutorial&lt;/a&gt; I found on the net I achieved to grow my root partition without extracting the sd card.&lt;/p&gt;
 &lt;h1&gt;RAM&lt;/h1&gt;
@@ -93,7 +93,8 @@
 &lt;p&gt;&lt;img alt="raspberry" src="../../images/raspberry/raspberry.jpg" /&gt;&lt;/p&gt;
 &lt;h2&gt;Model B+&lt;/h2&gt;
 &lt;p&gt;An updated model of the raspberry pi was launched, the &lt;a href="http://www.raspberrypi.org/introducing-raspberry-pi-model-b-plus/"&gt;model b+&lt;/a&gt; extended with to 4 USB ports in total. So finally I could gain benefit of my raid setup.&lt;/p&gt;
-&lt;p&gt;I reconfigured my whole RAID setup by using those 4 individual USB sockets intstead of the hub I used before. And man what a difference! It runs a lot faster and is a lot more usefull and efficient nowdays.&lt;/p&gt;
+&lt;p&gt;I reconfigured my whole RAID setup by using those 4 individual USB sockets instead of the hub I used before. And man what a difference! It runs a lot faster and is a lot more use full and efficient nowadays.&lt;/p&gt;
+&lt;p&gt;Since there are no case available yet for this model I looked on &lt;a href="http://thingiverse.com"&gt;thingiverse&lt;/a&gt; and found a closed &lt;a href="http://www.thingiverse.com/thing:398399"&gt;case&lt;/a&gt; which I printed out on the ultimaker2 robot we can use at the office. It's a neat case but the top isn't clicked in to the bottom part so I had to use tape to stick them together..&lt;/p&gt;
 &lt;p&gt;&lt;img alt="raspberry-b+_open" src="../../images/raspberry/raspberry-b+_open.jpg" /&gt;
 &lt;img alt="raspberry-b+_closed" src="../../images/raspberry/raspberry-b+_closed.jpg" /&gt;&lt;/p&gt;
 &lt;h1&gt;Configuration&lt;/h1&gt;

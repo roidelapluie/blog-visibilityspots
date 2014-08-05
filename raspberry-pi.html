@@ -98,7 +98,7 @@ last modified on 2014-08-04 19:00:00                        </time>
                     <section class="post-content">
 			<p>Since I discovered the joy of linux servers over desktop distributions a few years ago I revived an old portable and promoted him to be my home server.</p>
 <p>Connected him our router in the little storage room on a top shelf gathering dust I could test, configure, break (and pass sleep) a huge variety of open-source software.</p>
-<p>Many of those adventures I also used to provide my blog with content. After a while I figured this setup isn't really needed to be powered on 24h a day 7 days a week. So I bought myself a <a href="http://www.raspberrypi.org/">raspberry pi</a> which would cover the basic functionalities I needed to be online as much as possible without the need of a subscription for a VPS or dedicated server in one fancy pansy datacenter.</p>
+<p>Many of those adventures I also used to provide my blog with content. After a while I figured this setup isn't really needed to be powered on 24h a day 7 days a week. So I bought myself a <a href="http://www.raspberrypi.org/">raspberry pi</a> which would cover the basic functionalities I needed to be online as much as possible without the need of a subscription for a VPS or dedicated server in one fancy pansy data center.</p>
 <p>For the operating system I didn't choose for the default <a href="http://www.raspbian.org">raspbian</a>, mainly because I don't need a graphical interface. So I headed over to archlinux arm, also called <a href="http://archlinuxarm.org/platforms/armv6/raspberry-pi">alarm</a>.</p>
 <p>The <a href="http://archlinuxarm.org/platforms/armv6/raspberry-pi#qt-platform_tabs-ui-tabs2">installation</a> is quite straight forward. After that I installed and configured some other stuff on it to gather my ultimate personal little mini server:</p>
 <ul>
@@ -120,7 +120,7 @@ last modified on 2014-08-04 19:00:00                        </time>
 <li><a href="https://github.com/axkibe/lsyncd">lsyncd</a></li>
 </ul>
 <h1>Partitioning</h1>
-<p>After a while I couldn't update any packages anymore cause my root parition was full. When looking at the partititions I noticed I had only 1.7G for my root partition available but I installed it on a 4G sd card.</p>
+<p>After a while I couldn't update any packages anymore cause my root partition was full. When looking at the partitions I noticed I had only 1.7G for my root partition available but I installed it on a 4G sd card.</p>
 <p>Looking for a solution I discovered the base image I copied over is by default configured for 2G cards. You have to expand the file system yourself if you want to benefit the full amount of storage on your sd card.</p>
 <p>Following this <a href="http://jan.alphadev.net/post/53594241659/growing-the-rpi-root-partition">tutorial</a> I found on the net I achieved to grow my root partition without extracting the sd card.</p>
 <h1>RAM</h1>
@@ -143,7 +143,8 @@ last modified on 2014-08-04 19:00:00                        </time>
 <p><img alt="raspberry" src="../../images/raspberry/raspberry.jpg" /></p>
 <h2>Model B+</h2>
 <p>An updated model of the raspberry pi was launched, the <a href="http://www.raspberrypi.org/introducing-raspberry-pi-model-b-plus/">model b+</a> extended with to 4 USB ports in total. So finally I could gain benefit of my raid setup.</p>
-<p>I reconfigured my whole RAID setup by using those 4 individual USB sockets intstead of the hub I used before. And man what a difference! It runs a lot faster and is a lot more usefull and efficient nowdays.</p>
+<p>I reconfigured my whole RAID setup by using those 4 individual USB sockets instead of the hub I used before. And man what a difference! It runs a lot faster and is a lot more use full and efficient nowadays.</p>
+<p>Since there are no case available yet for this model I looked on <a href="http://thingiverse.com">thingiverse</a> and found a closed <a href="http://www.thingiverse.com/thing:398399">case</a> which I printed out on the ultimaker2 robot we can use at the office. It's a neat case but the top isn't clicked in to the bottom part so I had to use tape to stick them together..</p>
 <p><img alt="raspberry-b+_open" src="../../images/raspberry/raspberry-b+_open.jpg" />
 <img alt="raspberry-b+_closed" src="../../images/raspberry/raspberry-b+_closed.jpg" /></p>
 <h1>Configuration</h1>
