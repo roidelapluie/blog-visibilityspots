@@ -94,7 +94,8 @@
 &lt;h2&gt;Model B+&lt;/h2&gt;
 &lt;p&gt;An updated model of the raspberry pi was launched, the &lt;a href="http://www.raspberrypi.org/introducing-raspberry-pi-model-b-plus/"&gt;model b+&lt;/a&gt; extended with to 4 USB ports in total. So finally I could gain benefit of my raid setup.&lt;/p&gt;
 &lt;p&gt;I reconfigured my whole RAID setup by using those 4 individual USB sockets intstead of the hub I used before. And man what a difference! It runs a lot faster and is a lot more usefull and efficient nowdays.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="raspberry-b+" src="../../images/raspberry/raspberry-b+.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="raspberry-b+_open" src="../../images/raspberry/raspberry-b+_open.jpg" /&gt;
+&lt;img alt="raspberry-b+_closed" src="../../images/raspberry/raspberry-b+_closed.jpg" /&gt;&lt;/p&gt;
 &lt;h1&gt;Configuration&lt;/h1&gt;
 &lt;p&gt;This whole setup is based on the well documented archlinux wiki &lt;a href="https://wiki.archlinux.org/index.php/RAID"&gt;page&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;4 sticks of 2 GB were formatted to ext4:&lt;/p&gt;
